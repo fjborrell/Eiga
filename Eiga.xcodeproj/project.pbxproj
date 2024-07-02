@@ -1,0 +1,689 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		750B946E2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 750B946D2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf */; };
+		750B94722C2E690600BC4F57 /* fontNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 750B94712C2E690000BC4F57 /* fontNames.txt */; };
+		750B94752C2E6B4400BC4F57 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B94742C2E6B3900BC4F57 /* Font.swift */; };
+		7550F05A2C26138E00F67158 /* EigaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0592C26138E00F67158 /* EigaApp.swift */; };
+		7550F0602C26138F00F67158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F05F2C26138F00F67158 /* Assets.xcassets */; };
+		7550F0632C26138F00F67158 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F0622C26138F00F67158 /* Preview Assets.xcassets */; };
+		7550F06D2C26138F00F67158 /* EigaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F06C2C26138F00F67158 /* EigaTests.swift */; };
+		7550F0772C26138F00F67158 /* EigaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0762C26138F00F67158 /* EigaUITests.swift */; };
+		7550F0792C26138F00F67158 /* EigaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0782C26138F00F67158 /* EigaUITestsLaunchTests.swift */; };
+		7550F0892C26157100F67158 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0882C26156C00F67158 /* Movie.swift */; };
+		7550F08B2C26158200F67158 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F08A2C26157F00F67158 /* MovieViewModel.swift */; };
+		7550F08D2C26158E00F67158 /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F08C2C26158D00F67158 /* MovieView.swift */; };
+		7550F08F2C2616A500F67158 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F08E2C2616A000F67158 /* ContentView.swift */; };
+		75772C912C2DF34C00DD35EC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75772C902C2DF33C00DD35EC /* NetworkManager.swift */; };
+		7595D9482C2F693200D9B2C3 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595D9472C2F692B00D9B2C3 /* Secrets.swift */; };
+		7595D94A2C2F69C000D9B2C3 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595D9492C2F69BD00D9B2C3 /* NetworkError.swift */; };
+		75A7DF932C2CDF55002FA4DC /* TVShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7DF922C2CDF52002FA4DC /* TVShow.swift */; };
+		75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7DF942C2CDF58002FA4DC /* Media.swift */; };
+		75A7DF972C2CDFA7002FA4DC /* MediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7DF962C2CDF79002FA4DC /* MediaList.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7550F0692C26138F00F67158 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7550F04E2C26138E00F67158 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7550F0552C26138E00F67158;
+			remoteInfo = Eiga;
+		};
+		7550F0732C26138F00F67158 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7550F04E2C26138E00F67158 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7550F0552C26138E00F67158;
+			remoteInfo = Eiga;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		750B946D2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		750B946F2C2E679700BC4F57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		750B94712C2E690000BC4F57 /* fontNames.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fontNames.txt; sourceTree = "<group>"; };
+		750B94742C2E6B3900BC4F57 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		7550F0562C26138E00F67158 /* Eiga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eiga.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7550F0592C26138E00F67158 /* EigaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaApp.swift; sourceTree = "<group>"; };
+		7550F05F2C26138F00F67158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7550F0622C26138F00F67158 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7550F0682C26138F00F67158 /* EigaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EigaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7550F06C2C26138F00F67158 /* EigaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaTests.swift; sourceTree = "<group>"; };
+		7550F0722C26138F00F67158 /* EigaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EigaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7550F0762C26138F00F67158 /* EigaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaUITests.swift; sourceTree = "<group>"; };
+		7550F0782C26138F00F67158 /* EigaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		7550F0882C26156C00F67158 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		7550F08A2C26157F00F67158 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
+		7550F08C2C26158D00F67158 /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
+		7550F08E2C2616A000F67158 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		75772C902C2DF33C00DD35EC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		7595D9472C2F692B00D9B2C3 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		7595D9492C2F69BD00D9B2C3 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		75A7DF922C2CDF52002FA4DC /* TVShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShow.swift; sourceTree = "<group>"; };
+		75A7DF942C2CDF58002FA4DC /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		75A7DF962C2CDF79002FA4DC /* MediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaList.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7550F0532C26138E00F67158 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7550F0652C26138F00F67158 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7550F06F2C26138F00F67158 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		750B94702C2E68F900BC4F57 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				750B94742C2E6B3900BC4F57 /* Font.swift */,
+				750B94712C2E690000BC4F57 /* fontNames.txt */,
+				750B946D2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		750B94732C2E693500BC4F57 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				750B94702C2E68F900BC4F57 /* Font */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7550F04D2C26138E00F67158 = {
+			isa = PBXGroup;
+			children = (
+				7550F0582C26138E00F67158 /* Eiga */,
+				7550F06B2C26138F00F67158 /* EigaTests */,
+				7550F0752C26138F00F67158 /* EigaUITests */,
+				7550F0572C26138E00F67158 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7550F0572C26138E00F67158 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7550F0562C26138E00F67158 /* Eiga.app */,
+				7550F0682C26138F00F67158 /* EigaTests.xctest */,
+				7550F0722C26138F00F67158 /* EigaUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7550F0582C26138E00F67158 /* Eiga */ = {
+			isa = PBXGroup;
+			children = (
+				7595D9472C2F692B00D9B2C3 /* Secrets.swift */,
+				750B946F2C2E679700BC4F57 /* Info.plist */,
+				7550F0592C26138E00F67158 /* EigaApp.swift */,
+				7550F0852C26155700F67158 /* Model */,
+				7550F0872C26156000F67158 /* View */,
+				7550F0862C26155B00F67158 /* ViewModel */,
+				7595D9462C2EF1FC00D9B2C3 /* Network */,
+				750B94732C2E693500BC4F57 /* Resources */,
+				7550F05F2C26138F00F67158 /* Assets.xcassets */,
+				7550F0612C26138F00F67158 /* Preview Content */,
+			);
+			path = Eiga;
+			sourceTree = "<group>";
+		};
+		7550F0612C26138F00F67158 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				7550F0622C26138F00F67158 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7550F06B2C26138F00F67158 /* EigaTests */ = {
+			isa = PBXGroup;
+			children = (
+				7550F06C2C26138F00F67158 /* EigaTests.swift */,
+			);
+			path = EigaTests;
+			sourceTree = "<group>";
+		};
+		7550F0752C26138F00F67158 /* EigaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7550F0762C26138F00F67158 /* EigaUITests.swift */,
+				7550F0782C26138F00F67158 /* EigaUITestsLaunchTests.swift */,
+			);
+			path = EigaUITests;
+			sourceTree = "<group>";
+		};
+		7550F0852C26155700F67158 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				75A7DF962C2CDF79002FA4DC /* MediaList.swift */,
+				75A7DF942C2CDF58002FA4DC /* Media.swift */,
+				75A7DF922C2CDF52002FA4DC /* TVShow.swift */,
+				7550F0882C26156C00F67158 /* Movie.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7550F0862C26155B00F67158 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7550F08A2C26157F00F67158 /* MovieViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7550F0872C26156000F67158 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7550F08E2C2616A000F67158 /* ContentView.swift */,
+				7550F08C2C26158D00F67158 /* MovieView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7595D9462C2EF1FC00D9B2C3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				7595D9492C2F69BD00D9B2C3 /* NetworkError.swift */,
+				75772C902C2DF33C00DD35EC /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7550F0552C26138E00F67158 /* Eiga */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7550F07C2C26138F00F67158 /* Build configuration list for PBXNativeTarget "Eiga" */;
+			buildPhases = (
+				7550F0522C26138E00F67158 /* Sources */,
+				7550F0532C26138E00F67158 /* Frameworks */,
+				7550F0542C26138E00F67158 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Eiga;
+			productName = Eiga;
+			productReference = 7550F0562C26138E00F67158 /* Eiga.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7550F0672C26138F00F67158 /* EigaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7550F07F2C26138F00F67158 /* Build configuration list for PBXNativeTarget "EigaTests" */;
+			buildPhases = (
+				7550F0642C26138F00F67158 /* Sources */,
+				7550F0652C26138F00F67158 /* Frameworks */,
+				7550F0662C26138F00F67158 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7550F06A2C26138F00F67158 /* PBXTargetDependency */,
+			);
+			name = EigaTests;
+			productName = EigaTests;
+			productReference = 7550F0682C26138F00F67158 /* EigaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7550F0712C26138F00F67158 /* EigaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7550F0822C26138F00F67158 /* Build configuration list for PBXNativeTarget "EigaUITests" */;
+			buildPhases = (
+				7550F06E2C26138F00F67158 /* Sources */,
+				7550F06F2C26138F00F67158 /* Frameworks */,
+				7550F0702C26138F00F67158 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7550F0742C26138F00F67158 /* PBXTargetDependency */,
+			);
+			name = EigaUITests;
+			productName = EigaUITests;
+			productReference = 7550F0722C26138F00F67158 /* EigaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7550F04E2C26138E00F67158 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					7550F0552C26138E00F67158 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					7550F0672C26138F00F67158 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 7550F0552C26138E00F67158;
+					};
+					7550F0712C26138F00F67158 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 7550F0552C26138E00F67158;
+					};
+				};
+			};
+			buildConfigurationList = 7550F0512C26138E00F67158 /* Build configuration list for PBXProject "Eiga" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7550F04D2C26138E00F67158;
+			productRefGroup = 7550F0572C26138E00F67158 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7550F0552C26138E00F67158 /* Eiga */,
+				7550F0672C26138F00F67158 /* EigaTests */,
+				7550F0712C26138F00F67158 /* EigaUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7550F0542C26138E00F67158 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7550F0632C26138F00F67158 /* Preview Assets.xcassets in Resources */,
+				7550F0602C26138F00F67158 /* Assets.xcassets in Resources */,
+				750B94722C2E690600BC4F57 /* fontNames.txt in Resources */,
+				750B946E2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7550F0662C26138F00F67158 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7550F0702C26138F00F67158 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7550F0522C26138E00F67158 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7550F08D2C26158E00F67158 /* MovieView.swift in Sources */,
+				750B94752C2E6B4400BC4F57 /* Font.swift in Sources */,
+				7550F08F2C2616A500F67158 /* ContentView.swift in Sources */,
+				75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */,
+				75772C912C2DF34C00DD35EC /* NetworkManager.swift in Sources */,
+				75A7DF932C2CDF55002FA4DC /* TVShow.swift in Sources */,
+				7550F08B2C26158200F67158 /* MovieViewModel.swift in Sources */,
+				7550F0892C26157100F67158 /* Movie.swift in Sources */,
+				75A7DF972C2CDFA7002FA4DC /* MediaList.swift in Sources */,
+				7595D94A2C2F69C000D9B2C3 /* NetworkError.swift in Sources */,
+				7550F05A2C26138E00F67158 /* EigaApp.swift in Sources */,
+				7595D9482C2F693200D9B2C3 /* Secrets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7550F0642C26138F00F67158 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7550F06D2C26138F00F67158 /* EigaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7550F06E2C26138F00F67158 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7550F0792C26138F00F67158 /* EigaUITestsLaunchTests.swift in Sources */,
+				7550F0772C26138F00F67158 /* EigaUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7550F06A2C26138F00F67158 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7550F0552C26138E00F67158 /* Eiga */;
+			targetProxy = 7550F0692C26138F00F67158 /* PBXContainerItemProxy */;
+		};
+		7550F0742C26138F00F67158 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7550F0552C26138E00F67158 /* Eiga */;
+			targetProxy = 7550F0732C26138F00F67158 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		7550F07A2C26138F00F67158 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7550F07B2C26138F00F67158 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7550F07D2C26138F00F67158 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Eiga/Preview Content\"";
+				DEVELOPMENT_TEAM = GD2GXKLHLS;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Eiga/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fernandoborrell.Eiga;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7550F07E2C26138F00F67158 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Eiga/Preview Content\"";
+				DEVELOPMENT_TEAM = GD2GXKLHLS;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Eiga/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fernandoborrell.Eiga;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7550F0802C26138F00F67158 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GD2GXKLHLS;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fernandoborrell.EigaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Eiga.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Eiga";
+			};
+			name = Debug;
+		};
+		7550F0812C26138F00F67158 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GD2GXKLHLS;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fernandoborrell.EigaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Eiga.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Eiga";
+			};
+			name = Release;
+		};
+		7550F0832C26138F00F67158 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GD2GXKLHLS;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fernandoborrell.EigaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Eiga;
+			};
+			name = Debug;
+		};
+		7550F0842C26138F00F67158 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GD2GXKLHLS;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fernandoborrell.EigaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Eiga;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7550F0512C26138E00F67158 /* Build configuration list for PBXProject "Eiga" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7550F07A2C26138F00F67158 /* Debug */,
+				7550F07B2C26138F00F67158 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7550F07C2C26138F00F67158 /* Build configuration list for PBXNativeTarget "Eiga" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7550F07D2C26138F00F67158 /* Debug */,
+				7550F07E2C26138F00F67158 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7550F07F2C26138F00F67158 /* Build configuration list for PBXNativeTarget "EigaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7550F0802C26138F00F67158 /* Debug */,
+				7550F0812C26138F00F67158 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7550F0822C26138F00F67158 /* Build configuration list for PBXNativeTarget "EigaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7550F0832C26138F00F67158 /* Debug */,
+				7550F0842C26138F00F67158 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7550F04E2C26138E00F67158 /* Project object */;
+}

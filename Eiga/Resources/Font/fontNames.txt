@@ -1,0 +1,9 @@
+// The following are the names of the font as they should be referred to in the App.
+
+Manrope-Bold
+Manrope-ExtraBold
+Manrope-ExtraLight
+Manrope-Light
+Manrope-Medium
+Manrope-Regular
+Manrope-SemiBold
