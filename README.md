@@ -1,6 +1,5 @@
 ## Vision
-
-Eiga (WIP) is a concept application for curating entertainment media lists and discovering current trending, or new and popular media. It is meant to help avid consumers of shows, movies, or anime, to reliably track their consumption.
+Eiga (WIP) is a concept application for curating entertainment media lists and discovering current trending, or new and popular media. It is meant to help avid consumers of shows, movies, to reliably track their consumption.
 
 ## Frameworks
 * [SwiftUI](https://developer.apple.com/documentation/swiftui/)

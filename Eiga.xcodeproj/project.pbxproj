@@ -26,6 +26,8 @@
 		75A7DF932C2CDF55002FA4DC /* TVShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7DF922C2CDF52002FA4DC /* TVShow.swift */; };
 		75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7DF942C2CDF58002FA4DC /* Media.swift */; };
 		75A7DF972C2CDFA7002FA4DC /* MediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7DF962C2CDF79002FA4DC /* MediaList.swift */; };
+		75FB74722C440EA5002F0EA9 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FB74712C440E9D002F0EA9 /* Endpoint.swift */; };
+		75FB74742C440EC0002F0EA9 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FB74732C440EBC002F0EA9 /* RequestBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,9 @@
 		75A7DF922C2CDF52002FA4DC /* TVShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShow.swift; sourceTree = "<group>"; };
 		75A7DF942C2CDF58002FA4DC /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		75A7DF962C2CDF79002FA4DC /* MediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaList.swift; sourceTree = "<group>"; };
+		75B138CE2C342C2C00CE7DE1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		75FB74712C440E9D002F0EA9 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		75FB74732C440EBC002F0EA9 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +122,7 @@
 		7550F04D2C26138E00F67158 = {
 			isa = PBXGroup;
 			children = (
+				75B138CE2C342C2C00CE7DE1 /* README.md */,
 				7550F0582C26138E00F67158 /* Eiga */,
 				7550F06B2C26138F00F67158 /* EigaTests */,
 				7550F0752C26138F00F67158 /* EigaUITests */,
@@ -207,8 +213,10 @@
 		7595D9462C2EF1FC00D9B2C3 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				7595D9492C2F69BD00D9B2C3 /* NetworkError.swift */,
 				75772C902C2DF33C00DD35EC /* NetworkManager.swift */,
+				7595D9492C2F69BD00D9B2C3 /* NetworkError.swift */,
+				75FB74732C440EBC002F0EA9 /* RequestBuilder.swift */,
+				75FB74712C440E9D002F0EA9 /* Endpoint.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -350,7 +358,9 @@
 				7550F08F2C2616A500F67158 /* ContentView.swift in Sources */,
 				75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */,
 				75772C912C2DF34C00DD35EC /* NetworkManager.swift in Sources */,
+				75FB74722C440EA5002F0EA9 /* Endpoint.swift in Sources */,
 				75A7DF932C2CDF55002FA4DC /* TVShow.swift in Sources */,
+				75FB74742C440EC0002F0EA9 /* RequestBuilder.swift in Sources */,
 				7550F08B2C26158200F67158 /* MovieViewModel.swift in Sources */,
 				7550F0892C26157100F67158 /* Movie.swift in Sources */,
 				75A7DF972C2CDFA7002FA4DC /* MediaList.swift in Sources */,

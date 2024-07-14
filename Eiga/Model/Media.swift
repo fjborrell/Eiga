@@ -25,7 +25,7 @@ protocol Media: Codable {
 }
 
 extension Media {
-    static func decode<T: Media>(from data: Data) -> Result<T, Error> {
+    public static func decode<T: Media>(from data: Data) -> Result<T, Error> {
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
