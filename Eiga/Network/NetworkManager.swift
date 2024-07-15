@@ -7,33 +7,34 @@
 
 import Foundation
 
-class NetworkManager {
-    @MainActor static let shared: NetworkManager = NetworkManager()
+actor NetworkManager {
     
     private let baseURL: String
     private let apiAccessToken: String
     private let requestBuilder: RequestBuilder
-    
     private struct ResultsWrapper<T: Codable>: Codable {
         let results: [T]
     }
-
-    private init() {
-        self.baseURL = "https://api.themoviedb.org/3"
-        self.apiAccessToken = Secrets.API_ACCESS_TOKEN.rawValue
+    
+    init(baseURL: String, apiAccessToken: String) {
+        self.baseURL = baseURL
+        self.apiAccessToken = apiAccessToken
         self.requestBuilder = RequestBuilder(baseURL: baseURL, apiAccessToken: apiAccessToken)
     }
+    
     
     // Return list of decoded Media types
     private func decodeDataToMediaList<T: Media>(data: Data) throws -> [T] {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         
-        // Lambda-defined decoding strategies
+        // Lambda defined decoding strategies as such:
+        /// STRATEGY: { try decoder.decode(AnotherWrapper<T>.self, from: $0).data }
+        /// WRAPPER: struct AnotherWrapper<T: Codable>: Codable { let data: [T] }
         let decodingStrategies: [(Data) throws -> [T]] = [
-            { try [decoder.decode(T.self, from: $0)] },
-            { try decoder.decode([T].self, from: $0) },
-            { try decoder.decode(ResultsWrapper<T>.self, from: $0).results },
+            { try [decoder.decode(T.self, from: $0)] },     // Single Media object
+            { try decoder.decode([T].self, from: $0) },     // List of Media objects
+            { try decoder.decode(ResultsWrapper<T>.self, from: $0).results },   // List of media objects
         ]
         
         for strategy in decodingStrategies {
@@ -47,7 +48,7 @@ class NetworkManager {
         throw NetworkError.failedJSONDecoding(error: DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "All decoding strategies failed")))
     }
     
-    private func fetchData<T: Media>(for endpoint: Endpoint) async throws -> [T] {
+    func fetchData<T: Media>(for endpoint: Endpoint) async throws -> [T] {
         guard let request = requestBuilder.buildRequest(for: endpoint) else {
             throw NetworkError.invalidURL(error: "Failed to build request URL for endpoint: \(endpoint)")
         }

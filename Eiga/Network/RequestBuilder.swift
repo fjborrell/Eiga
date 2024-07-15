@@ -16,7 +16,7 @@ class RequestBuilder {
         self.apiAccessToken = apiAccessToken
     }
     
-    func buildRequest(for endpoint: APIEndpoint, method: String = "GET") -> URLRequest? {
+    func buildRequest(for endpoint: Endpoint, method: String = "GET") -> URLRequest? {
         guard let url = URL(string: baseURL + endpoint.path) else {
             return nil
         }
