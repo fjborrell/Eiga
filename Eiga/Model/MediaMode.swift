@@ -6,9 +6,9 @@
 //
 
 enum MediaMode: String, CaseIterable, Identifiable {
-    case tv
-    case movie
     case all
+    case movie
+    case tv
     
     var id: Self { self }
     

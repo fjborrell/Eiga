@@ -10,14 +10,21 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @State var searchQuery: String = String()
     var body: some View {
-        NavigationStack() {
-            Image(systemName: "circle.circle")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-            UISection()
+        ZStack() {
+            HueBackground()
+            VStack {
+                Image(systemName: "circle.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40, height: 40)
+                    .foregroundStyle(.white)
+                ExploreBarView()
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                UISection()
+            }
+            
         }
     }
 }
@@ -27,6 +34,7 @@ struct UISection: View {
         VStack() {
             Text("Popular")
                 .font(.manrope(20, .semiBold))
+                .foregroundStyle(.white)
             ScrollView(.vertical) {
                 Rectangle()
                     .frame(width: 120, height: 200)
@@ -37,5 +45,5 @@ struct UISection: View {
 }
 
 #Preview {
-    ContentView(searchQuery: "Test")
+    ContentView()
 }
