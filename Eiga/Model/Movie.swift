@@ -34,7 +34,6 @@ struct Movie: Media, Codable {
     let title: String?
     let video: Bool?
     
-    
     enum CodingKeys: String, CodingKey {
         case adult, budget, genres, id, overview, popularity, revenue, runtime, status, title, video
         case backdropPath = "backdrop_path"
@@ -48,10 +47,6 @@ struct Movie: Media, Codable {
         case productionCountries = "production_countries"
         case releaseDate = "release_date"
         case spokenLanguages = "spoken_languages"
-    }
-    
-    init() {
-        self.id = 0
     }
     
     init(from decoder: Decoder) throws {

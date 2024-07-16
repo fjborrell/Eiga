@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct MovieView: View {
-    @ObservedObject var viewModel: MovieViewModel
+    var viewModel: MovieViewModel
     
     var body: some View {
         Text("Hello")

@@ -24,21 +24,6 @@ protocol Media: Codable {
     var status: String? { get }
 }
 
-extension Media {
-    public static func decode<T: Media>(from data: Data) -> Result<T, Error> {
-        do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let media = try decoder.decode(T.self, from: data)
-            return .success(media)
-        } catch {
-            Logger(subsystem: Bundle.main.bundleIdentifier ?? "", category: "MediaDecoding")
-                .error("Failed to decode media: \(error.localizedDescription)")
-            return .failure(error)
-        }
-    }
-}
-
 struct Genre: Codable {
     let id: Int
     let name: String

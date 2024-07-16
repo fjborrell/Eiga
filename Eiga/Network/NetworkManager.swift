@@ -8,7 +8,6 @@
 import Foundation
 
 actor NetworkManager {
-    
     private let baseURL: String
     private let apiAccessToken: String
     private let requestBuilder: RequestBuilder

@@ -12,9 +12,9 @@ enum Endpoint {
     var path: String {
         switch self {
         case .movie(let id):
-            return "/movies/\(id)"
+            return "/movies\(id)"
         case .tvShow(let id):
-            return "/tvshows/\(id)"
+            return "/tv/\(id)"
         }
     }
 }
