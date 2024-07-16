@@ -21,6 +21,8 @@
 		7550F08D2C26158E00F67158 /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F08C2C26158D00F67158 /* MovieView.swift */; };
 		7550F08F2C2616A500F67158 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F08E2C2616A000F67158 /* ContentView.swift */; };
 		7551EFA72C4626150064F249 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFA62C46260A0064F249 /* SearchBarView.swift */; };
+		7551EFAC2C463CE50064F249 /* MediaModeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFAB2C463CC80064F249 /* MediaModeButtonView.swift */; };
+		7551EFAE2C4657490064F249 /* MediaMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFAD2C46573D0064F249 /* MediaMode.swift */; };
 		75772C912C2DF34C00DD35EC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75772C902C2DF33C00DD35EC /* NetworkManager.swift */; };
 		7595D9482C2F693200D9B2C3 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595D9472C2F692B00D9B2C3 /* Secrets.swift */; };
 		7595D94A2C2F69C000D9B2C3 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595D9492C2F69BD00D9B2C3 /* NetworkError.swift */; };
@@ -68,6 +70,8 @@
 		7550F08C2C26158D00F67158 /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		7550F08E2C2616A000F67158 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7551EFA62C46260A0064F249 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		7551EFAB2C463CC80064F249 /* MediaModeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaModeButtonView.swift; sourceTree = "<group>"; };
+		7551EFAD2C46573D0064F249 /* MediaMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMode.swift; sourceTree = "<group>"; };
 		75772C902C2DF33C00DD35EC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		7595D9472C2F692B00D9B2C3 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		7595D9492C2F69BD00D9B2C3 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 		7550F0852C26155700F67158 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7551EFAD2C46573D0064F249 /* MediaMode.swift */,
 				75A7DF962C2CDF79002FA4DC /* MediaList.swift */,
 				75A7DF942C2CDF58002FA4DC /* Media.swift */,
 				75A7DF922C2CDF52002FA4DC /* TVShow.swift */,
@@ -200,6 +205,7 @@
 		7550F0862C26155B00F67158 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				7551EFA82C4638080064F249 /* Components */,
 				7550F08A2C26157F00F67158 /* MovieViewModel.swift */,
 			);
 			path = ViewModel;
@@ -218,7 +224,15 @@
 		7551EFA52C4626040064F249 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				7551EFAB2C463CC80064F249 /* MediaModeButtonView.swift */,
 				7551EFA62C46260A0064F249 /* SearchBarView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		7551EFA82C4638080064F249 /* Components */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -368,11 +382,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7550F08D2C26158E00F67158 /* MovieView.swift in Sources */,
+				7551EFAE2C4657490064F249 /* MediaMode.swift in Sources */,
 				750B94752C2E6B4400BC4F57 /* Font.swift in Sources */,
 				7550F08F2C2616A500F67158 /* ContentView.swift in Sources */,
 				75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */,
 				7551EFA72C4626150064F249 /* SearchBarView.swift in Sources */,
 				75772C912C2DF34C00DD35EC /* NetworkManager.swift in Sources */,
+				7551EFAC2C463CE50064F249 /* MediaModeButtonView.swift in Sources */,
 				75FB74722C440EA5002F0EA9 /* Endpoint.swift in Sources */,
 				75A7DF932C2CDF55002FA4DC /* TVShow.swift in Sources */,
 				75FB74742C440EC0002F0EA9 /* RequestBuilder.swift in Sources */,
