@@ -22,24 +22,8 @@ struct ContentView: View {
                 ExploreBarView()
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
-                UISection()
             }
             
-        }
-    }
-}
-
-struct UISection: View {
-    var body: some View {
-        VStack() {
-            Text("Popular")
-                .font(.manrope(20, .semiBold))
-                .foregroundStyle(.white)
-            ScrollView(.vertical) {
-                Rectangle()
-                    .frame(width: 120, height: 200)
-                    .foregroundStyle(.placeholder)
-            }
         }
     }
 }
