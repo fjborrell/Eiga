@@ -19,7 +19,6 @@ struct ContentView: View {
     
     var body: some View {
         ZStack() {
-            HueBackground()
             VStack {
                 Image(systemName: "circle.circle")
                     .resizable()
@@ -39,8 +38,8 @@ struct ContentView: View {
                     }
                 }
             }
-            
         }
+        .hueBackground(hueColor: .pink)
     }
 }
 
