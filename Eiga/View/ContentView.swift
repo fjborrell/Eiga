@@ -10,6 +10,13 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    var jjk: some View {
+        Image("jjk")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 180)
+    }
+    
     var body: some View {
         ZStack() {
             HueBackground()
@@ -22,6 +29,15 @@ struct ContentView: View {
                 ExploreBarView()
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
+                Block(title: "Explore Block", isFilterable: true) { block in
+                    ScrollView {
+                        if block.selectedFilter == .popular {
+                            jjk.colorInvert()
+                        } else {
+                            jjk
+                        }
+                    }
+                }
             }
             
         }
