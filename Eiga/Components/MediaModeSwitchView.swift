@@ -9,12 +9,13 @@ import Foundation
 import SwiftUI
 
 struct MediaModeSwitchView: View {
-    @State private var viewModel: MediaModeSwitchViewModel = MediaModeSwitchViewModel()
+    @Environment(AppState.self) private var appState: AppState
     
     var body: some View {
+        @Bindable var appState = appState
         withAnimation(.interactiveSpring) {
             Menu {
-                Picker("Media Mode", selection: self.$viewModel.selectedMode) {
+                Picker("Media Mode", selection: $appState.selectedMediaMode) {
                     ForEach(MediaMode.allCases, id: \.self) { mode in
                         Text(mode.title).tag(mode)
                     }
@@ -24,12 +25,12 @@ struct MediaModeSwitchView: View {
                     .frame(width: 36, height: 36)
                     .opacity(0.24)
                     .overlay(
-                        Image(systemName: self.viewModel.selectedMode.iconName)
+                        Image(systemName: self.appState.selectedMediaMode.iconName)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 23, height: 20)
                     )
-                    .foregroundStyle(self.viewModel.selectedMode.color)
+                    .foregroundStyle(self.appState.selectedMediaMode.color)
                 
             }
             .contentTransition(.symbolEffect(.replace))
@@ -40,10 +41,11 @@ struct MediaModeSwitchView: View {
 extension MediaModeSwitchView {
     @Observable
     class MediaModeSwitchViewModel {
-        var selectedMode: MediaMode = .all
+        
     }
 }
 
 #Preview {
     MediaModeSwitchView()
+        .environment(AppState())
 }

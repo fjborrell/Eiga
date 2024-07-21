@@ -10,9 +10,12 @@ import SwiftData
 
 @main
 struct EigaApp: App {
+    @State private var appState: AppState = AppState()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(appState)
         }
     }
 }

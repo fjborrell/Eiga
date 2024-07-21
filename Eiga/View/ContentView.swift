@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @Environment(AppState.self) private var appState
     @State var selectedTab: Tab = .explore
     
     var body: some View {
@@ -18,7 +19,7 @@ struct ContentView: View {
                 // Content layer
                 VStack() {
                     selectedContent
-                        .frame(width: geometry.size.width - 30)  // Apply padding here
+                        .frame(width: geometry.size.width - 30)  // Content padding
                         .frame(maxWidth: .infinity)  // Expand to full width
                 }
                 
@@ -26,12 +27,12 @@ struct ContentView: View {
                 VStack {
                     Spacer()
                     TabBarView(selectedTab: $selectedTab)
-                        .frame(width: geometry.size.width)  // Ensure full width
+                        .frame(width: geometry.size.width)  // Ensures full width
                 }
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .hueBackground(hueColor: .pink)
+        .hueBackground(hueColor: self.appState.selectedMediaMode.color)
     }
     
     @ViewBuilder
@@ -51,4 +52,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environment(AppState())
 }

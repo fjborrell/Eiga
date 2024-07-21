@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct HueBackground: ViewModifier {
-    let hueColor: Color
+    var hueColor: Color
     func body(content: Content) -> some View {
         ZStack {
             GeometryReader { geometry in
@@ -37,6 +37,7 @@ struct HueBackground: ViewModifier {
                             height: geometry.size.height * 0.4 // Stretch factor
                         )
                         .blur(radius: 40)
+                        .animation(.interactiveSpring, value: hueColor)
                 }
             }
             .ignoresSafeArea(.all)

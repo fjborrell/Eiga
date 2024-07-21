@@ -10,6 +10,7 @@
 		750B946E2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 750B946D2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf */; };
 		750B94722C2E690600BC4F57 /* fontNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 750B94712C2E690000BC4F57 /* fontNames.txt */; };
 		750B94752C2E6B4400BC4F57 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B94742C2E6B3900BC4F57 /* Font.swift */; };
+		7533EC242C4CE0BF00BFCE00 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7533EC232C4CE0BC00BFCE00 /* AppState.swift */; };
 		7550F05A2C26138E00F67158 /* EigaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0592C26138E00F67158 /* EigaApp.swift */; };
 		7550F0602C26138F00F67158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F05F2C26138F00F67158 /* Assets.xcassets */; };
 		7550F0632C26138F00F67158 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F0622C26138F00F67158 /* Preview Assets.xcassets */; };
@@ -67,6 +68,7 @@
 		750B946F2C2E679700BC4F57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		750B94712C2E690000BC4F57 /* fontNames.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fontNames.txt; sourceTree = "<group>"; };
 		750B94742C2E6B3900BC4F57 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		7533EC232C4CE0BC00BFCE00 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		7550F0562C26138E00F67158 /* Eiga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eiga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7550F0592C26138E00F67158 /* EigaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaApp.swift; sourceTree = "<group>"; };
 		7550F05F2C26138F00F67158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		7550F0582C26138E00F67158 /* Eiga */ = {
 			isa = PBXGroup;
 			children = (
+				7533EC232C4CE0BC00BFCE00 /* AppState.swift */,
 				7595D9472C2F692B00D9B2C3 /* Secrets.swift */,
 				750B946F2C2E679700BC4F57 /* Info.plist */,
 				7550F0592C26138E00F67158 /* EigaApp.swift */,
@@ -440,6 +443,7 @@
 				755B14F82C4CB66700126416 /* ExploreView.swift in Sources */,
 				75E9E4622C475802005A3EE5 /* BlockView.swift in Sources */,
 				75A7DF972C2CDFA7002FA4DC /* MediaList.swift in Sources */,
+				7533EC242C4CE0BF00BFCE00 /* AppState.swift in Sources */,
 				7595D94A2C2F69C000D9B2C3 /* NetworkError.swift in Sources */,
 				7550F05A2C26138E00F67158 /* EigaApp.swift in Sources */,
 				7595D9482C2F693200D9B2C3 /* Secrets.swift in Sources */,
