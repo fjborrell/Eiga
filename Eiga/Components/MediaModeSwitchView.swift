@@ -12,44 +12,35 @@ struct MediaModeSwitchView: View {
     @State private var viewModel: MediaModeSwitchViewModel = MediaModeSwitchViewModel()
     
     var body: some View {
-        Menu {
-            Picker("Media Mode", selection: self.$viewModel.mode) {
-                ForEach(MediaMode.allCases, id: \.self) { mode in
-                    Text(mode.title).tag(mode)
+        withAnimation(.interactiveSpring) {
+            Menu {
+                Picker("Media Mode", selection: self.$viewModel.selectedMode) {
+                    ForEach(MediaMode.allCases, id: \.self) { mode in
+                        Text(mode.title).tag(mode)
+                    }
                 }
+            } label: {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 36, height: 36)
+                    .opacity(0.24)
+                    .overlay(
+                        Image(systemName: self.viewModel.selectedMode.iconName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 23, height: 20)
+                    )
+                    .foregroundStyle(self.viewModel.selectedMode.color)
+                
             }
-        } label: {
-            switch self.viewModel.mode {
-            case .tv:
-                createSwitcherLabel(style: .blue, sfIcon: "tv")
-            case .movie:
-                createSwitcherLabel(style: .red, sfIcon: "popcorn.fill")
-            case .all:
-                createSwitcherLabel(style: .pink, sfIcon: "play.rectangle.on.rectangle.fill")
-            }
-            
+            .contentTransition(.symbolEffect(.replace))
         }
-    }
-    
-    @ViewBuilder
-    private func createSwitcherLabel<T: ShapeStyle>(style: T, sfIcon: String) -> some View {
-        RoundedRectangle(cornerRadius: 10)
-            .frame(width: 36, height: 36)
-            .opacity(0.24)
-            .overlay(
-                Image(systemName: sfIcon)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 20)
-            )
-            .foregroundStyle(style)
     }
 }
 
 extension MediaModeSwitchView {
     @Observable
     class MediaModeSwitchViewModel {
-        var mode: MediaMode = .all
+        var selectedMode: MediaMode = .all
     }
 }
 

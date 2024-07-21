@@ -17,7 +17,7 @@ struct ExploreView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "circle.circle")
+            Image("logo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 40, height: 40)
