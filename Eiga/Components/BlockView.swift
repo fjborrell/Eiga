@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Block: View {
+struct BlockView: View {
     private let textContentPadding: CGFloat = 16
     private let fontColor: Color = .white
     
@@ -21,7 +21,7 @@ struct Block: View {
         initialFilter: ExploreFilter = ExploreFilter.allCases.first ?? .popular,
         content: @escaping (BlockViewModel) -> any View
     ) {
-        _viewModel = State(initialValue: BlockViewModel(title: title, isFilterable: isFilterable, selectedFilter: initialFilter))
+        self._viewModel = State(initialValue: BlockViewModel(title: title, isFilterable: isFilterable, selectedFilter: initialFilter))
         self.content = content
     }
     
@@ -64,7 +64,20 @@ struct Block: View {
 }
 
 
-extension Block {
+extension BlockView {
+    @Observable
+    class BlockViewModel {
+        var title: String
+        var isFilterable: Bool
+        var selectedFilter: ExploreFilter
+        
+        init(title: String, isFilterable: Bool, selectedFilter: ExploreFilter) {
+            self.title = title
+            self.isFilterable = isFilterable
+            self.selectedFilter = selectedFilter
+        }
+    }
+    
     private struct BlockLabel: View {
         let title: String
         let isFilterable: Bool
@@ -83,19 +96,6 @@ extension Block {
             }
         }
     }
-
-    @Observable
-    class BlockViewModel {
-        var title: String
-        var isFilterable: Bool
-        var selectedFilter: ExploreFilter
-        
-        init(title: String, isFilterable: Bool, selectedFilter: ExploreFilter) {
-            self.title = title
-            self.isFilterable = isFilterable
-            self.selectedFilter = selectedFilter
-        }
-    }
 }
 
 
@@ -103,14 +103,14 @@ extension Block {
     ZStack {
         Color.gray
         VStack(alignment: .center) {
-            Block(title: "Static Block") { _ in
+            BlockView(title: "Static Block") { _ in
                 Text("This is a block with a static title")
                     .padding()
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
             }
             
-            Block(title: "Filterable Block", isFilterable: true) { viewModel in
+            BlockView(title: "Filterable Block", isFilterable: true) { viewModel in
                 VStack(alignment: .leading) {
                     Text("Selected filter: \(viewModel.selectedFilter.title)")
                     Text("This content changes based on the selected filter")

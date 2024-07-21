@@ -10,7 +10,7 @@ import SwiftUI
 struct ExploreBarView: View {
     var body: some View {
         HStack {
-            MediaModeSwitcherView()
+            MediaModeSwitchView()
             SearchBarView()
         }
     }

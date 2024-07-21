@@ -14,31 +14,35 @@ struct ContentView: View {
         Image("jjk")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: 180)
+            .frame(width: 370, height: 170)
     }
     
     var body: some View {
-        ZStack() {
-            VStack {
-                Image(systemName: "circle.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 40, height: 40)
-                    .foregroundStyle(.white)
-                ExploreBarView()
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 10)
-                Block(title: "Explore Block", isFilterable: true) { block in
-                    ScrollView {
-                        if block.selectedFilter == .popular {
-                            jjk.colorInvert()
-                        } else {
-                            jjk
-                        }
+        VStack {
+            Image(systemName: "circle.circle")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+                .foregroundStyle(.white)
+            
+            ExploreBarView()
+                .padding(.vertical, 10)
+                
+            BlockView(title: "Featured") { _ in
+                jjk
+            }
+            
+            BlockView(title: "Explore Block", isFilterable: true) { block in
+                ScrollView {
+                    if block.selectedFilter == .popular {
+                        jjk.colorInvert()
+                    } else {
+                        jjk
                     }
                 }
             }
         }
+        .padding(.horizontal, 15)
         .hueBackground(hueColor: .pink)
     }
 }

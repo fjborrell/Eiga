@@ -8,8 +8,8 @@
 import Foundation
 import SwiftUI
 
-struct MediaModeSwitcherView: View {
-    @State private var viewModel: ViewModel = ViewModel()
+struct MediaModeSwitchView: View {
+    @State private var viewModel: MediaModeSwitchViewModel = MediaModeSwitchViewModel()
     
     var body: some View {
         Menu {
@@ -46,13 +46,13 @@ struct MediaModeSwitcherView: View {
     }
 }
 
-extension MediaModeSwitcherView {
+extension MediaModeSwitchView {
     @Observable
-    class ViewModel {
+    class MediaModeSwitchViewModel {
         var mode: MediaMode = .all
     }
 }
 
 #Preview {
-    MediaModeSwitcherView()
+    MediaModeSwitchView()
 }
