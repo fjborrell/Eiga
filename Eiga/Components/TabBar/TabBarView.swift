@@ -9,21 +9,27 @@ import Foundation
 import SwiftUI
 
 
-
 struct TabBarView: View {
-    @State var selectedTab: Tab = .explore
+    @Binding var selectedTab: Tab
     var body: some View {
-        HStack {
-            ForEach(Tab.allCases.prefix(2), id: \.self) { tab in
-                TabView(tab: tab, selectedTab: $selectedTab)
+        ZStack() {
+            Rectangle()
+                .fill(LinearGradient.tabBar)
+            HStack {
+                ForEach(Tab.allCases.prefix(2), id: \.self) { tab in
+                    TabView(tab: tab, selectedTab: $selectedTab)
+                }
+                
+                AddButton()
+                
+                ForEach(Tab.allCases.suffix(2), id: \.self) { tab in
+                    TabView(tab: tab, selectedTab: $selectedTab)
+                }
             }
-            
-            AddButton()
-            
-            ForEach(Tab.allCases.suffix(2), id: \.self) { tab in
-                TabView(tab: tab, selectedTab: $selectedTab)
-            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 20)
         }
+        .frame(width: .infinity, height: 105)
     }
     
     struct AddButton: View {
@@ -87,8 +93,10 @@ struct TabBarView: View {
 }
 
 #Preview {
-    ZStack {
-        TabBarView()
+    VStack {
+        Spacer()
+        TabBarView(selectedTab: .constant(.explore))
     }
+    .ignoresSafeArea()
     .hueBackground(hueColor: .pink)
 }

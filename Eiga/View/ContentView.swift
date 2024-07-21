@@ -10,41 +10,37 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    var jjk: some View {
-        Image("jjk")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 370, height: 170)
+    @State var selectedTab: Tab = .explore
+    
+    @ViewBuilder
+    var selectedContent: some View {
+        switch selectedTab {
+        case .explore:
+            ExploreView()
+        case .library:
+            LibraryView()
+        case .crews:
+            CrewsView()
+        case .profile:
+            ProfileView()
+        }
     }
     
     var body: some View {
-        VStack {
-            Image(systemName: "circle.circle")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-                .foregroundStyle(.white)
-            
-            ExploreBarView()
-                .padding(.vertical, 10)
+        ZStack {
+            selectedContent
+                .padding(.horizontal, 15)
                 
-            BlockView(title: "Featured") { _ in
-                jjk
+            VStack {
+                Spacer()
+                TabBarView(selectedTab: $selectedTab)
             }
-            
-            BlockView(title: "Explore Block", isFilterable: true) { block in
-                ScrollView {
-                    if block.selectedFilter == .popular {
-                        jjk.colorInvert()
-                    } else {
-                        jjk
-                    }
-                }
-            }
+            .ignoresSafeArea()
         }
-        .padding(.horizontal, 15)
         .hueBackground(hueColor: .pink)
     }
+    
+    
 }
 
 #Preview {
