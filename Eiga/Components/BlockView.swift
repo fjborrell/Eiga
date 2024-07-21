@@ -5,123 +5,127 @@
 //  Created by Fernando Borrell on 7/16/24.
 //
 
-import Foundation
 import SwiftUI
 
-struct BlockView: View {
-    private let textContentPadding: CGFloat = 16
-    private let fontColor: Color = .white
+// MARK: - Main View
+struct BlockView<Content: View>: View {
+    private let title: String
+    private let isFilterable: Bool
+    @Binding private var selectedFilter: ExploreFilter
+    private let content: ((ExploreFilter) -> Content)?
+    private let staticContent: Content?
     
-    @State private var viewModel: BlockViewModel
-    let content: (BlockViewModel) -> any View
-    
+    // Initializer for filterable block
     init(
         title: String,
-        isFilterable: Bool = false,
-        initialFilter: ExploreFilter = ExploreFilter.allCases.first ?? .popular,
-        content: @escaping (BlockViewModel) -> any View
+        selectedFilter: Binding<ExploreFilter>,
+        @ViewBuilder content: @escaping (ExploreFilter) -> Content
     ) {
-        self._viewModel = State(initialValue: BlockViewModel(title: title, isFilterable: isFilterable, selectedFilter: initialFilter))
+        self.title = title
+        self.isFilterable = true
+        self._selectedFilter = selectedFilter
         self.content = content
+        self.staticContent = nil
+    }
+    
+    // Initializer for non-filterable block
+    init(title: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.isFilterable = false
+        self._selectedFilter = .constant(.popular) // Dummy binding
+        self.content = nil
+        self.staticContent = content()
     }
     
     var body: some View {
-        VStack(spacing: textContentPadding) {
-            if viewModel.isFilterable {
+        VStack(alignment: .leading, spacing: 16) {
+            if isFilterable {
                 filterableTitle
             } else {
-                staticTitle
+                BlockLabel(title: title)
             }
             
-            AnyView(content(viewModel))
+            if isFilterable {
+                content?(selectedFilter)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            } else {
+                staticContent
+            }
         }
+        .animation(.easeInOut, value: selectedFilter)
     }
     
     private var filterableTitle: some View {
-        HStack {
-            Menu {
-                Picker("Filter", selection: $viewModel.selectedFilter) {
-                    ForEach(ExploreFilter.allCases, id: \.self) { filter in
-                        Text(filter.title).tag(filter)
-                    }
+        Menu {
+            Picker("Filter", selection: $selectedFilter) {
+                ForEach(ExploreFilter.allCases) { filter in
+                    Text(filter.title).tag(filter)
                 }
-            } label: {
-                BlockLabel(title: viewModel.selectedFilter.title, isFilterable: true)
             }
-            .foregroundStyle(fontColor)
-            
-            Spacer()
-        }
-    }
-    
-    private var staticTitle: some View {
-        HStack {
-            BlockLabel(title: viewModel.title, isFilterable: false)
-                .foregroundStyle(fontColor)
-            Spacer()
+        } label: {
+            BlockLabel(title: selectedFilter.title, isFilterable: true)
         }
     }
 }
 
-
-extension BlockView {
-    @Observable
-    class BlockViewModel {
-        var title: String
-        var isFilterable: Bool
-        var selectedFilter: ExploreFilter
-        
-        init(title: String, isFilterable: Bool, selectedFilter: ExploreFilter) {
-            self.title = title
-            self.isFilterable = isFilterable
-            self.selectedFilter = selectedFilter
-        }
-    }
+// MARK: - Supporting Views
+struct BlockLabel: View {
+    let title: String
+    var isFilterable: Bool = false
     
-    private struct BlockLabel: View {
-        let title: String
-        let isFilterable: Bool
+    var body: some View {
+        HStack(spacing: 8) {
+            if isFilterable {
+                Image(systemName: "chevron.up.chevron.down")
+                    .imageScale(.small)
+            }
+            Text(title)
+                .font(.manrope(20, .semiBold))
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+        }
+        .foregroundColor(.white)
+    }
+}
+
+// MARK: - Previews
+#Preview("BlockView Examples") {
+    struct PreviewWrapper: View {
+        @State private var testFilter: ExploreFilter = .popular
         
         var body: some View {
-            HStack {
-                if isFilterable {
-                    Image(systemName: "chevron.up.chevron.down.square.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 23)
-                        .symbolRenderingMode(.hierarchical)
-                }
-                Text(title)
-                    .font(.custom("Manrope-SemiBold", size: 20))
-            }
-        }
-    }
-}
-
-
-#Preview {
-    ZStack {
-        Color.gray
-        VStack(alignment: .center) {
-            BlockView(title: "Static Block") { _ in
-                Text("This is a block with a static title")
-                    .padding()
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(8)
-            }
-            
-            BlockView(title: "Filterable Block", isFilterable: true) { viewModel in
-                VStack(alignment: .leading) {
-                    Text("Selected filter: \(viewModel.selectedFilter.title)")
-                    Text("This content changes based on the selected filter")
-                        .font(.caption)
+            ZStack {
+                Color.gray.ignoresSafeArea()
+                VStack(alignment: .leading, spacing: 20) {
+                    // Non-filterable block
+                    BlockView(title: "Static Block") {
+                        Text("This is a block with a static title")
+                            .padding()
+                            .background(Color.secondary.opacity(0.5))
+                            .cornerRadius(8)
+                    }
+                    
+                    // Filterable block
+                    BlockView(
+                        title: "Filterable Block",
+                        selectedFilter: $testFilter
+                    ) { filter in
+                        VStack(alignment: .leading) {
+                            Text("Selected filter: \(filter.title)")
+                            Text("This content changes based on the selected filter")
+                                .font(.caption)
+                        }
+                        .padding()
+                        .background(Color.blue.opacity(0.5))
+                        .cornerRadius(8)
+                    }
                 }
                 .padding()
-                .background(Color.blue.opacity(0.2))
-                .cornerRadius(8)
             }
         }
-        .padding()
-        .previewLayout(.sizeThatFits)
     }
+    
+    return PreviewWrapper()
 }

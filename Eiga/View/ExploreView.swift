@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ExploreView: View {
+    @State var exploreFilter: ExploreFilter = .popular
+    
     var jjk: some View {
         Image("jjk")
             .resizable()
@@ -26,10 +28,10 @@ struct ExploreView: View {
             ExploreBarView()
                 .padding(.vertical, 10)
             
-            BlockView(title: "Explore Block", isFilterable: true) { block in
+            BlockView(title: "Explore Block", selectedFilter: $exploreFilter) { block in
                 ScrollView {
                     ForEach(0..<6) { _ in
-                        jjk
+                        exploreFilter == .popular ? jjk : jjk
                     }
                 }
             }
@@ -39,5 +41,6 @@ struct ExploreView: View {
 
 #Preview {
     ExploreView()
+        .environment(AppState())
         .hueBackground(hueColor: .pink)
 }
