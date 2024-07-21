@@ -9,8 +9,10 @@ import SwiftUI
 
 struct LibraryView: View {
     var body: some View {
-        Text("Library")
-            .foregroundStyle(.white)
+        VStack {
+            Text("Library")
+                .foregroundStyle(.white)
+        }
     }
 }
 

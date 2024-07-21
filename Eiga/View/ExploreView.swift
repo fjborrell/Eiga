@@ -25,16 +25,10 @@ struct ExploreView: View {
             
             ExploreBarView()
                 .padding(.vertical, 10)
-                
-            BlockView(title: "Featured") { _ in
-                jjk
-            }
             
             BlockView(title: "Explore Block", isFilterable: true) { block in
                 ScrollView {
-                    if block.selectedFilter == .popular {
-                        jjk.colorInvert()
-                    } else {
+                    ForEach(0..<6) { _ in
                         jjk
                     }
                 }
@@ -45,4 +39,5 @@ struct ExploreView: View {
 
 #Preview {
     ExploreView()
+        .hueBackground(hueColor: .pink)
 }
