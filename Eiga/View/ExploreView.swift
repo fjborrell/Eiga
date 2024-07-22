@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ExploreView: View {
     @State var exploreFilter: ExploreFilter? = .popular
-    @State var searchQuery: String = ""
-    @State var searchState: SearchState = .inactive
+    @State var searchBarViewModel: SearchBarViewModel = SearchBarViewModel()
     
     var jjk: some View {
         Image("jjk")
@@ -27,7 +26,7 @@ struct ExploreView: View {
                 .frame(width: 40, height: 40)
                 .foregroundStyle(.white)
             
-            ExploreBarView(query: $searchQuery, state: $searchState)
+            BrosweBarView(searchBarViewModel: $searchBarViewModel)
                 .padding(.vertical, 10)
             
             DynamicBlock(title: "Explore Block", selectedFilter: $exploreFilter) { block in

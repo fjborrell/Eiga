@@ -23,7 +23,7 @@
 		7551EFA72C4626150064F249 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFA62C46260A0064F249 /* SearchBarView.swift */; };
 		7551EFAC2C463CE50064F249 /* MediaModeSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFAB2C463CC80064F249 /* MediaModeSwitchView.swift */; };
 		7551EFAE2C4657490064F249 /* MediaMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFAD2C46573D0064F249 /* MediaMode.swift */; };
-		7551EFB02C46612F0064F249 /* ExploreBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFAF2C46612F0064F249 /* ExploreBarView.swift */; };
+		7551EFB02C46612F0064F249 /* BrosweBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFAF2C46612F0064F249 /* BrosweBarView.swift */; };
 		7551EFB22C4662E40064F249 /* HueBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFB12C4662DD0064F249 /* HueBackground.swift */; };
 		7551EFB42C46636A0064F249 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFB32C4663640064F249 /* Color.swift */; };
 		755B14F82C4CB66700126416 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755B14F72C4CB66700126416 /* ExploreView.swift */; };
@@ -85,7 +85,7 @@
 		7551EFA62C46260A0064F249 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		7551EFAB2C463CC80064F249 /* MediaModeSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaModeSwitchView.swift; sourceTree = "<group>"; };
 		7551EFAD2C46573D0064F249 /* MediaMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMode.swift; sourceTree = "<group>"; };
-		7551EFAF2C46612F0064F249 /* ExploreBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreBarView.swift; sourceTree = "<group>"; };
+		7551EFAF2C46612F0064F249 /* BrosweBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrosweBarView.swift; sourceTree = "<group>"; };
 		7551EFB12C4662DD0064F249 /* HueBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueBackground.swift; sourceTree = "<group>"; };
 		7551EFB32C4663640064F249 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		755B14F72C4CB66700126416 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
@@ -262,7 +262,7 @@
 				7551EFB12C4662DD0064F249 /* HueBackground.swift */,
 				7551EFAB2C463CC80064F249 /* MediaModeSwitchView.swift */,
 				7551EFA62C46260A0064F249 /* SearchBarView.swift */,
-				7551EFAF2C46612F0064F249 /* ExploreBarView.swift */,
+				7551EFAF2C46612F0064F249 /* BrosweBarView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -438,7 +438,7 @@
 				7551EFAC2C463CE50064F249 /* MediaModeSwitchView.swift in Sources */,
 				75FB74722C440EA5002F0EA9 /* Endpoint.swift in Sources */,
 				75A7DF932C2CDF55002FA4DC /* TVShow.swift in Sources */,
-				7551EFB02C46612F0064F249 /* ExploreBarView.swift in Sources */,
+				7551EFB02C46612F0064F249 /* BrosweBarView.swift in Sources */,
 				75FB74742C440EC0002F0EA9 /* RequestBuilder.swift in Sources */,
 				7550F08B2C26158200F67158 /* MovieViewModel.swift in Sources */,
 				7550F0892C26157100F67158 /* Movie.swift in Sources */,

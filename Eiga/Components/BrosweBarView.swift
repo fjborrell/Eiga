@@ -7,28 +7,26 @@
 
 import SwiftUI
 
-struct ExploreBarView: View {
+struct BrosweBarView: View {
     @Environment(AppState.self) private var appState: AppState
-    @Binding var query: String
-    @Binding var state: SearchState
+    @Binding var searchBarViewModel: SearchBarViewModel
     
     var body: some View {
         HStack(spacing: 10) {
             MediaModeSwitchView()
-            SearchBarView(query: $query, state: $state)
+            SearchBarView(viewModel: searchBarViewModel)
         }
     }
 }
 
 #Preview {
     struct PreviewWrapper: View {
-        @State var query: String = ""
-        @State var state: SearchState = .inactive
+        @State var searchBarViewModel: SearchBarViewModel = SearchBarViewModel()
+        
         var body: some View {
-            ExploreBarView(query: $query, state: $state)
+            BrosweBarView(searchBarViewModel: $searchBarViewModel)
                 .environment(AppState())
         }
     }
-    
     return PreviewWrapper()
 }
