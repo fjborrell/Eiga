@@ -41,7 +41,7 @@ enum MediaMode: String, CaseIterable, Identifiable {
         case .all:
             return .pink
         case .movie:
-            return .yellow
+            return .red
         case .tv:
             return .blue
         }

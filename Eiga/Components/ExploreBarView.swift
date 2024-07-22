@@ -8,14 +8,27 @@
 import SwiftUI
 
 struct ExploreBarView: View {
+    @Environment(AppState.self) private var appState: AppState
+    @Binding var query: String
+    @Binding var state: SearchState
+    
     var body: some View {
-        HStack {
+        HStack(spacing: 10) {
             MediaModeSwitchView()
-            SearchBarView()
+            SearchBarView(query: $query, state: $state)
         }
     }
 }
 
 #Preview {
-    ExploreBarView()
+    struct PreviewWrapper: View {
+        @State var query: String = ""
+        @State var state: SearchState = .inactive
+        var body: some View {
+            ExploreBarView(query: $query, state: $state)
+                .environment(AppState())
+        }
+    }
+    
+    return PreviewWrapper()
 }
