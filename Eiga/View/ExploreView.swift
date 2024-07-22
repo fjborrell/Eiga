@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExploreView: View {
-    @State var exploreFilter: ExploreFilter = .popular
+    @State var exploreFilter: ExploreFilter? = .popular
     
     var jjk: some View {
         Image("jjk")
@@ -28,7 +28,7 @@ struct ExploreView: View {
             ExploreBarView()
                 .padding(.vertical, 10)
             
-            BlockView(title: "Explore Block", selectedFilter: $exploreFilter) { block in
+            DynamicBlock(title: "Explore Block", selectedFilter: $exploreFilter) { block in
                 ScrollView {
                     ForEach(0..<6) { _ in
                         exploreFilter == .popular ? jjk : jjk

@@ -5,10 +5,10 @@
 //  Created by Fernando Borrell on 7/16/24.
 //
 
-enum ExploreFilter: String, CaseIterable, Identifiable {
+enum ExploreFilter: String, FilterOption {
     case popular
     case latest
-    
+        
     var id: Self { self }
     
     var title: String {
