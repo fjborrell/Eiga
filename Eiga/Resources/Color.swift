@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 extension Color {
-    static let onyx = Color(red: 30/255, green: 30/255, blue: 30/255)
+    static let onyx = Color(red: 19/255, green: 19/255, blue: 19/255)
 }
 
 extension LinearGradient {

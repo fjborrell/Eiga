@@ -11,6 +11,8 @@ import SwiftUI
 // MARK: - View
 
 struct SearchBarView: View {
+    private let overlayColor: Color = .white.opacity(0.75)
+    private let backgroundColor: Color = .black.opacity(0.45)
     @Bindable var viewModel: SearchBarViewModel
     @FocusState private var isFocused: Bool
     
@@ -20,7 +22,7 @@ struct SearchBarView: View {
                 TextField("", text: $viewModel.query, prompt: searchPrompt)
                     .frame(height: 36)
                     .padding(.leading, 36)
-                    .background(Color.gray.opacity(0.24))
+                    .background(backgroundColor)
                     .cornerRadius(10)
                     .foregroundStyle(.white)
                     .font(.manrope(15))
@@ -56,14 +58,15 @@ struct SearchBarView: View {
     private var searchPrompt: Text {
         Text("Search")
             .font(.manrope(15))
-            .foregroundStyle(.gray)
+            .foregroundStyle(overlayColor.opacity(0.6))
     }
     
     private var searchOverlay: some View {
         HStack {
+            // ICON
             Image(systemName: "magnifyingglass")
                 .imageScale(.medium)
-                .foregroundStyle(.gray)
+                .foregroundStyle(overlayColor)
                 .padding(.leading, 10)
                 .onTapGesture {
                     isFocused = true
@@ -71,6 +74,7 @@ struct SearchBarView: View {
             
             Spacer()
             
+            // CLEAR QUERY 'X'
             if !viewModel.query.isEmpty {
                 Button(action: {
                     withAnimation(.easeInOut(duration: 0.3)) {
@@ -79,7 +83,7 @@ struct SearchBarView: View {
                     isFocused = true
                 }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.gray)
+                        .foregroundStyle(overlayColor)
                 }
                 .padding(.trailing, 10)
                 .transition(
@@ -133,9 +137,10 @@ class SearchBarViewModel {
             VStack {
                 SearchBarView(viewModel: viewModel)
                     .padding()
+                    .padding(.top, 50)
                 Spacer()
             }
-            .background(Color.black)
+            .hueBackground(hueColor: .pink)
         }
     }
     return PreviewWrapper()
