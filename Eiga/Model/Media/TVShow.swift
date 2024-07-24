@@ -23,6 +23,7 @@ struct TVShow: Media, Codable {
     let productionCountries: [ProductionCountry]?
     let spokenLanguages: [SpokenLanguage]?
     let status: String?
+    let title: String?
     
     // Unique fields
     let createdBy: [Creator]?
@@ -33,7 +34,6 @@ struct TVShow: Media, Codable {
     let languages: [String]?
     let lastAirDate: Date?
     let lastEpisodeToAir: Episode?
-    let name: String?
     let networks: [TVNetwork]?
     let nextEpisodeToAir: Episode?
     let numberOfEpisodes: Int?
@@ -43,7 +43,7 @@ struct TVShow: Media, Codable {
     let type: String?
     
     enum CodingKeys: String, CodingKey {
-        case adult, genres, homepage, id, languages, name, networks, overview, popularity, seasons, status, type
+        case adult, genres, homepage, id, languages, networks, overview, popularity, seasons, status, type
         case backdropPath = "backdrop_path"
         case createdBy = "created_by"
         case episodeRunTime = "episode_run_time"
@@ -61,6 +61,7 @@ struct TVShow: Media, Codable {
         case productionCompanies = "production_companies"
         case productionCountries = "production_countries"
         case spokenLanguages = "spoken_languages"
+        case title = "name"
     }
     
     init(from decoder: Decoder) throws {
@@ -81,7 +82,7 @@ struct TVShow: Media, Codable {
         id = safeDecode(Int.self, forKey: .id, defaultValue: 0)
         inProduction = safeDecode(Bool.self, forKey: .inProduction, defaultValue: false)
         languages = safeDecode([String].self, forKey: .languages, defaultValue: [])
-        name = safeDecode(String.self, forKey: .name, defaultValue: "Unknown Name")
+        title = safeDecode(String.self, forKey: .title, defaultValue: "Unknown Title")
         networks = safeDecode([TVNetwork].self, forKey: .networks, defaultValue: [])
         numberOfEpisodes = safeDecode(Int.self, forKey: .numberOfEpisodes, defaultValue: 0)
         numberOfSeasons = safeDecode(Int.self, forKey: .numberOfSeasons, defaultValue: 0)
@@ -124,7 +125,7 @@ struct TVShow: Media, Codable {
     }
 }
 
-struct Creator: Codable {
+struct Creator: Codable, Hashable {
     let id: Int
     let creditId: String
     let name: String
@@ -140,7 +141,7 @@ struct Creator: Codable {
     }
 }
 
-struct Episode: Codable {
+struct Episode: Codable, Hashable {
     let id: Int
     let name: String
     let overview: String
@@ -188,7 +189,7 @@ struct Episode: Codable {
     }
 }
 
-struct TVNetwork: Codable {
+struct TVNetwork: Codable, Hashable {
     let id: Int
     let logoPath: String?
     let name: String
@@ -201,7 +202,7 @@ struct TVNetwork: Codable {
     }
 }
 
-struct Season: Codable {
+struct Season: Codable, Hashable {
     let airDate: Date?
     let episodeCount: Int
     let id: Int

@@ -14,12 +14,12 @@ actor MediaRepository {
         } else {
             self.networkManager = NetworkManager(
                 baseURL: "https://api.themoviedb.org/3",
-                apiAccessToken: Secrets.API_ACCESS_TOKEN.rawValue
+                apiKey: Secrets.API_KEY.rawValue
             )
         }
     }
     
-    func fetchMovie(id: String) async throws -> Movie {
+    func fetchMovie(id: Int) async throws -> Movie {
         let movies: [Movie] = try await networkManager.fetchData(for: .movie(id: id))
         guard let movie = movies.first else {
             throw NetworkError.noData
@@ -27,11 +27,19 @@ actor MediaRepository {
         return movie
     }
     
-    func fetchTVShow(id: String) async throws -> TVShow {
+    func fetchTVShow(id: Int) async throws -> TVShow {
         let shows: [TVShow] = try await networkManager.fetchData(for: .tvShow(id: id))
         guard let show = shows.first else {
             throw NetworkError.noData
         }
         return show
+    }
+    
+    func fetchNowPlayingMovies() async throws -> [Movie] {
+        let movies: [Movie]? = try await networkManager.fetchData(for: .nowPlayingMovies)
+        guard let movies = movies else {
+            throw NetworkError.noData
+        }
+        return movies
     }
 }

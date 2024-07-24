@@ -22,6 +22,7 @@ struct Movie: Media, Codable {
     let productionCountries: [ProductionCountry]?
     let spokenLanguages: [SpokenLanguage]?
     let status: String?
+    let title: String?
     
     // Unique fields
     let belongsToCollection: MovieCollection?
@@ -31,7 +32,6 @@ struct Movie: Media, Codable {
     let releaseDate: Date?
     let revenue: Int?
     let runtime: Int?
-    let title: String?
     let video: Bool?
     
     enum CodingKeys: String, CodingKey {
@@ -97,7 +97,7 @@ struct Movie: Media, Codable {
     }
 }
 
-struct MovieCollection: Codable {
+struct MovieCollection: Codable, Hashable {
     let id: Int
     let name: String
     let posterPath: String?

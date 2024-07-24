@@ -6,15 +6,18 @@
 //
 
 enum Endpoint {
-    case movie(id: String)
-    case tvShow(id: String)
+    case movie(id: Int)
+    case tvShow(id: Int)
+    case nowPlayingMovies
     
     var path: String {
         switch self {
         case .movie(let id):
-            return "/movies\(id)"
+            return "/movie/\(Int32(id))"
         case .tvShow(let id):
-            return "/tv/\(id)"
+            return "/tv/\(Int32(id))"
+        case .nowPlayingMovies:
+            return "/movie/now_playing"
         }
     }
 }

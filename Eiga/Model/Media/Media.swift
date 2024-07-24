@@ -8,7 +8,7 @@
 import Foundation
 import OSLog
 
-protocol Media: Codable {
+protocol Media: Codable, Identifiable, Hashable {
     var adult: Bool? { get }
     var backdropPath: String? { get }
     var genres: [Genre]? { get }
@@ -22,14 +22,15 @@ protocol Media: Codable {
     var productionCountries: [ProductionCountry]? { get }
     var spokenLanguages: [SpokenLanguage]? { get }
     var status: String? { get }
+    var title: String? { get }
 }
 
-struct Genre: Codable {
+struct Genre: Codable, Hashable {
     let id: Int
     let name: String
 }
 
-struct ProductionCompany: Codable {
+struct ProductionCompany: Codable, Hashable {
     let id: Int
     let logoPath: String?
     let name: String
@@ -43,7 +44,7 @@ struct ProductionCompany: Codable {
     }
 }
 
-struct ProductionCountry: Codable {
+struct ProductionCountry: Codable, Hashable {
     let iso31661: String
     let name: String
     
@@ -53,7 +54,7 @@ struct ProductionCountry: Codable {
     }
 }
 
-struct SpokenLanguage: Codable {
+struct SpokenLanguage: Codable, Hashable {
     let englishName: String
     let iso6391: String
     let name: String

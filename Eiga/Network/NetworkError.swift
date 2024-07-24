@@ -11,6 +11,7 @@ enum NetworkError: Error {
     case invalidURL(error: String)
     case unexpectedHTTPResponse(error: String)
     case failedJSONDecoding(error: Error)
+    case notFound404
     case noData
     case unauthorized
     case serverError(statusCode: Int)
@@ -29,6 +30,8 @@ enum NetworkError: Error {
             return "Unauthorized access"
         case .serverError(let statusCode):
             return "Server error with status code: \(statusCode)"
+        case .notFound404:
+            return "404 - Requested resource not found"
         }
     }
 }

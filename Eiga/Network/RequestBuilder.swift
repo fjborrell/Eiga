@@ -9,11 +9,11 @@ import Foundation
 
 class RequestBuilder {
     let baseURL: String
-    let apiAccessToken: String
+    let apiKey: String
     
-    init(baseURL: String, apiAccessToken: String) {
+    init(baseURL: String, apiKey: String) {
         self.baseURL = baseURL
-        self.apiAccessToken = apiAccessToken
+        self.apiKey = apiKey
     }
     
     func buildRequest(for endpoint: Endpoint, method: String = "GET") -> URLRequest? {
@@ -23,12 +23,11 @@ class RequestBuilder {
         
         let headers = [
             "accept": "application/json",
-            "Authorization": "Bearer \(apiAccessToken)"
+            "Authorization": "Bearer \(apiKey)"
         ]
 
         var request = URLRequest(
             url: url,
-            cachePolicy: .reloadRevalidatingCacheData,
             timeoutInterval: 10.0
         )
         request.httpMethod = method

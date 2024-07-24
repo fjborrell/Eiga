@@ -7,16 +7,15 @@
 
 import SwiftUI
 
+// Update ExploreView
 struct ExploreView: View {
     @State var exploreFilter: ExploreFilter? = .popular
     @State var searchBarViewModel: SearchBarViewModel = SearchBarViewModel()
+    @State var blockMedia: [Movie] = []
+    @State private var isLoading = false
+    @State private var errorMessage: String?
     
-    var jjk: some View {
-        Image("jjk")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 370, height: 170)
-    }
+    private let mediaRepository = MediaRepository()
     
     var body: some View {
         VStack {
@@ -29,14 +28,35 @@ struct ExploreView: View {
             BrosweBarView(searchBarViewModel: $searchBarViewModel)
                 .padding(.vertical, 10)
             
-            DynamicBlock(title: "Explore Block", selectedFilter: $exploreFilter) { block in
-                ScrollView {
-                    ForEach(0..<6) { _ in
-                        exploreFilter == .popular ? jjk : jjk
+            DynamicBlock(title: "Explore Block", selectedFilter: $exploreFilter) { filter in
+                if isLoading {
+                    ProgressView()
+                } else if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        ForEach(blockMedia, id: \.id) { media in
+                            Text(media.title ?? "Untitled")
+                        }
                     }
                 }
             }
         }
+        .task {
+            await fetchMovies()
+        }
+    }
+    
+    private func fetchMovies() async {
+        isLoading = true
+        errorMessage = nil
+        do {
+            blockMedia = try await mediaRepository.fetchNowPlayingMovies()
+        } catch {
+            errorMessage = "Failed to fetch movies: \(error)"
+        }
+        isLoading = false
     }
 }
 
