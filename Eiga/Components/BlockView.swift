@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-// MARK: - BlockView Protocol
+// MARK: - Model
+
 protocol BlockView: View {
     var title: String { get }
     associatedtype Content: View
@@ -34,6 +35,7 @@ struct StaticBlock<Content: View>: BlockView {
 }
 
 // MARK: - DynamicBlock
+
 struct DynamicBlock<Content: View, Filter: FilterOption>: BlockView {
     let title: String
     @Binding var selectedFilter: Filter?

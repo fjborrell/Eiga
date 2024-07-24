@@ -62,7 +62,6 @@ struct TabBarView: View {
     struct TabView: View {
         let tab: Tab
         @Binding var selectedTab: Tab
-        // Use SwiftUI's observance to check state change, not T/F value!
         @State var animationTrigger: Bool = false
         
         var body: some View {

@@ -8,15 +8,7 @@
 import Foundation
 import SwiftUI
 
-// MARK: - Model
-
-public enum SearchState {
-    case inactive
-    case active
-}
-
 // MARK: - View
-// TODO: - onChange query and onChange focus is too volatile. Too many view updates. cancel is buggy because of this.
 
 struct SearchBarView: View {
     @Bindable var viewModel: SearchBarViewModel
@@ -27,33 +19,38 @@ struct SearchBarView: View {
             ZStack(alignment: .trailing) {
                 TextField("", text: $viewModel.query, prompt: searchPrompt)
                     .frame(height: 36)
-                    .padding(.horizontal, 36)
+                    .padding(.leading, 36)
                     .background(Color.gray.opacity(0.24))
                     .cornerRadius(10)
-                    .focused($isFocused)
                     .foregroundStyle(.white)
                     .font(.manrope(15))
-                    .onChange(of: isFocused) { _, newState in
-                        viewModel.updateStateOnFocus(newState)
+                    .focused($isFocused)
+                    .onChange(of: viewModel.query) { _, newQuery in
+                        viewModel.updateStateOnQueryChange(newQuery)
                     }
-                    .onChange(of: viewModel.query) { _, _ in
-                        viewModel.updateStateOnQueryChange(isFocused)
+                    .onChange(of: isFocused) { _, newValue in
+                        viewModel.updateStateOnFocusChange(newValue)
                     }
                 
                 searchOverlay
             }
             
-            if viewModel.isActive() {
+            if viewModel.isActive {
                 Button("Cancel") {
-                    viewModel.switchSearchState(.inactive)
+                    viewModel.setInactive()
                     isFocused = false
                 }
                 .font(.manrope(15))
                 .foregroundColor(.white)
-                .transition(.asymmetric(insertion: .move(edge: .trailing).combined(with: .opacity.animation(.easeInOut(duration: 1))), removal: .move(edge: .trailing).combined(with: .opacity.animation(.easeInOut(duration: 0.1)))))
+                .transition(
+                    .asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity.animation(.easeInOut(duration: 0.7))),
+                        removal: .move(edge: .trailing).combined(with: .opacity.animation(.easeInOut(duration: 0.2)))
+                    )
+                )
             }
         }
-        .animation(.default, value: viewModel.state)
+        .animation(.default, value: viewModel.isActive)
     }
     
     private var searchPrompt: Text {
@@ -65,18 +62,32 @@ struct SearchBarView: View {
     private var searchOverlay: some View {
         HStack {
             Image(systemName: "magnifyingglass")
+                .imageScale(.medium)
                 .foregroundStyle(.gray)
                 .padding(.leading, 10)
+                .onTapGesture {
+                    isFocused = true
+                }
             
             Spacer()
             
-            if viewModel.isActive() {
-                Button(action: viewModel.clearQuery) {
+            if !viewModel.query.isEmpty {
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        viewModel.clearQuery()
+                    }
+                    isFocused = true
+                }) {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.gray)
                 }
                 .padding(.trailing, 10)
-                .transition(.asymmetric(insertion: .move(edge: .trailing).combined(with: .opacity.animation(.easeInOut(duration: 1))), removal: .move(edge: .trailing).combined(with: .opacity.animation(.easeInOut(duration: 0.1)))))
+                .transition(
+                    .asymmetric(
+                        insertion: .opacity.animation(.easeInOut(duration: 0.3)),
+                        removal: .identity
+                    )
+                )
             }
         }
     }
@@ -87,31 +98,28 @@ struct SearchBarView: View {
 @Observable
 class SearchBarViewModel {
     var query: String = ""
-    var state: SearchState = .inactive
+    var isActive: Bool = false
     
     func clearQuery() {
         query = ""
+        updateStateOnQueryChange(query)
     }
     
-    func switchSearchState(_ state: SearchState) {
-        self.state = state
-        if state == .inactive {
-            clearQuery()
-        }
+    func setActive(_ value: Bool) {
+        isActive = value
     }
     
-    func isActive() -> Bool {
-        return state == .active
+    func setInactive() {
+        isActive = false
+        clearQuery()
     }
     
-    func updateStateOnFocus(_ isFocused: Bool) {
-        if isFocused {
-            state = .active
-        }
+    func updateStateOnQueryChange(_ newQuery: String) {
+        isActive = !newQuery.isEmpty || isActive
     }
     
-    func updateStateOnQueryChange(_ isFocused: Bool) {
-        state = query.isEmpty && !isFocused ? .inactive : .active
+    func updateStateOnFocusChange(_ isFocused: Bool) {
+        isActive = isFocused || !query.isEmpty
     }
 }
 
