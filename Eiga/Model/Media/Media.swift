@@ -8,21 +8,25 @@
 import Foundation
 import OSLog
 
-protocol Media: Codable, Identifiable, Hashable {
-    var adult: Bool? { get }
-    var backdropPath: String? { get }
-    var genres: [Genre]? { get }
+protocol Media: Codable, Identifiable, Hashable, Sendable {
+    var adult: Bool { get }
+    var backdropPath: String { get }
+    var genres: [Genre] { get }
+    var homepage: String { get }
     var id: Int { get }
-    var originCountry: [String]? { get }
-    var originalLanguage: String? { get }
-    var overview: String? { get }
-    var popularity: Double? { get }
-    var posterPath: String? { get }
-    var productionCompanies: [ProductionCompany]? { get }
-    var productionCountries: [ProductionCountry]? { get }
-    var spokenLanguages: [SpokenLanguage]? { get }
-    var status: String? { get }
-    var title: String? { get }
+    var originalLanguage: String { get }
+    var overview: String { get }
+    var popularity: Double { get }
+    var posterPath: String { get }
+    var productionCompanies: [ProductionCompany] { get }
+    var productionCountries: [ProductionCountry] { get }
+    var spokenLanguages: [SpokenLanguage] { get }
+    var status: String { get }
+    var tagline: String { get }
+    var voteAverage: Double { get }
+    var voteCount: Int { get }
+    
+    typealias MediaComponent = Codable & Identifiable & Hashable
 }
 
 struct Genre: Codable, Hashable {

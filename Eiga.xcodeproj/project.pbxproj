@@ -11,6 +11,9 @@
 		750B94722C2E690600BC4F57 /* fontNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 750B94712C2E690000BC4F57 /* fontNames.txt */; };
 		750B94752C2E6B4400BC4F57 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B94742C2E6B3900BC4F57 /* Font.swift */; };
 		7533EC242C4CE0BF00BFCE00 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7533EC232C4CE0BC00BFCE00 /* AppState.swift */; };
+		7546BB502C51C28E00267C11 /* Networkable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB4F2C51C28B00267C11 /* Networkable.swift */; };
+		7546BB522C51D1D500267C11 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB512C51D1D400267C11 /* Endpoint.swift */; };
+		7546BB542C51D1FA00267C11 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB532C51D1F700267C11 /* HTTPMethod.swift */; };
 		7550F05A2C26138E00F67158 /* EigaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0592C26138E00F67158 /* EigaApp.swift */; };
 		7550F0602C26138F00F67158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F05F2C26138F00F67158 /* Assets.xcassets */; };
 		7550F0632C26138F00F67158 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F0622C26138F00F67158 /* Preview Assets.xcassets */; };
@@ -42,9 +45,8 @@
 		75E9E4602C475780005A3EE5 /* jjk.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 75E9E45F2C475780005A3EE5 /* jjk.jpg */; };
 		75E9E4622C475802005A3EE5 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E9E4612C4757EF005A3EE5 /* BlockView.swift */; };
 		75E9E4642C4758E9005A3EE5 /* ExploreFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E9E4632C4758E9005A3EE5 /* ExploreFilter.swift */; };
-		75F1ADF62C44C3B2009C28A0 /* MediaRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F1ADF52C44C3A5009C28A0 /* MediaRepository.swift */; };
-		75FB74722C440EA5002F0EA9 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FB74712C440E9D002F0EA9 /* Endpoint.swift */; };
-		75FB74742C440EC0002F0EA9 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FB74732C440EBC002F0EA9 /* RequestBuilder.swift */; };
+		75F1ADF62C44C3B2009C28A0 /* TMBDService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F1ADF52C44C3A5009C28A0 /* TMBDService.swift */; };
+		75FB74722C440EA5002F0EA9 /* TMBDEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FB74712C440E9D002F0EA9 /* TMBDEndpoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,9 @@
 		750B94712C2E690000BC4F57 /* fontNames.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fontNames.txt; sourceTree = "<group>"; };
 		750B94742C2E6B3900BC4F57 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		7533EC232C4CE0BC00BFCE00 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		7546BB4F2C51C28B00267C11 /* Networkable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networkable.swift; sourceTree = "<group>"; };
+		7546BB512C51D1D400267C11 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		7546BB532C51D1F700267C11 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		7550F0562C26138E00F67158 /* Eiga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eiga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7550F0592C26138E00F67158 /* EigaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaApp.swift; sourceTree = "<group>"; };
 		7550F05F2C26138F00F67158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,9 +110,8 @@
 		75E9E45F2C475780005A3EE5 /* jjk.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jjk.jpg; sourceTree = "<group>"; };
 		75E9E4612C4757EF005A3EE5 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		75E9E4632C4758E9005A3EE5 /* ExploreFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreFilter.swift; sourceTree = "<group>"; };
-		75F1ADF52C44C3A5009C28A0 /* MediaRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaRepository.swift; sourceTree = "<group>"; };
-		75FB74712C440E9D002F0EA9 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
-		75FB74732C440EBC002F0EA9 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
+		75F1ADF52C44C3A5009C28A0 /* TMBDService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMBDService.swift; sourceTree = "<group>"; };
+		75FB74712C440E9D002F0EA9 /* TMBDEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMBDEndpoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +157,17 @@
 				750B94702C2E68F900BC4F57 /* Font */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		7546BB552C51D21200267C11 /* Abstractions */ = {
+			isa = PBXGroup;
+			children = (
+				7546BB532C51D1F700267C11 /* HTTPMethod.swift */,
+				7546BB512C51D1D400267C11 /* Endpoint.swift */,
+				7546BB4F2C51C28B00267C11 /* Networkable.swift */,
+				7595D9492C2F69BD00D9B2C3 /* NetworkError.swift */,
+			);
+			path = Abstractions;
 			sourceTree = "<group>";
 		};
 		7550F04D2C26138E00F67158 = {
@@ -267,11 +282,10 @@
 		7595D9462C2EF1FC00D9B2C3 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				75F1ADF52C44C3A5009C28A0 /* MediaRepository.swift */,
 				75772C902C2DF33C00DD35EC /* NetworkManager.swift */,
-				7595D9492C2F69BD00D9B2C3 /* NetworkError.swift */,
-				75FB74732C440EBC002F0EA9 /* RequestBuilder.swift */,
-				75FB74712C440E9D002F0EA9 /* Endpoint.swift */,
+				75F1ADF52C44C3A5009C28A0 /* TMBDService.swift */,
+				75FB74712C440E9D002F0EA9 /* TMBDEndpoint.swift */,
+				7546BB552C51D21200267C11 /* Abstractions */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -452,21 +466,22 @@
 				755B14FA2C4CB66E00126416 /* LibraryView.swift in Sources */,
 				750B94752C2E6B4400BC4F57 /* Font.swift in Sources */,
 				7550F08F2C2616A500F67158 /* ContentView.swift in Sources */,
+				7546BB522C51D1D500267C11 /* Endpoint.swift in Sources */,
 				75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */,
 				75D041892C49F783005A0A2F /* TabBarView.swift in Sources */,
 				755B14FC2C4CB67800126416 /* CrewsView.swift in Sources */,
 				7551EFA72C4626150064F249 /* SearchBar.swift in Sources */,
+				7546BB542C51D1FA00267C11 /* HTTPMethod.swift in Sources */,
 				755B14FE2C4CB68C00126416 /* ProfileView.swift in Sources */,
 				75772C912C2DF34C00DD35EC /* NetworkManager.swift in Sources */,
 				7551EFB42C46636A0064F249 /* Color.swift in Sources */,
 				7551EFAC2C463CE50064F249 /* MediaModeSwitchView.swift in Sources */,
-				75FB74722C440EA5002F0EA9 /* Endpoint.swift in Sources */,
+				75FB74722C440EA5002F0EA9 /* TMBDEndpoint.swift in Sources */,
 				75A7DF932C2CDF55002FA4DC /* TVShow.swift in Sources */,
 				7551EFB02C46612F0064F249 /* BrosweBarView.swift in Sources */,
-				75FB74742C440EC0002F0EA9 /* RequestBuilder.swift in Sources */,
 				7550F08B2C26158200F67158 /* MovieViewModel.swift in Sources */,
 				7550F0892C26157100F67158 /* Movie.swift in Sources */,
-				75F1ADF62C44C3B2009C28A0 /* MediaRepository.swift in Sources */,
+				75F1ADF62C44C3B2009C28A0 /* TMBDService.swift in Sources */,
 				75E9E4642C4758E9005A3EE5 /* ExploreFilter.swift in Sources */,
 				755B14F82C4CB66700126416 /* ExploreView.swift in Sources */,
 				75E9E4622C475802005A3EE5 /* BlockView.swift in Sources */,
@@ -474,6 +489,7 @@
 				7533EC242C4CE0BF00BFCE00 /* AppState.swift in Sources */,
 				7595D94A2C2F69C000D9B2C3 /* NetworkError.swift in Sources */,
 				7550F05A2C26138E00F67158 /* EigaApp.swift in Sources */,
+				7546BB502C51C28E00267C11 /* Networkable.swift in Sources */,
 				7595D9482C2F693200D9B2C3 /* Secrets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

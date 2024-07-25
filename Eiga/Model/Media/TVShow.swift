@@ -6,44 +6,43 @@
 //
 
 import Foundation
-import os.log
 
-struct TVShow: Media, Codable {
-    // Media fields
-    let adult: Bool?
-    let backdropPath: String?
-    let genres: [Genre]?
-    let id: Int
-    let originCountry: [String]?
-    let originalLanguage: String?
-    let overview: String?
-    let popularity: Double?
-    let posterPath: String?
-    let productionCompanies: [ProductionCompany]?
-    let productionCountries: [ProductionCountry]?
-    let spokenLanguages: [SpokenLanguage]?
-    let status: String?
-    let title: String?
-    
-    // Unique fields
-    let createdBy: [Creator]?
+struct TVShow: Media {
+    let adult: Bool
+    let backdropPath: String
+    let createdBy: [Creator]
     let episodeRunTime: [Int]
-    let firstAirDate: Date?
-    let homepage: String?
-    let inProduction: Bool?
-    let languages: [String]?
-    let lastAirDate: Date?
+    let firstAirDate: String
+    let genres: [Genre]
+    let homepage: String
+    let id: Int
+    let inProduction: Bool
+    let languages: [String]
+    let lastAirDate: String
     let lastEpisodeToAir: Episode?
-    let networks: [TVNetwork]?
+    let name: String
     let nextEpisodeToAir: Episode?
-    let numberOfEpisodes: Int?
-    let numberOfSeasons: Int?
-    let originalName: String?
-    let seasons: [Season]?
-    let type: String?
-    
+    let networks: [Network]
+    let numberOfEpisodes: Int
+    let numberOfSeasons: Int
+    let originCountry: [String]
+    let originalLanguage: String
+    let originalName: String
+    let overview: String
+    let popularity: Double
+    let posterPath: String
+    let productionCompanies: [ProductionCompany]
+    let productionCountries: [ProductionCountry]
+    let seasons: [Season]
+    let spokenLanguages: [SpokenLanguage]
+    let status: String
+    let tagline: String
+    let type: String
+    let voteAverage: Double
+    let voteCount: Int
+
     enum CodingKeys: String, CodingKey {
-        case adult, genres, homepage, id, languages, networks, overview, popularity, seasons, status, type
+        case adult, genres, homepage, id, languages, name, networks, overview, popularity, seasons, status, tagline, type
         case backdropPath = "backdrop_path"
         case createdBy = "created_by"
         case episodeRunTime = "episode_run_time"
@@ -61,180 +60,122 @@ struct TVShow: Media, Codable {
         case productionCompanies = "production_companies"
         case productionCountries = "production_countries"
         case spokenLanguages = "spoken_languages"
-        case title = "name"
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
     }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "", category: "TVShowDecoding")
-        
-        func safeDecode<T: Decodable>(_ type: T.Type, forKey key: CodingKeys, defaultValue: T) -> T {
-            (try? container.decodeIfPresent(type, forKey: key)) ?? defaultValue
-        }
-        
-        // Set attribute values
-        adult = safeDecode(Bool.self, forKey: .adult, defaultValue: false)
-        backdropPath = safeDecode(String?.self, forKey: .backdropPath, defaultValue: nil)
-        createdBy = safeDecode([Creator].self, forKey: .createdBy, defaultValue: [])
-        episodeRunTime = safeDecode([Int].self, forKey: .episodeRunTime, defaultValue: [])
-        genres = safeDecode([Genre].self, forKey: .genres, defaultValue: [])
-        homepage = safeDecode(String?.self, forKey: .homepage, defaultValue: nil)
-        id = safeDecode(Int.self, forKey: .id, defaultValue: 0)
-        inProduction = safeDecode(Bool.self, forKey: .inProduction, defaultValue: false)
-        languages = safeDecode([String].self, forKey: .languages, defaultValue: [])
-        title = safeDecode(String.self, forKey: .title, defaultValue: "Unknown Title")
-        networks = safeDecode([TVNetwork].self, forKey: .networks, defaultValue: [])
-        numberOfEpisodes = safeDecode(Int.self, forKey: .numberOfEpisodes, defaultValue: 0)
-        numberOfSeasons = safeDecode(Int.self, forKey: .numberOfSeasons, defaultValue: 0)
-        originCountry = safeDecode([String].self, forKey: .originCountry, defaultValue: [])
-        originalLanguage = safeDecode(String.self, forKey: .originalLanguage, defaultValue: "unknown")
-        originalName = safeDecode(String.self, forKey: .originalName, defaultValue: "Unknown Original Name")
-        overview = safeDecode(String.self, forKey: .overview, defaultValue: "")
-        popularity = safeDecode(Double.self, forKey: .popularity, defaultValue: 0.0)
-        posterPath = safeDecode(String?.self, forKey: .posterPath, defaultValue: nil)
-        productionCompanies = safeDecode([ProductionCompany].self, forKey: .productionCompanies, defaultValue: [])
-        productionCountries = safeDecode([ProductionCountry].self, forKey: .productionCountries, defaultValue: [])
-        seasons = safeDecode([Season].self, forKey: .seasons, defaultValue: [])
-        spokenLanguages = safeDecode([SpokenLanguage].self, forKey: .spokenLanguages, defaultValue: [])
-        status = safeDecode(String.self, forKey: .status, defaultValue: "Unknown")
-        type = safeDecode(String.self, forKey: .type, defaultValue: "Unknown")
-        
-        // Convert dates
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        if let dateString = safeDecode(String?.self, forKey: .firstAirDate, defaultValue: nil) {
-            firstAirDate = dateFormatter.date(from: dateString)
-        } else {
-            firstAirDate = nil
-        }
-        
-        if let dateString = safeDecode(String?.self, forKey: .lastAirDate, defaultValue: nil) {
-            lastAirDate = dateFormatter.date(from: dateString)
-        } else {
-            lastAirDate = nil
-        }
-        
-        lastEpisodeToAir = try? container.decodeIfPresent(Episode.self, forKey: .lastEpisodeToAir)
-        nextEpisodeToAir = try? container.decodeIfPresent(Episode.self, forKey: .nextEpisodeToAir)
-        
-        // Validate critical issues, to log
-        if id == 0 {
-            logger.error("Failed to decode TV show ID")
-        }
-    }
-}
 
-struct Creator: Codable, Hashable {
-    let id: Int
-    let creditId: String
-    let name: String
-    let originalName: String?
-    let gender: Int
-    let profilePath: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name, gender
-        case creditId = "credit_id"
-        case originalName = "original_name"
-        case profilePath = "profile_path"
-    }
-}
-
-struct Episode: Codable, Hashable {
-    let id: Int
-    let name: String
-    let overview: String
-    let airDate: Date?
-    let episodeNumber: Int
-    let episodeType: String
-    let productionCode: String
-    let runtime: Int?
-    let seasonNumber: Int
-    let showId: Int
-    let stillPath: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name, overview, runtime
-        case airDate = "air_date"
-        case episodeNumber = "episode_number"
-        case episodeType = "episode_type"
-        case productionCode = "production_code"
-        case seasonNumber = "season_number"
-        case showId = "show_id"
-        case stillPath = "still_path"
-    }
-    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        id = try container.decode(Int.self, forKey: .id)
-        name = try container.decode(String.self, forKey: .name)
-        overview = try container.decode(String.self, forKey: .overview)
-        episodeNumber = try container.decode(Int.self, forKey: .episodeNumber)
-        episodeType = try container.decode(String.self, forKey: .episodeType)
-        productionCode = try container.decode(String.self, forKey: .productionCode)
-        runtime = try container.decodeIfPresent(Int.self, forKey: .runtime)
-        seasonNumber = try container.decode(Int.self, forKey: .seasonNumber)
-        showId = try container.decode(Int.self, forKey: .showId)
-        stillPath = try container.decodeIfPresent(String.self, forKey: .stillPath)
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        if let dateString = try container.decodeIfPresent(String.self, forKey: .airDate) {
-            airDate = dateFormatter.date(from: dateString)
-        } else {
-            airDate = nil
+        adult = try container.decodeIfPresent(Bool.self, forKey: .adult) ?? false
+        backdropPath = try container.decodeIfPresent(String.self, forKey: .backdropPath) ?? ""
+        createdBy = try container.decodeIfPresent([Creator].self, forKey: .createdBy) ?? []
+        episodeRunTime = try container.decodeIfPresent([Int].self, forKey: .episodeRunTime) ?? []
+        firstAirDate = try container.decodeIfPresent(String.self, forKey: .firstAirDate) ?? ""
+        genres = try container.decodeIfPresent([Genre].self, forKey: .genres) ?? []
+        homepage = try container.decodeIfPresent(String.self, forKey: .homepage) ?? ""
+        id = try container.decodeIfPresent(Int.self, forKey: .id) ?? 0
+        inProduction = try container.decodeIfPresent(Bool.self, forKey: .inProduction) ?? false
+        languages = try container.decodeIfPresent([String].self, forKey: .languages) ?? []
+        lastAirDate = try container.decodeIfPresent(String.self, forKey: .lastAirDate) ?? ""
+        lastEpisodeToAir = try container.decodeIfPresent(Episode.self, forKey: .lastEpisodeToAir)
+        name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
+        nextEpisodeToAir = try container.decodeIfPresent(Episode.self, forKey: .nextEpisodeToAir)
+        networks = try container.decodeIfPresent([Network].self, forKey: .networks) ?? []
+        numberOfEpisodes = try container.decodeIfPresent(Int.self, forKey: .numberOfEpisodes) ?? 0
+        numberOfSeasons = try container.decodeIfPresent(Int.self, forKey: .numberOfSeasons) ?? 0
+        originCountry = try container.decodeIfPresent([String].self, forKey: .originCountry) ?? []
+        originalLanguage = try container.decodeIfPresent(String.self, forKey: .originalLanguage) ?? ""
+        originalName = try container.decodeIfPresent(String.self, forKey: .originalName) ?? ""
+        overview = try container.decodeIfPresent(String.self, forKey: .overview) ?? ""
+        popularity = try container.decodeIfPresent(Double.self, forKey: .popularity) ?? 0.0
+        posterPath = try container.decodeIfPresent(String.self, forKey: .posterPath) ?? ""
+        productionCompanies = try container.decodeIfPresent([ProductionCompany].self, forKey: .productionCompanies) ?? []
+        productionCountries = try container.decodeIfPresent([ProductionCountry].self, forKey: .productionCountries) ?? []
+        seasons = try container.decodeIfPresent([Season].self, forKey: .seasons) ?? []
+        spokenLanguages = try container.decodeIfPresent([SpokenLanguage].self, forKey: .spokenLanguages) ?? []
+        status = try container.decodeIfPresent(String.self, forKey: .status) ?? ""
+        tagline = try container.decodeIfPresent(String.self, forKey: .tagline) ?? ""
+        type = try container.decodeIfPresent(String.self, forKey: .type) ?? ""
+        voteAverage = try container.decodeIfPresent(Double.self, forKey: .voteAverage) ?? 0.0
+        voteCount = try container.decodeIfPresent(Int.self, forKey: .voteCount) ?? 0
+    }
+}
+
+extension TVShow {
+    struct Creator: MediaComponent {
+        let id: Int
+        let creditId: String
+        let name: String
+        let gender: Int
+        let profilePath: String?
+
+        enum CodingKeys: String, CodingKey {
+            case id, name, gender
+            case creditId = "credit_id"
+            case profilePath = "profile_path"
         }
     }
-}
 
-struct TVNetwork: Codable, Hashable {
-    let id: Int
-    let logoPath: String?
-    let name: String
-    let originCountry: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name
-        case logoPath = "logo_path"
-        case originCountry = "origin_country"
-    }
-}
+    struct Episode: MediaComponent {
+        let id: Int
+        let name: String
+        let overview: String
+        let voteAverage: Double
+        let voteCount: Int
+        let airDate: String
+        let episodeNumber: Int
+        let episodeType: String
+        let productionCode: String
+        let runtime: Int
+        let seasonNumber: Int
+        let showId: Int
+        let stillPath: String?
 
-struct Season: Codable, Hashable {
-    let airDate: Date?
-    let episodeCount: Int
-    let id: Int
-    let name: String
-    let overview: String
-    let posterPath: String?
-    let seasonNumber: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name, overview
-        case airDate = "air_date"
-        case episodeCount = "episode_count"
-        case posterPath = "poster_path"
-        case seasonNumber = "season_number"
+        enum CodingKeys: String, CodingKey {
+            case id, name, overview, runtime
+            case voteAverage = "vote_average"
+            case voteCount = "vote_count"
+            case airDate = "air_date"
+            case episodeNumber = "episode_number"
+            case episodeType = "episode_type"
+            case productionCode = "production_code"
+            case seasonNumber = "season_number"
+            case showId = "show_id"
+            case stillPath = "still_path"
+        }
     }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        id = try container.decode(Int.self, forKey: .id)
-        name = try container.decode(String.self, forKey: .name)
-        overview = try container.decode(String.self, forKey: .overview)
-        episodeCount = try container.decode(Int.self, forKey: .episodeCount)
-        posterPath = try container.decodeIfPresent(String.self, forKey: .posterPath)
-        seasonNumber = try container.decode(Int.self, forKey: .seasonNumber)
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        if let dateString = try container.decodeIfPresent(String.self, forKey: .airDate) {
-            airDate = dateFormatter.date(from: dateString)
-        } else {
-            airDate = nil
+
+    struct Network: MediaComponent {
+        let id: Int
+        let name: String
+        let logoPath: String?
+        let originCountry: String
+
+        enum CodingKeys: String, CodingKey {
+            case id, name
+            case logoPath = "logo_path"
+            case originCountry = "origin_country"
+        }
+    }
+
+    struct Season: MediaComponent {
+        let airDate: String
+        let episodeCount: Int
+        let id: Int
+        let name: String
+        let overview: String
+        let posterPath: String?
+        let seasonNumber: Int
+        let voteAverage: Double
+
+        enum CodingKeys: String, CodingKey {
+            case id, name, overview
+            case airDate = "air_date"
+            case episodeCount = "episode_count"
+            case posterPath = "poster_path"
+            case seasonNumber = "season_number"
+            case voteAverage = "vote_average"
         }
     }
 }

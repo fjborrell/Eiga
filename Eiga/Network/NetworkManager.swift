@@ -7,99 +7,53 @@
 
 import Foundation
 
-actor NetworkManager {
-    private let baseURL: String
-    private let apiKey: String
-    private let requestBuilder: RequestBuilder
-    private struct ResultsWrapper<T: Codable>: Codable {
-        let results: [T]
+actor NetworkManager: Networkable {
+    private let session: URLSession
+    private let decoder: JSONDecoder
+    
+    init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder()) {
+        self.session = session
+        self.decoder = decoder
+        self.decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     
-    init(baseURL: String, apiKey: String) {
-        self.baseURL = baseURL
-        self.apiKey = apiKey
-        self.requestBuilder = RequestBuilder(baseURL: baseURL, apiKey: apiKey)
-    }
-    
-    
-    private func decodeDataToMediaList<T: Media>(data: Data) throws -> [T] {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        let decodingStrategies: [(String, (Data) throws -> [T])] = [
-            ("Results wrapper", {
-                return try decoder.decode(ResultsWrapper<T>.self, from: $0).results
-            }),
-            ("Single object", {
-                let decoded = try decoder.decode(T.self, from: $0)
-                return [decoded]
-            }),
-            ("Array", {
-                return try decoder.decode([T].self, from: $0)
-            })
-        ]
-        
-        for (strategyName, strategy) in decodingStrategies {
-            do {
-                let result = try strategy(data)
-                print("NETWORK_DEBUG - Successfully used \(strategyName) strategy.")
-                return result
-            } catch {
-                print("NETWORK_DEBUG - \(strategyName) strategy failed with error: \(error)")
-                if let decodingError = error as? DecodingError {
-                    switch decodingError {
-                    case .dataCorrupted(let context):
-                        print("Data corrupted: \(context.debugDescription)")
-                    case .keyNotFound(let key, let context):
-                        print("Key '\(key.stringValue)' not found: \(context.debugDescription)")
-                    case .typeMismatch(let type, let context):
-                        print("Type mismatch for type \(type): \(context.debugDescription)")
-                    case .valueNotFound(let type, let context):
-                        print("Value of type \(type) not found: \(context.debugDescription)")
-                    @unknown default:
-                        print("Unknown decoding error: \(decodingError)")
-                    }
-                }
-                continue
-            }
+    func request<E: Endpoint>(from endpoint: E) async throws -> E.ResponseType {
+        guard let request = createRequest(from: endpoint) else {
+            throw NetworkError.invalidURL
         }
         
-        print("NETWORK_DEBUG - All decoding strategies failed. Raw JSON data:")
-        if let jsonString = String(data: data, encoding: .utf8) {
-            print(jsonString)
-        } else {
-            print("Unable to convert data to string")
-        }
-        
-        throw NetworkError.failedJSONDecoding(error: DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "All decoding strategies failed")))
-    }
-    
-    func fetchData<T: Media>(for endpoint: Endpoint) async throws -> [T] {
-        guard let request = requestBuilder.buildRequest(for: endpoint) else {
-            throw NetworkError.invalidURL(error: "Failed to build request URL for endpoint: \(endpoint)")
-        }
-        
-        print("NETWORK_DEBUG - Fetching data for endpoint: \(endpoint)")
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
-            throw NetworkError.unexpectedHTTPResponse(error: "Not an HTTP response")
+            throw NetworkError.unknownError(NSError(domain: "InvalidResponse", code: 0, userInfo: nil))
         }
         
-        print("NETWORK_DEBUG - Received response with status code: \(httpResponse.statusCode)")
-        switch httpResponse.statusCode {
-        case 200...299:
-            let decodedData = try decodeDataToMediaList(data: data) as [T]
-            print("NETWORK_DEBUG - Successfully decoded \(decodedData.count) items.")
-            return decodedData
-        case 401:
-            throw NetworkError.unauthorized
-        case 404:
-            throw NetworkError.notFound404
-        case 500...599:
+        guard 200...299 ~= httpResponse.statusCode else {
             throw NetworkError.serverError(statusCode: httpResponse.statusCode)
-        default:
-            throw NetworkError.unexpectedHTTPResponse(error: "Status code: \(httpResponse.statusCode)")
         }
+        
+        do {
+            return try self.decoder.decode(E.ResponseType.self, from: data)
+        } catch {
+            throw NetworkError.decodingError
+        }
+    }
+    
+    private func createRequest(from endpoint: some Endpoint) -> URLRequest? {
+        var components = URLComponents(string: endpoint.baseURL)
+        components?.path = endpoint.path
+        components?.queryItems = endpoint.queryItems
+        
+        guard let url = components?.url else { return nil }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = endpoint.method.rawValue
+        request.allHTTPHeaderFields = endpoint.header
+        
+        if let body = endpoint.body {
+            request.httpBody = try? JSONEncoder().encode(body)
+        }
+        
+        return request
     }
 }

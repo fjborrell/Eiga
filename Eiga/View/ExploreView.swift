@@ -15,7 +15,7 @@ struct ExploreView: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
     
-    private let mediaRepository = MediaRepository()
+    private let mediaRepository = TMBDService()
     
     var body: some View {
         VStack {
@@ -37,7 +37,7 @@ struct ExploreView: View {
                 } else {
                     ScrollView(showsIndicators: false) {
                         ForEach(blockMedia, id: \.id) { media in
-                            Text(media.title ?? "Untitled")
+                            Text(media.title)
                         }
                     }
                 }
