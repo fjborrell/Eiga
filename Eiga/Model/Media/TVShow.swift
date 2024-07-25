@@ -9,7 +9,7 @@ import Foundation
 
 struct TVShow: Media {
     let adult: Bool
-    let backdropPath: String
+    let backdropPath: String?
     let createdBy: [Creator]
     let episodeRunTime: [Int]
     let firstAirDate: String
@@ -30,7 +30,7 @@ struct TVShow: Media {
     let originalName: String
     let overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let productionCompanies: [ProductionCompany]
     let productionCountries: [ProductionCountry]
     let seasons: [Season]
@@ -40,6 +40,22 @@ struct TVShow: Media {
     let type: String
     let voteAverage: Double
     let voteCount: Int
+    
+    var imageConfigurator: TMBDImageConfig = TMBDImageConfig()
+    
+    func getBackdropURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize {
+        guard let backdropPath = self.backdropPath, !backdropPath.isEmpty else {
+            throw ImageError.missingImagePath
+        }
+        return imageConfigurator.buildURL(path: backdropPath, size: size)
+    }
+    
+    func getPosterURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize {
+        guard let posterPath = self.posterPath, !posterPath.isEmpty else {
+            throw ImageError.missingImagePath
+        }
+        return imageConfigurator.buildURL(path: posterPath, size: size)
+    }
 
     enum CodingKeys: String, CodingKey {
         case adult, genres, homepage, id, languages, name, networks, overview, popularity, seasons, status, tagline, type

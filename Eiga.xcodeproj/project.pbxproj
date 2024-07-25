@@ -14,6 +14,8 @@
 		7546BB502C51C28E00267C11 /* Networkable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB4F2C51C28B00267C11 /* Networkable.swift */; };
 		7546BB522C51D1D500267C11 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB512C51D1D400267C11 /* Endpoint.swift */; };
 		7546BB542C51D1FA00267C11 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB532C51D1F700267C11 /* HTTPMethod.swift */; };
+		7546BB582C51E7AC00267C11 /* TMBDConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB572C51E7A600267C11 /* TMBDConfig.swift */; };
+		7546BB5A2C51FE2900267C11 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB592C51FE2800267C11 /* test.swift */; };
 		7550F05A2C26138E00F67158 /* EigaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0592C26138E00F67158 /* EigaApp.swift */; };
 		7550F0602C26138F00F67158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F05F2C26138F00F67158 /* Assets.xcassets */; };
 		7550F0632C26138F00F67158 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F0622C26138F00F67158 /* Preview Assets.xcassets */; };
@@ -21,7 +23,6 @@
 		7550F0772C26138F00F67158 /* EigaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0762C26138F00F67158 /* EigaUITests.swift */; };
 		7550F0792C26138F00F67158 /* EigaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0782C26138F00F67158 /* EigaUITestsLaunchTests.swift */; };
 		7550F0892C26157100F67158 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0882C26156C00F67158 /* Movie.swift */; };
-		7550F08B2C26158200F67158 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F08A2C26157F00F67158 /* MovieViewModel.swift */; };
 		7550F08F2C2616A500F67158 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F08E2C2616A000F67158 /* ContentView.swift */; };
 		7551EFA72C4626150064F249 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFA62C46260A0064F249 /* SearchBar.swift */; };
 		7551EFAC2C463CE50064F249 /* MediaModeSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551EFAB2C463CC80064F249 /* MediaModeSwitchView.swift */; };
@@ -75,6 +76,8 @@
 		7546BB4F2C51C28B00267C11 /* Networkable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networkable.swift; sourceTree = "<group>"; };
 		7546BB512C51D1D400267C11 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		7546BB532C51D1F700267C11 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		7546BB572C51E7A600267C11 /* TMBDConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMBDConfig.swift; sourceTree = "<group>"; };
+		7546BB592C51FE2800267C11 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		7550F0562C26138E00F67158 /* Eiga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eiga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7550F0592C26138E00F67158 /* EigaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaApp.swift; sourceTree = "<group>"; };
 		7550F05F2C26138F00F67158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -85,7 +88,6 @@
 		7550F0762C26138F00F67158 /* EigaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaUITests.swift; sourceTree = "<group>"; };
 		7550F0782C26138F00F67158 /* EigaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		7550F0882C26156C00F67158 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
-		7550F08A2C26157F00F67158 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
 		7550F08E2C2616A000F67158 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7551EFA62C46260A0064F249 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		7551EFAB2C463CC80064F249 /* MediaModeSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaModeSwitchView.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 		7550F0852C26155700F67158 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7546BB572C51E7A600267C11 /* TMBDConfig.swift */,
 				7551EFAD2C46573D0064F249 /* MediaMode.swift */,
 				75A2A1852C508D1F005A6BE3 /* Collections */,
 				75A2A1842C508D10005A6BE3 /* Media */,
@@ -249,7 +252,6 @@
 		7550F0862C26155B00F67158 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				7550F08A2C26157F00F67158 /* MovieViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -257,6 +259,7 @@
 		7550F0872C26156000F67158 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7546BB592C51FE2800267C11 /* test.swift */,
 				7550F08E2C2616A000F67158 /* ContentView.swift */,
 				755B14F72C4CB66700126416 /* ExploreView.swift */,
 				755B14F92C4CB66E00126416 /* LibraryView.swift */,
@@ -467,7 +470,9 @@
 				750B94752C2E6B4400BC4F57 /* Font.swift in Sources */,
 				7550F08F2C2616A500F67158 /* ContentView.swift in Sources */,
 				7546BB522C51D1D500267C11 /* Endpoint.swift in Sources */,
+				7546BB582C51E7AC00267C11 /* TMBDConfig.swift in Sources */,
 				75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */,
+				7546BB5A2C51FE2900267C11 /* test.swift in Sources */,
 				75D041892C49F783005A0A2F /* TabBarView.swift in Sources */,
 				755B14FC2C4CB67800126416 /* CrewsView.swift in Sources */,
 				7551EFA72C4626150064F249 /* SearchBar.swift in Sources */,
@@ -479,7 +484,6 @@
 				75FB74722C440EA5002F0EA9 /* TMBDEndpoint.swift in Sources */,
 				75A7DF932C2CDF55002FA4DC /* TVShow.swift in Sources */,
 				7551EFB02C46612F0064F249 /* BrosweBarView.swift in Sources */,
-				7550F08B2C26158200F67158 /* MovieViewModel.swift in Sources */,
 				7550F0892C26157100F67158 /* Movie.swift in Sources */,
 				75F1ADF62C44C3B2009C28A0 /* TMBDService.swift in Sources */,
 				75E9E4642C4758E9005A3EE5 /* ExploreFilter.swift in Sources */,

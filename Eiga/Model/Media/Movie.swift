@@ -8,7 +8,7 @@ import Foundation
 
 struct Movie: Media {
     let adult: Bool
-    let backdropPath: String
+    let backdropPath: String?
     let budget: Int
     let genres: [Genre]
     let homepage: String
@@ -19,7 +19,7 @@ struct Movie: Media {
     let originalTitle: String
     let overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let productionCompanies: [ProductionCompany]
     let productionCountries: [ProductionCountry]
     let releaseDate: String
@@ -32,6 +32,22 @@ struct Movie: Media {
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
+    
+    var imageConfigurator: TMBDImageConfig = TMBDImageConfig()
+    
+    func getBackdropURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize {
+        guard let backdropPath = self.backdropPath, !backdropPath.isEmpty else {
+            throw ImageError.missingImagePath
+        }
+        return imageConfigurator.buildURL(path: backdropPath, size: size)
+    }
+    
+    func getPosterURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize {
+        guard let posterPath = self.posterPath, !posterPath.isEmpty else {
+            throw ImageError.missingImagePath
+        }
+        return imageConfigurator.buildURL(path: posterPath, size: size)
+    }
 
     enum CodingKeys: String, CodingKey {
         case adult, budget, genres, homepage, id, overview, popularity, revenue, runtime, status, tagline, title, video
@@ -53,7 +69,7 @@ struct Movie: Media {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         adult = try container.decodeIfPresent(Bool.self, forKey: .adult) ?? false
-        backdropPath = try container.decodeIfPresent(String.self, forKey: .backdropPath) ?? ""
+        backdropPath = try container.decodeIfPresent(String.self, forKey: .backdropPath)
         budget = try container.decodeIfPresent(Int.self, forKey: .budget) ?? 0
         genres = try container.decodeIfPresent([Genre].self, forKey: .genres) ?? []
         homepage = try container.decodeIfPresent(String.self, forKey: .homepage) ?? ""
@@ -64,7 +80,7 @@ struct Movie: Media {
         originalTitle = try container.decodeIfPresent(String.self, forKey: .originalTitle) ?? "Untitled"
         overview = try container.decodeIfPresent(String.self, forKey: .overview) ?? "No overview available"
         popularity = try container.decodeIfPresent(Double.self, forKey: .popularity) ?? 0.0
-        posterPath = try container.decodeIfPresent(String.self, forKey: .posterPath) ?? ""
+        posterPath = try container.decodeIfPresent(String.self, forKey: .posterPath)
         productionCompanies = try container.decodeIfPresent([ProductionCompany].self, forKey: .productionCompanies) ?? []
         productionCountries = try container.decodeIfPresent([ProductionCountry].self, forKey: .productionCountries) ?? []
         releaseDate = try container.decodeIfPresent(String.self, forKey: .releaseDate) ?? "TBA"

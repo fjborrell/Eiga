@@ -10,14 +10,14 @@ import OSLog
 
 protocol Media: Codable, Identifiable, Hashable, Sendable {
     var adult: Bool { get }
-    var backdropPath: String { get }
+    var backdropPath: String? { get }
     var genres: [Genre] { get }
     var homepage: String { get }
     var id: Int { get }
     var originalLanguage: String { get }
     var overview: String { get }
     var popularity: Double { get }
-    var posterPath: String { get }
+    var posterPath: String? { get }
     var productionCompanies: [ProductionCompany] { get }
     var productionCountries: [ProductionCountry] { get }
     var spokenLanguages: [SpokenLanguage] { get }
@@ -27,6 +27,10 @@ protocol Media: Codable, Identifiable, Hashable, Sendable {
     var voteCount: Int { get }
     
     typealias MediaComponent = Codable & Identifiable & Hashable
+    
+    var imageConfigurator: TMBDImageConfig { get }
+    func getBackdropURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize
+    func getPosterURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize
 }
 
 struct Genre: Codable, Hashable {
