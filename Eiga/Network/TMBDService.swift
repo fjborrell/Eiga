@@ -24,8 +24,8 @@ actor TMBDService {
         return try await networkManager.request(from: TMBDEndpoint<TVShow>.tvShow(id: id))
     }
     
-    func fetchNowPlayingMovies() async throws -> [Movie] {
-        return try await networkManager.request(from: TMBDEndpoint<[Movie]>.nowPlayingMovies)
+    func fetchNowPlayingMovies() async throws -> MediaList<Movie> {
+        return try await networkManager.request(from: TMBDEndpoint<MediaList<Movie>>.nowPlayingMovies)
     }
 }
 

@@ -302,6 +302,7 @@
 		75A2A1842C508D10005A6BE3 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				75A7DF962C2CDF79002FA4DC /* MediaList.swift */,
 				75A7DF942C2CDF58002FA4DC /* Media.swift */,
 				75A7DF922C2CDF52002FA4DC /* TVShow.swift */,
 				7550F0882C26156C00F67158 /* Movie.swift */,
@@ -312,7 +313,6 @@
 		75A2A1852C508D1F005A6BE3 /* Collections */ = {
 			isa = PBXGroup;
 			children = (
-				75A7DF962C2CDF79002FA4DC /* MediaList.swift */,
 			);
 			path = Collections;
 			sourceTree = "<group>";

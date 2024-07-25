@@ -9,9 +9,10 @@ import SwiftUI
 
 // Update ExploreView
 struct ExploreView: View {
+    private let tmbdService: TMBDService = TMBDService()
     @State var exploreFilter: ExploreFilter? = .popular
     @State var searchBarViewModel: SearchBarViewModel = SearchBarViewModel()
-    @State var blockMedia: [Movie] = []
+    @State var displayedMedia: [Movie] = []
     @State private var isLoading = false
     @State private var errorMessage: String?
     
@@ -36,7 +37,7 @@ struct ExploreView: View {
                         .foregroundColor(.red)
                 } else {
                     ScrollView(showsIndicators: false) {
-                        ForEach(blockMedia, id: \.id) { media in
+                        ForEach(displayedMedia, id: \.id) { media in
                             Text(media.title)
                         }
                     }
@@ -52,7 +53,7 @@ struct ExploreView: View {
         isLoading = true
         errorMessage = nil
         do {
-            blockMedia = try await mediaRepository.fetchNowPlayingMovies()
+            displayedMedia = try await tmbdService.fetchNowPlayingMovies().results 
         } catch {
             errorMessage = "Failed to fetch movies: \(error)"
         }

@@ -21,6 +21,7 @@ actor NetworkManager: Networkable {
         guard let request = createRequest(from: endpoint) else {
             throw NetworkError.invalidURL
         }
+        print("DEBUG: Attempting API Call - \(request.url?.absoluteString ?? "NIL")")
         
         let (data, response) = try await session.data(for: request)
         
@@ -31,6 +32,8 @@ actor NetworkManager: Networkable {
         guard 200...299 ~= httpResponse.statusCode else {
             throw NetworkError.serverError(statusCode: httpResponse.statusCode)
         }
+        
+        print("DEBUG: Successful - \(request.url?.absoluteString ?? "NIL")")
         
         do {
             return try self.decoder.decode(E.ResponseType.self, from: data)

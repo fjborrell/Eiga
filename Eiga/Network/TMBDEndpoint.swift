@@ -14,17 +14,17 @@ enum TMBDEndpoint<T: Decodable & Sendable>: Endpoint {
     typealias ResponseType = T
     
     var baseURL: String {
-        return "https://api.themoviedb.org/3"
+        return "https://api.themoviedb.org"
     }
     
     var path: String {
         switch self {
         case .movie(let id):
-            return "/movie/\(Int32(id))"
+            return "/3/movie/\(Int32(id))"
         case .tvShow(let id):
-            return "/tv/\(Int32(id))"
+            return "/3/tv/\(Int32(id))"
         case .nowPlayingMovies:
-            return "/movie/now_playing"
+            return "/3/movie/now_playing"
         }
     }
     
