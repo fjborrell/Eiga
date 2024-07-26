@@ -1,12 +1,12 @@
-# Eiga
+# Eiga (WIP - In Development)
 
-Eiga is an (under development) application for discovering and curating entertainment media lists. It is meant to help avid consumers of shows and movies, to reliably track their consumption, reviews, and other media-related data.
+Eiga is an application for discovering and curating entertainment media lists. It is meant to help avid show/movie fans reliably track their consumption, reviews, and other media-related data.
 
 ### Requirements
 
-This app is being developed in the following environment:
+This app is actively being developed in the following environment:
 
-* Xcode Beta 4
+* Xcode 16 Beta 4
 * iOS 18 Developer Beta 4
 
 ### UI Sample
