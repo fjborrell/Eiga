@@ -22,7 +22,6 @@ struct ExploreView: View {
         GridItem(.adaptive(minimum: 150)),
         GridItem(.adaptive(minimum: 150))
     ]
-    
     private let mediaRepository = TMBDService()
     
     var body: some View {

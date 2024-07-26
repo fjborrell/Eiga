@@ -8,22 +8,66 @@
 import Foundation
 import SwiftUI
 
-struct PosterView<M: Media>: View {
+// MARK: - View Model
+
+@Observable
+class PosterViewModel<M: Media> {
     let media: M
-    @State var height: CGFloat = 176
-    @State private var posterURL: URL?
-    @State var imageQuality: TMBDImageConfig.PosterSize = .w500
-    @State var posterError: Error?
+    let baseHeight: CGFloat = 176
+    let aspectRatio: CGFloat = 2/3
     
-    var body: some View {
-        VStack(spacing: 9) {
-            self.posterImage
-            self.posterLabel
+    var scale: CGFloat = 1.0
+    var posterURL: URL?
+    var imageQuality: TMBDImageConfig.PosterSize = .w500
+    var posterError: Error?
+    
+    var scaledHeight: CGFloat {
+        baseHeight * scale
+    }
+    
+    var scaledWidth: CGFloat {
+        scaledHeight * aspectRatio
+    }
+    
+    init(media: M) {
+        self.media = media
+        loadPosterURL()
+    }
+    
+    func loadPosterURL() {
+        do {
+            posterURL = try media.getPosterURL(size: imageQuality)
+            posterError = nil
+        } catch {
+            posterError = error
+            posterURL = nil
         }
     }
     
+    func updateScale(_ newScale: CGFloat) {
+        scale = newScale
+    }
+}
+
+// MARK: - View
+
+struct PosterView<M: Media>: View {
+    @State private var viewModel: PosterViewModel<M>
+    
+    init(media: M) {
+        _viewModel = State(initialValue: PosterViewModel(media: media))
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 9 * viewModel.scale) {
+            posterImage
+            posterLabel
+        }
+        .frame(width: viewModel.scaledWidth)
+    }
+    
     var posterImage: some View {
-        AsyncImage(url: self.posterURL) { phase in
+        AsyncImage(url: viewModel.posterURL) { phase in
             switch phase {
             case .empty:
                 ProgressView()
@@ -32,51 +76,40 @@ struct PosterView<M: Media>: View {
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .cornerRadius(10)
+                    .cornerRadius(10 * viewModel.scale)
             case .failure:
-                MissingImageView(error: posterError)
+                MissingImageView(error: viewModel.posterError)
             @unknown default:
                 EmptyView()
             }
         }
-        .frame(height: self.height)
-        .onAppear {
-            loadPosterURL()
-        }
+        .frame(height: viewModel.scaledHeight)
     }
     
     var posterLabel: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .top, spacing: 4 * viewModel.scale) {
             Circle()
-                .frame(width: 17, height: 17)
+                .frame(width: 17 * viewModel.scale, height: 17 * viewModel.scale)
                 .opacity(0.25)
                 .overlay(
                     Image(systemName: MediaMode.movie.iconName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 10)
+                        .frame(height: 10 * viewModel.scale)
                 )
                 .foregroundStyle(MediaMode.movie.color)
             
-            Text(media.title)
-                .font(.manrope(12))
+            Text(viewModel.media.title)
+                .font(.manrope(12 * viewModel.scale))
                 .foregroundStyle(.white)
                 .lineLimit(2, reservesSpace: true)
         }
-    }
-    
-    private func loadPosterURL() {
-        do {
-            posterURL = try media.getPosterURL(size: self.imageQuality)
-            posterError = nil
-        } catch {
-            posterError = error
-            posterURL = nil
-        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
-struct MissingImageView: View {
+// MARK: - Helper Views
+private struct MissingImageView: View {
     var error: Error?
     var body: some View {
         VStack(spacing: 5) {
