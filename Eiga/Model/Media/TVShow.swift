@@ -20,7 +20,6 @@ struct TVShow: Media {
     let languages: [String]
     let lastAirDate: String
     let lastEpisodeToAir: Episode?
-    let name: String
     let nextEpisodeToAir: Episode?
     let networks: [Network]
     let numberOfEpisodes: Int
@@ -37,6 +36,7 @@ struct TVShow: Media {
     let spokenLanguages: [SpokenLanguage]
     let status: String
     let tagline: String
+    let title: String
     let type: String
     let voteAverage: Double
     let voteCount: Int
@@ -58,7 +58,7 @@ struct TVShow: Media {
     }
 
     enum CodingKeys: String, CodingKey {
-        case adult, genres, homepage, id, languages, name, networks, overview, popularity, seasons, status, tagline, type
+        case adult, genres, homepage, id, languages, networks, overview, popularity, seasons, status, tagline, type
         case backdropPath = "backdrop_path"
         case createdBy = "created_by"
         case episodeRunTime = "episode_run_time"
@@ -76,6 +76,7 @@ struct TVShow: Media {
         case productionCompanies = "production_companies"
         case productionCountries = "production_countries"
         case spokenLanguages = "spoken_languages"
+        case title = "name"
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
     }
@@ -95,7 +96,7 @@ struct TVShow: Media {
         languages = try container.decodeIfPresent([String].self, forKey: .languages) ?? []
         lastAirDate = try container.decodeIfPresent(String.self, forKey: .lastAirDate) ?? "N/A"
         lastEpisodeToAir = try container.decodeIfPresent(Episode.self, forKey: .lastEpisodeToAir)
-        name = try container.decodeIfPresent(String.self, forKey: .name) ?? "Untitled Series"
+        title = try container.decodeIfPresent(String.self, forKey: .title) ?? "Untitled Series"
         nextEpisodeToAir = try container.decodeIfPresent(Episode.self, forKey: .nextEpisodeToAir)
         networks = try container.decodeIfPresent([Network].self, forKey: .networks) ?? []
         numberOfEpisodes = try container.decodeIfPresent(Int.self, forKey: .numberOfEpisodes) ?? 0

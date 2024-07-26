@@ -1,5 +1,5 @@
 //
-//  test.swift
+//  MoviePosterView.swift
 //  Eiga
 //
 //  Created by Fernando Borrell on 7/24/24.
@@ -8,24 +8,24 @@
 import Foundation
 import SwiftUI
 
-struct MoviePosterView: View {
-    let movie: Movie
-    let size: TMBDImageConfig.PosterSize
-    
+struct PosterView<M: Media>: View {
+    let media: M
+    let size: TMBDImageConfig.PosterSize = .original
+
     @State private var posterURL: URL?
     @State private var errorMessage: String?
     
     var body: some View {
-        VStack {
-            AsyncImage(url: posterURL) { phase in
-                switch phase {
+        VStack() {
+            AsyncImage(url: posterURL) { state in
+                switch state {
                 case .empty:
                     ProgressView()
                 case .success(let image):
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(8)
+                        .aspectRatio(contentMode: .fill)
+                        .cornerRadius(10)
                 case .failure:
                     Image(systemName: "photo")
                         .resizable()
@@ -35,7 +35,7 @@ struct MoviePosterView: View {
                     EmptyView()
                 }
             }
-            .frame(height: 225)
+            .frame(height: 176)
             .onAppear {
                 loadPosterURL()
             }
@@ -47,16 +47,28 @@ struct MoviePosterView: View {
                     .multilineTextAlignment(.center)
             }
             
-            Text(movie.title)
-                .font(.caption)
-                .lineLimit(2)
-                .multilineTextAlignment(.center)
+            HStack(alignment: .top) {
+                ZStack {
+                    Circle()
+                        .fill(MediaMode.movie.color.opacity(0.35))
+                        .frame(width: 14, height: 14)
+                    Image(systemName: MediaMode.movie.iconName)
+                        .imageScale(.small)
+                        .foregroundStyle(MediaMode.movie.color)
+                }
+                
+                Text(media.title)
+                    .font(.manrope(12))
+                    .lineLimit(2, reservesSpace: true)
+            }
+            .frame(width: <#T##CGFloat?#>)
+            
         }
     }
     
     private func loadPosterURL() {
         do {
-            posterURL = try movie.getPosterURL(size: size)
+            posterURL = try media.getPosterURL(size: size)
         } catch ImageError.missingImagePath {
             errorMessage = "No poster available"
         } catch ImageError.invalidURL {

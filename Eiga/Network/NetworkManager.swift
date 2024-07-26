@@ -14,7 +14,6 @@ actor NetworkManager: Networkable {
     init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder()) {
         self.session = session
         self.decoder = decoder
-        self.decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     
     func request<E: Endpoint>(from endpoint: E) async throws -> E.ResponseType {

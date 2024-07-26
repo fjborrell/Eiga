@@ -17,6 +17,11 @@ struct ExploreView: View {
     @State private var errorMessage: String?
     @State var movies: [Movie] = []
     let posterSize = TMBDImageConfig.PosterSize.w342
+    let columns: [GridItem] = [
+        GridItem(.adaptive(minimum: 150)),
+        GridItem(.adaptive(minimum: 150)),
+        GridItem(.adaptive(minimum: 150))
+    ]
     
     private let mediaRepository = TMBDService()
     
@@ -38,16 +43,18 @@ struct ExploreView: View {
                     Text(errorMessage)
                         .foregroundColor(.red)
                 } else {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 20) {
-                        ForEach(movies) { movie in
-                            MoviePosterView(movie: movie, size: posterSize)
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVGrid(columns: columns, spacing: 20) {
+                            ForEach(movies) { movie in
+                                PosterView(media: movie)
+                            }
                         }
                     }
                 }
             }
         }
         .task {
-            await fetchMovie()
+            await fetchMovies()
         }
     }
     
@@ -55,18 +62,7 @@ struct ExploreView: View {
         isLoading = true
         errorMessage = nil
         do {
-            displayedMedia = try await tmbdService.fetchNowPlayingMovies().results
-        } catch {
-            errorMessage = "Failed to fetch movies: \(error)"
-        }
-        isLoading = false
-    }
-    
-    private func fetchMovie() async {
-        isLoading = true
-        errorMessage = nil
-        do {
-            movies = [try await tmbdService.fetchMovie(id: 1022789)]
+            movies = try await tmbdService.fetchNowPlayingMovies().results
         } catch {
             errorMessage = "Failed to fetch movies: \(error)"
         }

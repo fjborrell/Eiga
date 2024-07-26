@@ -23,6 +23,7 @@ protocol Media: Codable, Identifiable, Hashable, Sendable {
     var spokenLanguages: [SpokenLanguage] { get }
     var status: String { get }
     var tagline: String { get }
+    var title: String { get }
     var voteAverage: Double { get }
     var voteCount: Int { get }
     
