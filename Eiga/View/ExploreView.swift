@@ -10,6 +10,7 @@ import SwiftUI
 // Update ExploreView
 struct ExploreView: View {
     private let tmbdService: TMBDService = TMBDService()
+    @Environment(AppState.self) var appState: AppState
     @State var exploreFilter: ExploreFilter? = .popular
     @State var searchBarViewModel: SearchBarViewModel = SearchBarViewModel()
     @State var displayedMedia: [Movie] = []
@@ -17,7 +18,7 @@ struct ExploreView: View {
     @State private var errorMessage: String?
     @State var movies: [Movie] = []
     let posterSize = TMBDImageConfig.PosterSize.w342
-    let columns: [GridItem] = [
+    @State var columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150)),
         GridItem(.adaptive(minimum: 150)),
         GridItem(.adaptive(minimum: 150))
@@ -42,13 +43,7 @@ struct ExploreView: View {
                     Text(errorMessage)
                         .foregroundColor(.red)
                 } else {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        LazyVGrid(columns: columns, spacing: 20) {
-                            ForEach(movies) { movie in
-                                PosterView(media: movie)
-                            }
-                        }
-                    }
+                    PosterGridView(movies: movies)
                 }
             }
         }

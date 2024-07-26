@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7502A3842C535C150041B70A /* PosterGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7502A3832C535C120041B70A /* PosterGridView.swift */; };
 		750B946E2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 750B946D2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf */; };
 		750B94722C2E690600BC4F57 /* fontNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 750B94712C2E690000BC4F57 /* fontNames.txt */; };
 		750B94752C2E6B4400BC4F57 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B94742C2E6B3900BC4F57 /* Font.swift */; };
@@ -69,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		7502A3822C5324C80041B70A /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		7502A3832C535C120041B70A /* PosterGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterGridView.swift; sourceTree = "<group>"; };
 		750B946D2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		750B946F2C2E679700BC4F57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		750B94712C2E690000BC4F57 /* fontNames.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fontNames.txt; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 		7550F0872C26156000F67158 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7502A3832C535C120041B70A /* PosterGridView.swift */,
 				7546BB592C51FE2800267C11 /* PosterView.swift */,
 				7550F08E2C2616A000F67158 /* ContentView.swift */,
 				755B14F72C4CB66700126416 /* ExploreView.swift */,
@@ -497,6 +500,7 @@
 				7550F05A2C26138E00F67158 /* EigaApp.swift in Sources */,
 				7546BB502C51C28E00267C11 /* Networkable.swift in Sources */,
 				7595D9482C2F693200D9B2C3 /* Secrets.swift in Sources */,
+				7502A3842C535C150041B70A /* PosterGridView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

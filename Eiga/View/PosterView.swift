@@ -52,11 +52,7 @@ class PosterViewModel<M: Media> {
 // MARK: - View
 
 struct PosterView<M: Media>: View {
-    @State private var viewModel: PosterViewModel<M>
-    
-    init(media: M) {
-        _viewModel = State(initialValue: PosterViewModel(media: media))
-    }
+    @State var viewModel: PosterViewModel<M>
     
     var body: some View {
         VStack(alignment: .leading, spacing: 9 * viewModel.scale) {
@@ -109,7 +105,7 @@ struct PosterView<M: Media>: View {
 }
 
 // MARK: - Helper Views
-private struct MissingImageView: View {
+struct MissingImageView: View {
     var error: Error?
     var body: some View {
         VStack(spacing: 5) {
@@ -142,12 +138,12 @@ private struct MissingImageView: View {
 
 private struct PreviewWrapper: View {
     let tmbd = TMBDService()
-    @State private var movie: Movie?
+    @State var movie: Movie?
     
     var body: some View {
         Group {
             if let movie = movie {
-                PosterView(media: movie)
+                PosterView(viewModel: PosterViewModel(media: movie))
             } else {
                 ProgressView()
             }
