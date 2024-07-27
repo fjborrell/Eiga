@@ -11,8 +11,8 @@ import SwiftUI
 // MARK: - View Model
 
 @Observable
-class PosterViewModel<M: Media> {
-    let media: M
+class PosterViewModel {
+    let media: any Media
     let baseHeight: CGFloat = 176
     let aspectRatio: CGFloat = 2/3
     
@@ -29,7 +29,7 @@ class PosterViewModel<M: Media> {
         scaledHeight * aspectRatio
     }
     
-    init(media: M) {
+    init(media: any Media) {
         self.media = media
         loadPosterURL()
     }
@@ -51,8 +51,8 @@ class PosterViewModel<M: Media> {
 
 // MARK: - View
 
-struct PosterView<M: Media>: View {
-    @State var viewModel: PosterViewModel<M>
+struct PosterView: View {
+    @State var viewModel: PosterViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 9 * viewModel.scale) {
@@ -138,7 +138,7 @@ struct MissingImageView: View {
 
 private struct PreviewWrapper: View {
     let tmbd = TMBDService()
-    @State var movie: Movie?
+    @State var movie: (any Media)?
     
     var body: some View {
         Group {

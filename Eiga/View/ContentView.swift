@@ -32,7 +32,7 @@ struct ContentView: View {
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .hueBackground(hueColor: self.appState.selectedMediaMode.color)
+        .hueBackground(hueColor: appState.selectedMediaMode.color)
     }
     
     @ViewBuilder

@@ -16,14 +16,14 @@ struct HueBackground: ViewModifier {
                 ZStack(alignment: .center) {
                     // Grayscale Gradient
                     Rectangle()
-                        .fill(LinearGradient.blackOnyxGradient)
+                        .fill(.black)
                     
                     // Colored Hue
                     Ellipse()
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    hueColor.opacity(0.4),
+                                    hueColor.opacity(0.85),
                                     .clear
                                 ],
                                 startPoint: .top,
@@ -31,13 +31,13 @@ struct HueBackground: ViewModifier {
                             )
                         )
                         .position(x: geometry.size.width / 2, y: 0) // Center the hue
-                        .offset(y: -geometry.size.height * 0.2) // Raise to top Xth of screen
+                        .offset(y: -geometry.size.height * 0.25) // Raise to top Xth of screen
                         .frame(
                             width: geometry.size.width * 1.5, // Widen factor
-                            height: geometry.size.height * 0.4 // Stretch factor
+                            height: geometry.size.height * 0.4 // Vertical Stretch
                         )
                         .blur(radius: 40)
-                        .animation(.interactiveSpring, value: hueColor)
+                        .animation(.smooth, value: hueColor)
                 }
             }
             .ignoresSafeArea(.all)

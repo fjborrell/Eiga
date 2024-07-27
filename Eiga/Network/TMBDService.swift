@@ -16,16 +16,17 @@ actor TMBDService {
         }
     }
     
-    func fetchMovie(id: Int) async throws -> Movie {
+    func fetchMovie(id: Int) async throws -> any Media {
         return try await networkManager.request(from: TMBDEndpoint<Movie>.movie(id: id))
     }
     
-    func fetchTVShow(id: Int) async throws -> TVShow {
+    func fetchTVShow(id: Int) async throws -> any Media {
         return try await networkManager.request(from: TMBDEndpoint<TVShow>.tvShow(id: id))
     }
     
-    func fetchNowPlayingMovies() async throws -> MediaList<Movie> {
-        return try await networkManager.request(from: TMBDEndpoint<MediaList<Movie>>.nowPlayingMovies)
+    func fetchNowPlayingMovies() async throws -> [any Media] {
+        let movieList: MediaList<Movie> = try await networkManager.request(from: TMBDEndpoint<MediaList<Movie>>.nowPlayingMovies)
+        return movieList.results
     }
 }
 

@@ -9,14 +9,14 @@ import Foundation
 import SwiftUI
 
 struct PosterGridView: View {
-    @State private var viewModels: [PosterViewModel<Movie>]
+    @State private var viewModels: [PosterViewModel]
     @State private var currentScale: CGFloat = 1.0
     let scaleSteps: (CGFloat, CGFloat) = (1.0, 1.4)
     
     let baseColumnWidth: CGFloat = 100
     
-    init(movies: [Movie]) {
-        _viewModels = State(initialValue: movies.map { PosterViewModel(media: $0) })
+    init(media: [any Media]) {
+        _viewModels = State(initialValue: media.map { PosterViewModel(media: $0) })
     }
     
     var body: some View {
@@ -33,9 +33,11 @@ struct PosterGridView: View {
         .gesture(
             MagnifyGesture()
                 .onEnded { value in
-                    let newScale = value.magnification > 1 ? scaleSteps.1 : scaleSteps.0
-                    updateAllScales(newScale)
-                    currentScale = newScale
+                    withAnimation(.smooth) {
+                        let newScale = value.magnification > 1 ? scaleSteps.1 : scaleSteps.0
+                        updateAllScales(newScale)
+                        currentScale = newScale
+                    }
                 }
         )
     }

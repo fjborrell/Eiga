@@ -7,32 +7,19 @@
 
 import SwiftUI
 
-// Update ExploreView
 struct ExploreView: View {
     private let tmbdService: TMBDService = TMBDService()
     @Environment(AppState.self) var appState: AppState
     @State var exploreFilter: ExploreFilter? = .popular
     @State var searchBarViewModel: SearchBarViewModel = SearchBarViewModel()
-    @State var displayedMedia: [Movie] = []
     @State private var isLoading = false
     @State private var errorMessage: String?
-    @State var movies: [Movie] = []
-    let posterSize = TMBDImageConfig.PosterSize.w342
-    @State var columns: [GridItem] = [
-        GridItem(.adaptive(minimum: 150)),
-        GridItem(.adaptive(minimum: 150)),
-        GridItem(.adaptive(minimum: 150))
-    ]
+    @State var media: [any Media] = []
     private let mediaRepository = TMBDService()
     
     var body: some View {
         VStack {
-            Image("logo")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-                .foregroundStyle(.white)
-            
+            LogoView()
             BrosweBarView(searchBarViewModel: $searchBarViewModel)
                 .padding(.vertical, 10)
             
@@ -43,7 +30,7 @@ struct ExploreView: View {
                     Text(errorMessage)
                         .foregroundColor(.red)
                 } else {
-                    PosterGridView(movies: movies)
+                    PosterGridView(media: media)
                 }
             }
         }
@@ -56,7 +43,7 @@ struct ExploreView: View {
         isLoading = true
         errorMessage = nil
         do {
-            movies = try await tmbdService.fetchNowPlayingMovies().results
+            self.media = try await tmbdService.fetchNowPlayingMovies()
         } catch {
             errorMessage = "Failed to fetch movies: \(error)"
         }

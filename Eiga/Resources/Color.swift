@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 extension Color {
-    static let onyx = Color(red: 28/255, green: 28/255, blue: 28/255)
+    static let onyx = Color(red: 22/255, green: 22/255, blue: 22/255)
+    static let darkGrey = Color(red: 4/255, green: 4/255, blue: 4/255)
 }
 
 extension LinearGradient {
@@ -25,7 +26,7 @@ extension LinearGradient {
     static let blackOnyxGradient = LinearGradient(
         stops: [
             Gradient.Stop(color: .black, location: 0.0),
-            Gradient.Stop(color: .onyx, location: 0.90)
+            Gradient.Stop(color: .onyx, location: 1.15)
         ],
         startPoint: .top,
         endPoint: .bottom
