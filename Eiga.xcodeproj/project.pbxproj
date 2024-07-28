@@ -11,6 +11,7 @@
 		750B946E2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 750B946D2C2E675900BC4F57 /* Manrope-VariableFont_wght.ttf */; };
 		750B94722C2E690600BC4F57 /* fontNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 750B94712C2E690000BC4F57 /* fontNames.txt */; };
 		750B94752C2E6B4400BC4F57 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B94742C2E6B3900BC4F57 /* Font.swift */; };
+		750DAF4F2C56F3CE00D544E1 /* BlobDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750DAF4E2C56F3B100D544E1 /* BlobDisplayable.swift */; };
 		7533EC242C4CE0BF00BFCE00 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7533EC232C4CE0BC00BFCE00 /* AppState.swift */; };
 		7546BB502C51C28E00267C11 /* Networkable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB4F2C51C28B00267C11 /* Networkable.swift */; };
 		7546BB522C51D1D500267C11 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB512C51D1D400267C11 /* Endpoint.swift */; };
@@ -36,7 +37,7 @@
 		755B14FC2C4CB67800126416 /* CrewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755B14FB2C4CB67800126416 /* CrewsView.swift */; };
 		755B14FE2C4CB68C00126416 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755B14FD2C4CB68C00126416 /* ProfileView.swift */; };
 		7564BEA62C54AA890096B67C /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7564BEA52C54AA860096B67C /* LogoView.swift */; };
-		7564BEA82C54B4600096B67C /* BlobCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7564BEA72C54B4600096B67C /* BlobCarouselView.swift */; };
+		7564BEA82C54B4600096B67C /* MultiBlobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7564BEA72C54B4600096B67C /* MultiBlobView.swift */; };
 		7564BEAA2C54B85E0096B67C /* mob.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7564BEA92C54B85E0096B67C /* mob.jpg */; };
 		75772C912C2DF34C00DD35EC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75772C902C2DF33C00DD35EC /* NetworkManager.swift */; };
 		7586E8CB2C4DF44A00896B05 /* FilterOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7586E8CA2C4DF44700896B05 /* FilterOption.swift */; };
@@ -78,6 +79,7 @@
 		750B946F2C2E679700BC4F57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		750B94712C2E690000BC4F57 /* fontNames.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fontNames.txt; sourceTree = "<group>"; };
 		750B94742C2E6B3900BC4F57 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		750DAF4E2C56F3B100D544E1 /* BlobDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobDisplayable.swift; sourceTree = "<group>"; };
 		7533EC232C4CE0BC00BFCE00 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		7546BB4F2C51C28B00267C11 /* Networkable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networkable.swift; sourceTree = "<group>"; };
 		7546BB512C51D1D400267C11 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -106,7 +108,7 @@
 		755B14FB2C4CB67800126416 /* CrewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewsView.swift; sourceTree = "<group>"; };
 		755B14FD2C4CB68C00126416 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		7564BEA52C54AA860096B67C /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
-		7564BEA72C54B4600096B67C /* BlobCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobCarouselView.swift; sourceTree = "<group>"; };
+		7564BEA72C54B4600096B67C /* MultiBlobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiBlobView.swift; sourceTree = "<group>"; };
 		7564BEA92C54B85E0096B67C /* mob.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mob.jpg; sourceTree = "<group>"; };
 		75772C902C2DF33C00DD35EC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		7586E8CA2C4DF44700896B05 /* FilterOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOption.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 		7550F0852C26155700F67158 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				750DAF4E2C56F3B100D544E1 /* BlobDisplayable.swift */,
 				7546BB572C51E7A600267C11 /* TMBDConfig.swift */,
 				7551EFAD2C46573D0064F249 /* MediaMode.swift */,
 				75A2A1852C508D1F005A6BE3 /* Collections */,
@@ -299,7 +302,7 @@
 				7502A3832C535C120041B70A /* PosterGridView.swift */,
 				7546BB592C51FE2800267C11 /* PosterView.swift */,
 				7551EFB12C4662DD0064F249 /* HueBackground.swift */,
-				7564BEA72C54B4600096B67C /* BlobCarouselView.swift */,
+				7564BEA72C54B4600096B67C /* MultiBlobView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -486,7 +489,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7551EFB22C4662E40064F249 /* HueBackground.swift in Sources */,
-				7564BEA82C54B4600096B67C /* BlobCarouselView.swift in Sources */,
+				7564BEA82C54B4600096B67C /* MultiBlobView.swift in Sources */,
 				7586E8CB2C4DF44A00896B05 /* FilterOption.swift in Sources */,
 				7551EFAE2C4657490064F249 /* MediaMode.swift in Sources */,
 				75D041862C49F55F005A0A2F /* Tab.swift in Sources */,
@@ -506,6 +509,7 @@
 				7551EFB42C46636A0064F249 /* Color.swift in Sources */,
 				7551EFAC2C463CE50064F249 /* MediaModeSwitchView.swift in Sources */,
 				75FB74722C440EA5002F0EA9 /* TMBDEndpoint.swift in Sources */,
+				750DAF4F2C56F3CE00D544E1 /* BlobDisplayable.swift in Sources */,
 				75A7DF932C2CDF55002FA4DC /* TVShow.swift in Sources */,
 				7551EFB02C46612F0064F249 /* BrosweBarView.swift in Sources */,
 				7550F0892C26157100F67158 /* Movie.swift in Sources */,

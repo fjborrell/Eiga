@@ -28,5 +28,10 @@ actor TMBDService {
         let movieList: MediaList<Movie> = try await networkManager.request(from: TMBDEndpoint<MediaList<Movie>>.nowPlayingMovies)
         return movieList.results
     }
+    
+    func fetchPopularMovies() async throws -> [any Media] {
+        let movieList: MediaList<Movie> = try await networkManager.request(from: TMBDEndpoint<MediaList<Movie>>.popularMovies)
+        return movieList.results
+    }
 }
 

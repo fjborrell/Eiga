@@ -12,6 +12,7 @@ import SwiftData
 struct ContentView: View {
     @Environment(AppState.self) private var appState
     @State var selectedTab: Tab = .explore
+    let sidePadding: CGFloat = 35
     
     var body: some View {
         GeometryReader { geometry in
@@ -19,8 +20,8 @@ struct ContentView: View {
                 // Content layer
                 VStack() {
                     selectedContent
-                        .frame(width: geometry.size.width - 30)  // Content padding
-                        .frame(maxWidth: .infinity)  // Expand to full width
+                        .frame(width: geometry.size.width - sidePadding)  // Content padding
+                        .frame(maxWidth: .greatestFiniteMagnitude)  // Expand to full width
                 }
                 
                 // Tab Bar layer

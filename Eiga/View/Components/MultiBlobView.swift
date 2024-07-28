@@ -1,5 +1,5 @@
 //
-//  BlobCarouselView.swift
+//  MultiBlobView.swift
 //  Eiga
 //
 //  Created by Fernando Borrell on 7/27/24.
@@ -8,47 +8,7 @@
 import SwiftUI
 import Foundation
 
-protocol CarouselDisplayable: Identifiable {
-    associatedtype BlobView: View
-    @ViewBuilder func makeBlobView() -> BlobView
-}
-
-struct CarouselImage: CarouselDisplayable {
-    let id = UUID()
-    let image: Image
-    
-    func makeBlobView() -> some View {
-        image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-    }
-}
-
-struct CarouselMedia: CarouselDisplayable {
-    let id: Int
-    let media: any Media
-    
-    func makeBlobView() -> some View {
-        AsyncImage(url: try? media.getBackdropURL(size: TMBDImageConfig.BackdropSize.w1280)) { phase in
-            switch phase {
-            case .empty:
-                ProgressView()
-            case .success(let image):
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            case .failure:
-                Image(systemName: "photo")
-                    .resizable()
-                    .scaledToFit()
-            @unknown default:
-                EmptyView()
-            }
-        }
-    }
-}
-
-struct BlobCarouselView<Item: CarouselDisplayable>: View {
+struct MultiBlobView<Item: BlobDisplayable>: View {
     // MARK: - Properties
     
     @Binding var activeIndex: Int
@@ -56,6 +16,9 @@ struct BlobCarouselView<Item: CarouselDisplayable>: View {
     let containerWidth: CGFloat
     let containerHeight: CGFloat
     let blobWidth: CGFloat
+    let cornerRadius: CGFloat = 16
+    let activeIndicatorWidth: CGFloat = 40
+    let indicatorHeight: CGFloat = 7
     
     // MARK: - Gesture State
     
@@ -72,28 +35,56 @@ struct BlobCarouselView<Item: CarouselDisplayable>: View {
         containerHeight - (containerHeight * 0.2)
     }
     
+    private var inactiveIndicatorWidth: CGFloat {
+        self.activeIndicatorWidth * 0.4
+    }
+    
     private var dragProgress: CGFloat {
         (dragOffset + currentDragOffset) / containerWidth
+    }
+    
+    private var blobs: some View {
+        HStack(spacing: 6) {
+            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                item.makeBlobView()
+                    .frame(
+                        width: calculateBlobWidth(for: index),
+                        height: calculateBlobHeight(for: index)
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
+            }
+        }
+        .frame(width: containerWidth, height: containerHeight)
+        .animation(.smooth(), value: currentDragOffset)
+        .gesture(dragGesture)
+    }
+    
+    private var scrollIndicator: some View {
+        GeometryReader { geometry in
+            HStack(spacing: 6) {
+                ForEach(Array(0..<items.count), id: \.self) { index in
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(index == activeIndex ? .pink : .white)
+                        .frame(
+                            width: calculatePageIndicatorWidth(for: index, totalWidth: geometry.size.width),
+                            height: indicatorHeight
+                        )
+                }
+            }
+            .frame(width: geometry.size.width, height: indicatorHeight)
+            .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+        }
+        .frame(width: containerWidth, height: indicatorHeight)
+        .animation(.smooth(), value: currentDragOffset)
+        .gesture(dragGesture)
     }
     
     // MARK: - Body
     
     var body: some View {
-        GeometryReader { geometry in
-            HStack(spacing: 0) {
-                ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
-                    item.makeBlobView()
-                        .frame(
-                            width: calculateWidth(for: index),
-                            height: calculateHeight(for: index)
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .padding(.horizontal, 6)
-                }
-            }
-            .frame(width: containerWidth, height: containerHeight)
-            .animation(.smooth(), value: currentDragOffset)
-            .gesture(dragGesture)
+        VStack(spacing: 20) {
+            blobs
+            scrollIndicator
         }
     }
     
@@ -128,16 +119,18 @@ struct BlobCarouselView<Item: CarouselDisplayable>: View {
     }
     
     private func handleDragEnd(translation: CGFloat) {
-        let threshold = containerWidth / 4
-        if translation > threshold && isDecrementable {
-            activeIndex -= 1
-        } else if translation < -threshold && isIncrementable {
-            activeIndex += 1
+        let progress = translation / containerWidth
+        if abs(progress) > 0.35 {
+            if progress > 0 && isDecrementable {
+                activeIndex -= 1
+            } else if progress < 0 && isIncrementable {
+                activeIndex += 1
+            }
         }
         currentDragOffset = 0
     }
     
-    private func calculateWidth(for index: Int) -> CGFloat {
+    private func calculateBlobWidth(for index: Int) -> CGFloat {
         let baseWidth = isActive(index) ? blobWidth : smallBlobWidth
         
         if isActive(index) {
@@ -151,7 +144,7 @@ struct BlobCarouselView<Item: CarouselDisplayable>: View {
         return baseWidth
     }
     
-    private func calculateHeight(for index: Int) -> CGFloat {
+    private func calculateBlobHeight(for index: Int) -> CGFloat {
         let baseHeight = isActive(index) ? containerHeight : smallBlobHeight
         
         if isActive(index) {
@@ -163,6 +156,17 @@ struct BlobCarouselView<Item: CarouselDisplayable>: View {
         }
         
         return baseHeight
+    }
+    
+    private func calculatePageIndicatorWidth(for index: Int, totalWidth: CGFloat) -> CGFloat {
+        let activeWidth = activeIndicatorWidth
+        let inactiveWidth = inactiveIndicatorWidth
+        let progress = CGFloat(activeIndex) - dragProgress
+        
+        let distance = CGFloat(index) - progress
+        let normalized = 1 - min(abs(distance), 1)
+        
+        return inactiveWidth + (activeWidth - inactiveWidth) * normalized
     }
 }
 
@@ -182,22 +186,13 @@ struct ParentView: View {
         GeometryReader { geometry in
             VStack {
                 if !mediaItems.isEmpty {
-                    BlobCarouselView(
+                    MultiBlobView(
                         activeIndex: $activeIndex,
-                        items: mediaItems.map { CarouselMedia(id: $0.id, media: $0) },
+                        items: mediaItems.map { BlobMedia(media: $0) },
                         containerWidth: geometry.size.width,
                         containerHeight: 190,
                         blobWidth: 280
                     )
-                    
-                    // Pagination indicator
-                    HStack {
-                        ForEach(0..<mediaItems.count, id: \.self) { index in
-                            Circle()
-                                .fill(index == activeIndex ? Color.blue : Color.gray)
-                                .frame(width: 10, height: 10)
-                        }
-                    }
                     .padding()
                 } else {
                     ProgressView()

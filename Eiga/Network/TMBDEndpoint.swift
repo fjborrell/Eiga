@@ -10,6 +10,7 @@ enum TMBDEndpoint<T: Decodable & Sendable>: Endpoint {
     case movie(id: Int)
     case tvShow(id: Int)
     case nowPlayingMovies
+    case popularMovies
     
     typealias ResponseType = T
     
@@ -25,12 +26,14 @@ enum TMBDEndpoint<T: Decodable & Sendable>: Endpoint {
             return "/3/tv/\(Int32(id))"
         case .nowPlayingMovies:
             return "/3/movie/now_playing"
+        case .popularMovies:
+            return "/3/movie/popular"
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .movie(_), .tvShow(_), .nowPlayingMovies:
+        default:
             return .get
         }
     }
