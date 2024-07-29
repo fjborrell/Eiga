@@ -17,13 +17,17 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     let containerHeight: CGFloat
     let blobWidth: CGFloat
     let cornerRadius: CGFloat = 16
-    let activeIndicatorWidth: CGFloat = 40
+    let activeIndicatorWidth: CGFloat = 55
     let indicatorHeight: CGFloat = 7
+    let indicatorSpacing: CGFloat = 6
+    let blobSpacing: CGFloat = 6
+    @State private var textOpacity: Double = 1.0
     
     // MARK: - Gesture State
     
     @GestureState private var dragOffset: CGFloat = 0
     @State private var currentDragOffset: CGFloat = 0
+    @State private var isDragging: Bool = false
     
     // MARK: - Computed Properties
     
@@ -36,27 +40,46 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     }
     
     private var inactiveIndicatorWidth: CGFloat {
-        self.activeIndicatorWidth * 0.4
+        self.activeIndicatorWidth * 0.3
+    }
+    
+    private var indicatorContainerWidth: CGFloat {
+        self.activeIndicatorWidth + (inactiveIndicatorWidth * CGFloat(items.count - 1))
     }
     
     private var dragProgress: CGFloat {
         (dragOffset + currentDragOffset) / containerWidth
     }
-    
+
     private var blobs: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: blobSpacing) {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
-                item.makeBlobView()
-                    .frame(
-                        width: calculateBlobWidth(for: index),
-                        height: calculateBlobHeight(for: index)
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
+                ZStack() {
+                    item.makeBlobView()
+                        .frame(
+                            width: calculateBlobWidth(for: index),
+                            height: calculateBlobHeight(for: index)
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
+                    if isActive(index) {
+                        VStack {
+                            Spacer()
+                            Text(item.getCaption())
+                                .font(.manrope(20, .semiBold))
+                                .lineLimit(2)
+                                .foregroundStyle(.white)
+                                .multilineTextAlignment(.center)
+                                .opacity(textOpacity)
+                                .padding()
+                            
+                        }
+                    }
+                }
             }
         }
         .frame(width: containerWidth, height: containerHeight)
-        .animation(.smooth(), value: currentDragOffset)
         .gesture(dragGesture)
+        .animation(.smooth(), value: currentDragOffset)
     }
     
     private var scrollIndicator: some View {
@@ -71,10 +94,8 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
                         )
                 }
             }
-            .frame(width: geometry.size.width, height: indicatorHeight)
-            .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
         }
-        .frame(width: containerWidth, height: indicatorHeight)
+        .frame(width: indicatorContainerWidth, height: indicatorHeight)
         .animation(.smooth(), value: currentDragOffset)
         .gesture(dragGesture)
     }
@@ -112,9 +133,19 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
             }
             .onChanged { value in
                 currentDragOffset = value.translation.width
+                if !isDragging {
+                    isDragging = true
+                    withAnimation(.easeOut(duration: 0.25)) {
+                        textOpacity = 0.0
+                    }
+                }
             }
             .onEnded { value in
                 handleDragEnd(translation: value.translation.width)
+                isDragging = false
+                withAnimation(.easeIn(duration: 0.25)) {
+                    textOpacity = 1.0
+                }
             }
     }
     

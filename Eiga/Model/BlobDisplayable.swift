@@ -11,6 +11,7 @@ import SwiftUI
 protocol BlobDisplayable: Identifiable {
     associatedtype BlobView: View
     @ViewBuilder func makeBlobView() -> BlobView
+    func getCaption() -> String
 }
 
 struct BlobImage: BlobDisplayable {
@@ -21,6 +22,10 @@ struct BlobImage: BlobDisplayable {
         image
             .resizable()
             .aspectRatio(contentMode: .fill)
+    }
+    
+    func getCaption() -> String {
+        return String()
     }
 }
 
@@ -45,5 +50,9 @@ struct BlobMedia: BlobDisplayable {
                 EmptyView()
             }
         }
+    }
+    
+    func getCaption() -> String {
+        return media.title
     }
 }
