@@ -50,31 +50,40 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     private var dragProgress: CGFloat {
         (dragOffset + currentDragOffset) / containerWidth
     }
+    
+    private func makeBlobCaption(item: Item) -> some View {
+        VStack {
+            Spacer()
+            Text(item.getCaption())
+                .font(.manrope(20, .extraBold))
+                .frame(width: blobWidth)
+                .lineLimit(2)
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+                .opacity(textOpacity)
+                .padding()
+        }
+    }
 
     private var blobs: some View {
         HStack(spacing: blobSpacing) {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                 ZStack() {
-                    item.makeBlobView()
-                        .frame(
-                            width: calculateBlobWidth(for: index),
-                            height: calculateBlobHeight(for: index)
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
-                    if isActive(index) {
-                        VStack {
-                            Spacer()
-                            Text(item.getCaption())
-                                .font(.manrope(20, .semiBold))
-                                .lineLimit(2)
-                                .foregroundStyle(.white)
-                                .multilineTextAlignment(.center)
-                                .opacity(textOpacity)
-                                .padding()
-                            
-                        }
-                    }
+                    item.makeBlobView(isBlurred: !isActive(index))
                 }
+                .frame(
+                    width: calculateBlobWidth(for: index),
+                    height: calculateBlobHeight(for: index)
+                )
+                .overlay(
+                    isActive(index) ? makeBlobCaption(item: item) : nil
+                )
+                .overlay(
+                    isActive(index) ? .clear : .black.opacity(0.15)
+                )
+                .mask(
+                    RoundedRectangle(cornerRadius: self.cornerRadius)
+                )
             }
         }
         .frame(width: containerWidth, height: containerHeight)
@@ -135,7 +144,7 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
                 currentDragOffset = value.translation.width
                 if !isDragging {
                     isDragging = true
-                    withAnimation(.easeOut(duration: 0.25)) {
+                    withAnimation(.easeOut(duration: 0.1)) {
                         textOpacity = 0.0
                     }
                 }
