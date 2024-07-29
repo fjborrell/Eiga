@@ -33,7 +33,8 @@ struct BlobMedia: BlobDisplayable {
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .blur(radius: isBlurred ? 2 : 0)
+                    .blur(radius: isBlurred ? 1.5 : 0)
+                    .overlay(isBlurred ? .black.opacity(0.35) : .clear)
             case .failure:
                 Image(systemName: "photo")
                     .resizable()

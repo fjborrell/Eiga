@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 
+/// A carousel-style view for items ("blobs"), with interactive gestures and animations
 struct MultiBlobView<Item: BlobDisplayable>: View {
     // MARK: - Properties
     
@@ -16,15 +17,20 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     let containerWidth: CGFloat
     let containerHeight: CGFloat
     let blobWidth: CGFloat
-    let cornerRadius: CGFloat = 16
-    let activeIndicatorWidth: CGFloat = 55
-    let indicatorHeight: CGFloat = 7
-    let indicatorSpacing: CGFloat = 6
-    let blobSpacing: CGFloat = 6
+    
+    // MARK: - Constants
+    
+    private let blobCornerRadius: CGFloat = 16
+    private let blobSpacing: CGFloat = 6
+    private let activeIndicatorWidth: CGFloat = 55
+    private let indicatorHeight: CGFloat = 7
+    private let indicatorSpacing: CGFloat = 6
+    private let indicatorCornerRadius: CGFloat = 20
+    private let swipeInputRecognitionThreshhold: CGFloat = 0.20
+    
+    // MARK: - State
+    
     @State private var textOpacity: Double = 1.0
-    
-    // MARK: - Gesture State
-    
     @GestureState private var dragOffset: CGFloat = 0
     @State private var currentDragOffset: CGFloat = 0
     @State private var isDragging: Bool = false
@@ -51,20 +57,18 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         (dragOffset + currentDragOffset) / containerWidth
     }
     
-    private func makeBlobCaption(item: Item) -> some View {
-        VStack {
-            Spacer()
-            Text(item.getCaption())
-                .font(.manrope(20, .extraBold))
-                .frame(width: blobWidth)
-                .lineLimit(2)
-                .foregroundStyle(.white)
-                .multilineTextAlignment(.center)
-                .opacity(textOpacity)
-                .padding()
+    // MARK: - Body
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            blobs
+            scrollIndicator
         }
     }
+    
+    // MARK: - Subviews
 
+    // Creates the swipeable item "blob" carousel
     private var blobs: some View {
         HStack(spacing: blobSpacing) {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
@@ -78,11 +82,8 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
                 .overlay(
                     isActive(index) ? makeBlobCaption(item: item) : nil
                 )
-                .overlay(
-                    isActive(index) ? .clear : .black.opacity(0.15)
-                )
                 .mask(
-                    RoundedRectangle(cornerRadius: self.cornerRadius)
+                    RoundedRectangle(cornerRadius: self.blobCornerRadius)
                 )
             }
         }
@@ -91,14 +92,18 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         .animation(.smooth(), value: currentDragOffset)
     }
     
+    // Creates the scroll/page indicator for the carousel
     private var scrollIndicator: some View {
         GeometryReader { geometry in
-            HStack(spacing: 6) {
+            HStack(spacing: indicatorSpacing) {
                 ForEach(Array(0..<items.count), id: \.self) { index in
-                    RoundedRectangle(cornerRadius: 20)
+                    RoundedRectangle(cornerRadius: indicatorCornerRadius)
                         .fill(index == activeIndex ? .pink : .white)
                         .frame(
-                            width: calculatePageIndicatorWidth(for: index, totalWidth: geometry.size.width),
+                            width: calculatePageIndicatorWidth(
+                                for: index,
+                                totalWidth: geometry.size.width
+                            ),
                             height: indicatorHeight
                         )
                 }
@@ -109,12 +114,18 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         .gesture(dragGesture)
     }
     
-    // MARK: - Body
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            blobs
-            scrollIndicator
+    // Creates the caption to be overlayed over each blob
+    private func makeBlobCaption(item: Item) -> some View {
+        VStack {
+            Spacer()
+            Text(item.getCaption())
+                .font(.manrope(20, .extraBold))
+                .frame(width: blobWidth)
+                .lineLimit(2)
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+                .opacity(textOpacity)
+                .padding()
         }
     }
     
@@ -132,8 +143,13 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     private func isActive(_ index: Int) -> Bool { index == activeIndex }
     private func isLeftNeighbor(_ index: Int) -> Bool { index == activeIndex - 1 }
     private func isRightNeighbor(_ index: Int) -> Bool { index == activeIndex + 1 }
+    private func isLeftMostBlob(_ index: Int) -> Bool { index == 0 }
+    private func isRightMostBlob(_ index: Int) -> Bool { index == (items.count - 1) }
+    private func isDraggingAtEdge(_ index: Int) -> Bool {
+        return isLeftMostBlob(index) && isDraggingRight || isRightMostBlob(index) && isDraggingLeft
+    }
     
-    // MARK: - Gesture Helpers
+    // MARK: - Gesture Handling
     
     private var dragGesture: some Gesture {
         DragGesture()
@@ -160,7 +176,7 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     
     private func handleDragEnd(translation: CGFloat) {
         let progress = translation / containerWidth
-        if abs(progress) > 0.35 {
+        if abs(progress) > swipeInputRecognitionThreshhold {
             if progress > 0 && isDecrementable {
                 activeIndex -= 1
             } else if progress < 0 && isIncrementable {
@@ -170,57 +186,78 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         currentDragOffset = 0
     }
     
+    // MARK: - Calculation Methods
+    
+    /// Calculates the width of a blob based on its index and drag progress
+    /// - Parameter index: The index of the blob
+    /// - Returns: The calculated width of the blob
     private func calculateBlobWidth(for index: Int) -> CGFloat {
         let baseWidth = isActive(index) ? blobWidth : smallBlobWidth
         
+        if isDraggingAtEdge(activeIndex) {
+            return baseWidth
+        }
+        
         if isActive(index) {
+            // Active blob shrinks as it's dragged
             return max(smallBlobWidth, baseWidth - abs(dragProgress) * widthDifference)
         } else if isLeftNeighbor(index) && isDraggingRight {
-            return baseWidth + dragProgress * widthDifference
+            // Left neighbor grows when dragging right
+            return min(baseWidth + (dragProgress * widthDifference), blobWidth)
         } else if isRightNeighbor(index) && isDraggingLeft {
-            return baseWidth - dragProgress * widthDifference
+            // Right neighbor grows when dragging left
+            return min(baseWidth - (dragProgress * widthDifference), blobWidth)
         }
         
         return baseWidth
     }
     
+    /// Calculates the height of a blob based on its index and drag progress
+    /// - Parameter index: The index of the blob
+    /// - Returns: The calculated height of the blob
     private func calculateBlobHeight(for index: Int) -> CGFloat {
         let baseHeight = isActive(index) ? containerHeight : smallBlobHeight
         
         if isActive(index) {
+            // Active blob shrinks as it's dragged
             return max(smallBlobHeight, baseHeight - abs(dragProgress) * heightDifference)
         } else if isLeftNeighbor(index) && isDraggingRight {
+            // Left neighbor grows when dragging right
             return baseHeight + dragProgress * heightDifference
         } else if isRightNeighbor(index) && isDraggingLeft {
+            // Right neighbor grows when dragging left
             return baseHeight - dragProgress * heightDifference
         }
         
         return baseHeight
     }
     
+    /// Calculates the width of a page indicator based on its index and drag progress
+    /// - Parameters:
+    ///   - index: The index of the indicator
+    ///   - totalWidth: The total width of the indicator container
+    /// - Returns: The calculated width of the indicator
     private func calculatePageIndicatorWidth(for index: Int, totalWidth: CGFloat) -> CGFloat {
         let activeWidth = activeIndicatorWidth
         let inactiveWidth = inactiveIndicatorWidth
         let progress = CGFloat(activeIndex) - dragProgress
         
+        // Calculate distance from the current progress
         let distance = CGFloat(index) - progress
+        // Normalize the distance to a 0-1 range
         let normalized = 1 - min(abs(distance), 1)
         
+        // Interpolate between inactive and active widths based on normalized distance
         return inactiveWidth + (activeWidth - inactiveWidth) * normalized
     }
 }
 
-// MARK: - Preview
-struct ParentView: View {
+//MARK: - Preview
+
+private struct PreviewWrapper: View {
     @State private var activeIndex = 0
     @State private var mediaItems: [any Media] = []
     let tmbd: TMBDService
-    let fetchMedia: (TMBDService, Int) async throws -> (any Media)?
-    
-    init(tmbd: TMBDService, fetchMedia: @escaping (TMBDService, Int) async throws -> (any Media)?) {
-        self.tmbd = tmbd
-        self.fetchMedia = fetchMedia
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -228,7 +265,7 @@ struct ParentView: View {
                 if !mediaItems.isEmpty {
                     MultiBlobView(
                         activeIndex: $activeIndex,
-                        items: mediaItems.map { BlobMedia(media: $0) },
+                        items: mediaItems.map(BlobMedia.init),
                         containerWidth: geometry.size.width,
                         containerHeight: 190,
                         blobWidth: 280
@@ -248,29 +285,14 @@ struct ParentView: View {
     func fetchMediaItems() async {
         let mediaIDs = [810693, 447365, 569094]
         for id in mediaIDs {
-            do {
-                if let item = try await fetchMedia(tmbd, id) {
-                    mediaItems.append(item)
-                }
-            } catch {
-                print("Error fetching media \(id): \(error)")
+            if let item = try? await tmbd.fetchMovie(id: id) {
+                mediaItems.append(item)
             }
         }
     }
 }
 
-// Helper struct to create the preview
-private struct PreviewWrapper: View {
-    let tmbd = TMBDService()
-    
-    var body: some View {
-        ParentView(tmbd: tmbd) { service, id in
-            try await service.fetchMovie(id: id)
-        }
-        .hueBackground(hueColor: .pink)
-    }
-}
-
 #Preview {
-    PreviewWrapper()
+    PreviewWrapper(tmbd: TMBDService())
+        .hueBackground(hueColor: .pink)
 }
