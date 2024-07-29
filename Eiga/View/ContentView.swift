@@ -12,24 +12,24 @@ import SwiftData
 struct ContentView: View {
     @Environment(AppState.self) private var appState
     @State var selectedTab: Tab = .explore
-    let sidePadding: CGFloat = 35
+    let sidePadding: CGFloat = 18
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
+        ZStack {
+            GeometryReader { geometry in
                 // Content layer
                 VStack() {
                     selectedContent
-                        .frame(width: geometry.size.width - sidePadding)  // Content padding
-                        .frame(maxWidth: .greatestFiniteMagnitude)  // Expand to full width
+                        .padding(.horizontal, sidePadding)
                 }
+                .frame(width: geometry.size.width)
                 
                 // Tab Bar layer
                 VStack {
                     Spacer()
                     TabBarView(selectedTab: $selectedTab)
-                        .frame(width: geometry.size.width)  // Ensures full width
                 }
+                .frame(width: geometry.size.width)
             }
         }
         .ignoresSafeArea(edges: .bottom)

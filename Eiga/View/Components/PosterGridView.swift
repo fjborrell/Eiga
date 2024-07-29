@@ -9,48 +9,33 @@ import Foundation
 import SwiftUI
 
 struct PosterGridView: View {
-    @State private var viewModels: [PosterViewModel]
+    @Binding var media: [any Media]
     @State private var currentScale: CGFloat = 1.0
     let scaleSteps: (CGFloat, CGFloat) = (1.0, 1.4)
     
     let baseColumnWidth: CGFloat = 100
-    
-    init(media: [any Media]) {
-        _viewModels = State(initialValue: media.map { PosterViewModel(media: $0) })
-    }
+    let widthSpacing: CGFloat = 5
+    let verticalSpacing: CGFloat = 20
     
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView(.vertical, showsIndicators: false) {
-                let columns = calculateColumns(for: geometry.size.width)
-                LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(viewModels.indices, id: \.self) { index in
-                        PosterView(viewModel: viewModels[index])
-                    }
-                }
+        let columns = [
+            GridItem(.adaptive(minimum: baseColumnWidth * currentScale, maximum: baseColumnWidth * currentScale * 1.5), spacing: widthSpacing)
+        ]
+        
+        LazyVGrid(columns: columns, spacing: verticalSpacing) {
+            ForEach(Array(media.enumerated()), id: \.element.id) { _, item in
+                PosterView(viewModel: PosterViewModel(media: item))
+                    .id(item.id)
             }
         }
         .gesture(
             MagnifyGesture()
                 .onEnded { value in
                     withAnimation(.smooth) {
-                        let newScale = value.magnification > 1 ? scaleSteps.1 : scaleSteps.0
-                        updateAllScales(newScale)
-                        currentScale = newScale
+                        currentScale = value.magnification > 1 ? scaleSteps.1 : scaleSteps.0
                     }
                 }
         )
     }
-    
-    private func calculateColumns(for width: CGFloat) -> [GridItem] {
-        let scaledColumnWidth = baseColumnWidth * currentScale
-        let columnCount = max(1, Int(width / scaledColumnWidth))
-        return Array(repeating: GridItem(.flexible()), count: columnCount)
-    }
-    
-    private func updateAllScales(_ newScale: CGFloat) {
-        for index in viewModels.indices {
-            viewModels[index].updateScale(newScale)
-        }
-    }
 }
+

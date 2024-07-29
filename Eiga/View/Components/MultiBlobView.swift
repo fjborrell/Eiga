@@ -13,10 +13,10 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     // MARK: - Properties
     
     @Binding var activeIndex: Int
-    let items: [Item]
+    @Binding var items: [Item]
     let containerWidth: CGFloat
     let containerHeight: CGFloat
-    let blobWidth: CGFloat
+    let activeBlobRatio: CGFloat // 1 = Whole Carousel
     
     // MARK: - Constants
     
@@ -37,8 +37,16 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     
     // MARK: - Computed Properties
     
-    private var smallBlobWidth: CGFloat {
-        (containerWidth - blobWidth) / CGFloat(items.count - 1)
+    private var totalSpacing: CGFloat {
+        blobSpacing * CGFloat(items.count - 1)
+    }
+    
+    private var adjustedBlobWidth: CGFloat {
+        (containerWidth - totalSpacing) * activeBlobRatio
+    }
+    
+    private var adjustedSmallBlobWidth: CGFloat {
+        (containerWidth - totalSpacing - adjustedBlobWidth) / CGFloat(items.count - 1)
     }
     
     private var smallBlobHeight: CGFloat {
@@ -120,7 +128,7 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
             Spacer()
             Text(item.getCaption())
                 .font(.manrope(20, .extraBold))
-                .frame(width: blobWidth)
+                .frame(width: adjustedBlobWidth)
                 .lineLimit(2)
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
@@ -131,7 +139,7 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     
     // MARK: - Helper Properties and Methods
     
-    private var widthDifference: CGFloat { blobWidth - smallBlobWidth }
+    private var widthDifference: CGFloat { adjustedBlobWidth - adjustedSmallBlobWidth }
     private var heightDifference: CGFloat { containerHeight - smallBlobHeight }
     
     private var isDraggingLeft: Bool { dragProgress < 0 }
@@ -192,7 +200,7 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     /// - Parameter index: The index of the blob
     /// - Returns: The calculated width of the blob
     private func calculateBlobWidth(for index: Int) -> CGFloat {
-        let baseWidth = isActive(index) ? blobWidth : smallBlobWidth
+        let baseWidth = isActive(index) ? adjustedBlobWidth : adjustedSmallBlobWidth
         
         if isDraggingAtEdge(activeIndex) {
             return baseWidth
@@ -200,13 +208,13 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         
         if isActive(index) {
             // Active blob shrinks as it's dragged
-            return max(smallBlobWidth, baseWidth - abs(dragProgress) * widthDifference)
+            return max(adjustedSmallBlobWidth, baseWidth - abs(dragProgress) * widthDifference)
         } else if isLeftNeighbor(index) && isDraggingRight {
             // Left neighbor grows when dragging right
-            return min(baseWidth + (dragProgress * widthDifference), blobWidth)
+            return min(baseWidth + (dragProgress * widthDifference), adjustedBlobWidth)
         } else if isRightNeighbor(index) && isDraggingLeft {
             // Right neighbor grows when dragging left
-            return min(baseWidth - (dragProgress * widthDifference), blobWidth)
+            return min(baseWidth - (dragProgress * widthDifference), adjustedBlobWidth)
         }
         
         return baseWidth
@@ -256,27 +264,25 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
 
 private struct PreviewWrapper: View {
     @State private var activeIndex = 0
-    @State private var mediaItems: [any Media] = []
+    @State private var mediaItems: [BlobMedia] = []
     let tmbd: TMBDService
     
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                if !mediaItems.isEmpty {
+        VStack {
+            if !mediaItems.isEmpty {
+                GeometryReader { geometry in
                     MultiBlobView(
                         activeIndex: $activeIndex,
-                        items: mediaItems.map(BlobMedia.init),
+                        items: self.$mediaItems,
                         containerWidth: geometry.size.width,
                         containerHeight: 190,
-                        blobWidth: 280
+                        activeBlobRatio: 0.8
                     )
-                    .padding()
-                } else {
-                    ProgressView()
                 }
+            } else {
+                ProgressView()
             }
         }
-        .padding(30)
         .task {
             await fetchMediaItems()
         }
@@ -286,7 +292,7 @@ private struct PreviewWrapper: View {
         let mediaIDs = [810693, 447365, 569094]
         for id in mediaIDs {
             if let item = try? await tmbd.fetchMovie(id: id) {
-                mediaItems.append(item)
+                mediaItems.append(BlobMedia(media: item))
             }
         }
     }

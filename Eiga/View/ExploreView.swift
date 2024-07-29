@@ -23,8 +23,8 @@ struct ExploreView: View {
     @State var exploreMedia: [any Media] = []
     
     var body: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 10) {
+        ScrollView(.vertical, showsIndicators: false) {
+            LazyVStack(spacing: 10) {
                 // Tool Bar
                 LogoView()
                 BrosweBarView(searchBarViewModel: $searchBarViewModel)
@@ -32,25 +32,24 @@ struct ExploreView: View {
                 
                 //Featured
                 StaticBlock(title: "Featured") {
-                    MultiBlobView(
-                        activeIndex: $activeBlobIndex,
-                        items: self.featuredMedia,
-                        containerWidth: geometry.size.width,
-                        containerHeight: 190,
-                        blobWidth: 280)
+                    GeometryReader { geometry in
+                        MultiBlobView(
+                            activeIndex: $activeBlobIndex,
+                            items: self.$featuredMedia,
+                            containerWidth: geometry.size.width,
+                            containerHeight: 190,
+                            activeBlobRatio: 0.8
+                        )
+                    }
+                    .frame(height: 225)
                 }
                 
                 // Explore
                 DynamicBlock(title: "Explore", selectedFilter: $exploreFilter) { filter in
-                    if isLoading {
-                        ProgressView()
-                    } else if let errorMessage = errorMessage {
-                        Text(errorMessage)
-                            .foregroundColor(.red)
-                    } else {
-                        PosterGridView(media: self.exploreMedia)
-                    }
+                    PosterGridView(media: self.$exploreMedia)
+                        .padding(.bottom, 120)
                 }
+                
             }
         }
         .task {

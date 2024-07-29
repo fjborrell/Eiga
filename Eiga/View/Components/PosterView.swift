@@ -13,7 +13,7 @@ import SwiftUI
 @Observable
 class PosterViewModel {
     let media: any Media
-    let baseHeight: CGFloat = 176
+    let baseHeight: CGFloat = 165
     let aspectRatio: CGFloat = 2/3
     
     var scale: CGFloat = 1.0
