@@ -12,7 +12,9 @@ struct HueBackground: ViewModifier {
     var hueColor: Color
     func body(content: Content) -> some View {
         ZStack {
+            // Colored Portion
             GeometryReader { geometry in
+                
                 ZStack(alignment: .center) {
                     // Grayscale Gradient
                     Rectangle()
@@ -39,10 +41,30 @@ struct HueBackground: ViewModifier {
                         .blur(radius: 40)
                         .animation(.smooth, value: hueColor)
                 }
+                .ignoresSafeArea()
             }
-            .ignoresSafeArea(.all)
             
+            // Overlaying Content
             content
+            
+            // Blur-Top
+            GeometryReader { geometry in
+                VStack {
+                    ZStack {
+                        CustomBlurView(style: .systemUltraThinMaterialDark)
+                        Rectangle()
+                            .fill(hueColor)
+                            .opacity(0.6)
+                        Rectangle()
+                            .fill(Color.black)
+                            .opacity(0.37)  // Brightness Value
+                    }
+                    .frame(height: geometry.safeAreaInsets.top)
+                    
+                    Spacer()
+                }
+                .ignoresSafeArea()
+            }
         }
         
     }
@@ -58,5 +80,5 @@ extension View {
     ZStack() {
         
     }
-        .hueBackground(hueColor: .pink)
+    .hueBackground(hueColor: .pink)
 }

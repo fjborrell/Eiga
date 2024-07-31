@@ -12,11 +12,25 @@ import SwiftUI
 
 struct SearchBarView: View {
     private let overlayColor: Color = .white.opacity(0.75)
-    private let backgroundColor: Color = .black.opacity(0.45)
+    private let backgroundColor: Color = .black.opacity(0.6)
     @Bindable var viewModel: SearchBarViewModel
     @FocusState private var isFocused: Bool
+    @Binding var isCollapsed: Bool
     
     var body: some View {
+        ZStack {
+            if isCollapsed {
+                collapsed
+                    .transition(.scale(scale: 0.0).combined(with: .opacity))
+            } else {
+                expandedView
+                    .transition(.scale(scale: 0.0).combined(with: .opacity))
+            }
+        }
+        .animation(.interactiveSpring(duration: 0.3), value: isCollapsed)
+    }
+    
+    private var expandedView: some View {
         HStack(spacing: 10) {
             ZStack(alignment: .trailing) {
                 TextField("", text: $viewModel.query, prompt: searchPrompt)
@@ -32,27 +46,21 @@ struct SearchBarView: View {
                     }
                     .onChange(of: isFocused) { _, newValue in
                         viewModel.updateStateOnFocusChange(newValue)
+                        if newValue {
+                            withAnimation {
+                                isCollapsed = false
+                            }
+                        }
                     }
                 
                 searchOverlay
             }
             
             if viewModel.isActive {
-                Button("Cancel") {
-                    viewModel.setInactive()
-                    isFocused = false
-                }
-                .font(.manrope(15))
-                .foregroundColor(.white)
-                .transition(
-                    .asymmetric(
-                        insertion: .move(edge: .trailing).combined(with: .opacity.animation(.easeInOut(duration: 0.7))),
-                        removal: .move(edge: .trailing).combined(with: .opacity.animation(.easeInOut(duration: 0.2)))
-                    )
-                )
+                cancelButton
             }
         }
-        .animation(.default, value: viewModel.isActive)
+        .animation(.easeInOut(duration: 0.2), value: viewModel.isActive)
     }
     
     private var searchPrompt: Text {
@@ -63,7 +71,6 @@ struct SearchBarView: View {
     
     private var searchOverlay: some View {
         HStack {
-            // ICON
             Image(systemName: "magnifyingglass")
                 .imageScale(.medium)
                 .foregroundStyle(overlayColor)
@@ -74,26 +81,55 @@ struct SearchBarView: View {
             
             Spacer()
             
-            // CLEAR QUERY 'X'
             if !viewModel.query.isEmpty {
-                Button(action: {
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        viewModel.clearQuery()
-                    }
-                    isFocused = true
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(overlayColor)
-                }
-                .padding(.trailing, 10)
-                .transition(
-                    .asymmetric(
-                        insertion: .opacity.animation(.easeInOut(duration: 0.3)),
-                        removal: .identity
-                    )
-                )
+                clearButton
             }
         }
+        .animation(.easeInOut(duration: 0.2), value: viewModel.query.isEmpty)
+    }
+    
+    private var clearButton: some View {
+        Button(action: {
+            viewModel.clearQuery()
+            isFocused = true
+        }) {
+            Image(systemName: "xmark.circle.fill")
+                .foregroundStyle(overlayColor)
+        }
+        .padding(.trailing, 10)
+        .buttonStyle(.plain)
+        .transition(.opacity.animation(.easeInOut(duration: 0.1)))
+    }
+    
+    private var cancelButton: some View {
+        Button("Cancel") {
+            withAnimation {
+                viewModel.cancel()
+                isFocused = false
+                //isCollapsed = true // Recollapse on cancel ?
+            }
+        }
+        .font(.manrope(15))
+        .foregroundColor(.white)
+        .transition(.move(edge: .trailing).combined(with: .opacity))
+    }
+    
+    private var collapsed: some View {
+        Button(action: {
+            withAnimation {
+                isCollapsed = false
+                viewModel.expand()
+                isFocused = true
+            }
+        }, label: {
+            Image(systemName: "magnifyingglass.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(.white, .pink)
+                .frame(width: 40, height: 40)
+                .opacity(0.9)
+        })
     }
 }
 
@@ -109,11 +145,11 @@ class SearchBarViewModel {
         updateStateOnQueryChange(query)
     }
     
-    func setActive(_ value: Bool) {
-        isActive = value
+    func expand() {
+        isActive = true
     }
     
-    func setInactive() {
+    func cancel() {
         isActive = false
         clearQuery()
     }
@@ -127,17 +163,31 @@ class SearchBarViewModel {
     }
 }
 
-// MARK: - Preview
+//MARK: - Preview
 
 #Preview {
     struct PreviewWrapper: View {
         @State private var viewModel = SearchBarViewModel()
+        @State private var isCollapsed = false
         
         var body: some View {
             VStack {
-                SearchBarView(viewModel: viewModel)
+                SearchBarView(viewModel: viewModel, isCollapsed: $isCollapsed)
                     .padding()
                     .padding(.top, 50)
+                
+                Toggle("Collapsed", isOn: $isCollapsed)
+                    .padding()
+                    .onChange(of: isCollapsed) { _, newValue in
+                        withAnimation {
+                            if newValue {
+                                viewModel.cancel()
+                            } else {
+                                viewModel.expand()
+                            }
+                        }
+                    }
+                
                 Spacer()
             }
             .hueBackground(hueColor: .pink)

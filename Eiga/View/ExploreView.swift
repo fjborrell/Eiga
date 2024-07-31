@@ -26,6 +26,9 @@ struct ExploreView: View {
     @State var isShowingScrollToTop: Bool = false
     @State var scrollOffset: CGFloat = 0.0
     @State var logoOpacity: CGFloat = 1.0
+    @State var searchIsCollapsed: Bool = false
+    
+    let stickyThreshold: CGFloat = 40
     
     var body: some View {
         ScrollView(.vertical) {
@@ -33,17 +36,11 @@ struct ExploreView: View {
                 // Tool Bar
                 LogoView()
                     .opacity(logoOpacity)
+                    .padding(.top, 10)
                 
-                GeometryReader { geo in
-                    let minY = geo.frame(in: .global).minY
-                    HStack {
-                        BrosweBarView(searchBarViewModel: $searchBarViewModel)
-                            .offset(y: max(60 - minY, 0))
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 40)
-                .zIndex(1)
+                BrosweBarView(searchBarViewModel: $searchBarViewModel, isCollapsed: $searchIsCollapsed)
+                    .offset(y: calculateBarOffset())
+                    .zIndex(1)
                 
                 //Featured
                 StaticBlock(title: "Featured") {
@@ -64,7 +61,6 @@ struct ExploreView: View {
                     PosterGridView(media: self.$exploreMedia)
                         .padding(.bottom, 120)
                 }
-                
             }
         }
         .task {
@@ -73,20 +69,19 @@ struct ExploreView: View {
         }
         .scrollIndicators(.never)
         .scrollPosition($scrollPosition)
-        .onScrollGeometryChange(for: Bool.self) { geometry in
-            geometry.contentOffset.y > 400
-        } action: { _, newValue in
-            withAnimation(.smooth) {
-                isShowingScrollToTop = newValue
-            }
-            
-        }
         .onScrollGeometryChange(for: CGFloat.self) { geometry in
             geometry.contentOffset.y
         } action: { oldValue, newValue in
-            let clampedValue = max(-59.0, min(-15.0, newValue))
-            let normalizedOpacity = clampedValue.normalize(min: -59.0, max: -15.0)
+            scrollOffset = newValue + 60
+            
+            let clampedValue = max(0, min(44, scrollOffset))
+            let normalizedOpacity = clampedValue.normalize(min: 0, max: 44)
             self.logoOpacity = 1 - normalizedOpacity
+            
+            withAnimation(.smooth) {
+                isShowingScrollToTop = scrollOffset > 300
+                searchIsCollapsed = scrollOffset > stickyThreshold * 2.0
+            }
         }
         .overlay(alignment: .bottomTrailing) {
             if isShowingScrollToTop {
@@ -98,6 +93,16 @@ struct ExploreView: View {
                     )
             }
         }
+        
+        
+    }
+    
+    private func calculateBarOffset() -> CGFloat {
+        if scrollOffset < stickyThreshold {
+            return 0 // Bar scrolls normally
+        } else {
+            return scrollOffset - stickyThreshold // Bar sticks at threshold
+        }
     }
     
     @ViewBuilder
@@ -106,7 +111,6 @@ struct ExploreView: View {
             withAnimation(.smooth) {
                 self.scrollPosition.scrollTo(edge: .top)
             }
-            
         }, label: {
             Image(systemName: "arrow.uturn.up.circle.fill")
                 .resizable()
@@ -116,7 +120,6 @@ struct ExploreView: View {
                 .frame(width: 40, height: 40)
                 .opacity(0.9)
         })
-        
     }
     
     private func fetchMovies() async {

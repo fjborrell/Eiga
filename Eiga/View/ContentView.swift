@@ -12,6 +12,7 @@ import SwiftData
 struct ContentView: View {
     @Environment(AppState.self) private var appState
     @State var selectedTab: Tab = .explore
+    @State private var showTopBlur: Bool = false
     let sidePadding: CGFloat = 18
     
     var body: some View {

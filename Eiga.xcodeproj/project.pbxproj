@@ -47,6 +47,7 @@
 		75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7DF942C2CDF58002FA4DC /* Media.swift */; };
 		75A7DF972C2CDFA7002FA4DC /* MediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7DF962C2CDF79002FA4DC /* MediaList.swift */; };
 		75BBD6762C59D15400C72923 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BBD6752C59D15300C72923 /* Math.swift */; };
+		75BBD67A2C5A16DB00C72923 /* UIKitWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BBD6792C5A16D200C72923 /* UIKitWrappers.swift */; };
 		75D041862C49F55F005A0A2F /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D041852C49F552005A0A2F /* Tab.swift */; };
 		75D041892C49F783005A0A2F /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D041882C49F782005A0A2F /* TabBarView.swift */; };
 		75E9E4602C475780005A3EE5 /* jjk.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 75E9E45F2C475780005A3EE5 /* jjk.jpg */; };
@@ -120,6 +121,7 @@
 		75A7DF962C2CDF79002FA4DC /* MediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaList.swift; sourceTree = "<group>"; };
 		75B138CE2C342C2C00CE7DE1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		75BBD6752C59D15300C72923 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		75BBD6792C5A16D200C72923 /* UIKitWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitWrappers.swift; sourceTree = "<group>"; };
 		75D041852C49F552005A0A2F /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		75D041882C49F782005A0A2F /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		75E9E45F2C475780005A3EE5 /* jjk.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jjk.jpg; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 		750B94732C2E693500BC4F57 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				75BBD6792C5A16D200C72923 /* UIKitWrappers.swift */,
 				75BBD6752C59D15300C72923 /* Math.swift */,
 				7564BEA92C54B85E0096B67C /* mob.jpg */,
 				75E9E45F2C475780005A3EE5 /* jjk.jpg */,
@@ -502,6 +505,7 @@
 				7546BB522C51D1D500267C11 /* Endpoint.swift in Sources */,
 				7546BB582C51E7AC00267C11 /* TMBDConfig.swift in Sources */,
 				75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */,
+				75BBD67A2C5A16DB00C72923 /* UIKitWrappers.swift in Sources */,
 				7546BB5A2C51FE2900267C11 /* PosterView.swift in Sources */,
 				75D041892C49F783005A0A2F /* TabBarView.swift in Sources */,
 				755B14FC2C4CB67800126416 /* CrewsView.swift in Sources */,
