@@ -24,15 +24,26 @@ struct ExploreView: View {
     
     @State var scrollPosition: ScrollPosition = ScrollPosition(idType: String.self)
     @State var isShowingScrollToTop: Bool = false
+    @State var scrollOffset: CGFloat = 0.0
+    @State var logoOpacity: CGFloat = 1.0
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
+        ScrollView(.vertical) {
             LazyVStack(spacing: 10) {
                 // Tool Bar
                 LogoView()
-            
-                BrosweBarView(searchBarViewModel: $searchBarViewModel)
-                    .padding(.vertical, 10)
+                    .opacity(logoOpacity)
+                
+                GeometryReader { geo in
+                    let minY = geo.frame(in: .global).minY
+                    HStack {
+                        BrosweBarView(searchBarViewModel: $searchBarViewModel)
+                            .offset(y: max(60 - minY, 0))
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 40)
+                .zIndex(1)
                 
                 //Featured
                 StaticBlock(title: "Featured") {
@@ -56,15 +67,36 @@ struct ExploreView: View {
                 
             }
         }
-        
         .task {
             await fetchMovies()
             await fetchFeatured()
         }
+        .scrollIndicators(.never)
         .scrollPosition($scrollPosition)
+        .onScrollGeometryChange(for: Bool.self) { geometry in
+            geometry.contentOffset.y > 400
+        } action: { _, newValue in
+            withAnimation(.smooth) {
+                isShowingScrollToTop = newValue
+            }
+            
+        }
+        .onScrollGeometryChange(for: CGFloat.self) { geometry in
+            geometry.contentOffset.y
+        } action: { oldValue, newValue in
+            let clampedValue = max(-59.0, min(-15.0, newValue))
+            let normalizedOpacity = clampedValue.normalize(min: -59.0, max: -15.0)
+            self.logoOpacity = 1 - normalizedOpacity
+        }
         .overlay(alignment: .bottomTrailing) {
-            makeScrollToTopButton()
-                .padding(.bottom, 120)
+            if isShowingScrollToTop {
+                makeScrollToTopButton()
+                    .padding(.bottom, 120)
+                    .transition(
+                        .move(edge: .bottom)
+                        .combined(with: .blurReplace)
+                    )
+            }
         }
     }
     
@@ -79,9 +111,10 @@ struct ExploreView: View {
             Image(systemName: "arrow.uturn.up.circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(.pink)
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(.white, .pink)
                 .frame(width: 40, height: 40)
+                .opacity(0.9)
         })
         
     }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LibraryView: View {
     var body: some View {
-        VStack {
+        ScrollView {
             Text("Library")
                 .foregroundStyle(.white)
         }
