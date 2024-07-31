@@ -22,11 +22,15 @@ struct ExploreView: View {
     @State var exploreFilter: ExploreFilter? = .popular
     @State var exploreMedia: [any Media] = []
     
+    @State var scrollPosition: ScrollPosition = ScrollPosition(idType: String.self)
+    @State var isShowingScrollToTop: Bool = false
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(spacing: 10) {
                 // Tool Bar
                 LogoView()
+            
                 BrosweBarView(searchBarViewModel: $searchBarViewModel)
                     .padding(.vertical, 10)
                 
@@ -52,10 +56,34 @@ struct ExploreView: View {
                 
             }
         }
+        
         .task {
             await fetchMovies()
             await fetchFeatured()
         }
+        .scrollPosition($scrollPosition)
+        .overlay(alignment: .bottomTrailing) {
+            makeScrollToTopButton()
+                .padding(.bottom, 120)
+        }
+    }
+    
+    @ViewBuilder
+    private func makeScrollToTopButton() -> some View {
+        Button(action: {
+            withAnimation(.smooth) {
+                self.scrollPosition.scrollTo(edge: .top)
+            }
+            
+        }, label: {
+            Image(systemName: "arrow.uturn.up.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .symbolRenderingMode(.hierarchical)
+                .foregroundStyle(.pink)
+                .frame(width: 40, height: 40)
+        })
+        
     }
     
     private func fetchMovies() async {

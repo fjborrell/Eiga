@@ -27,10 +27,10 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     private let indicatorSpacing: CGFloat = 6
     private let indicatorCornerRadius: CGFloat = 20
     private let swipeInputRecognitionThreshhold: CGFloat = 0.20
+    private let captionWidthRatio: CGFloat = 0.9
     
     // MARK: - State
-    
-    @State private var textOpacity: Double = 1.0
+    @State private var captionOpacity: Double = 1.0
     @GestureState private var dragOffset: CGFloat = 0
     @State private var currentDragOffset: CGFloat = 0
     @State private var isDragging: Bool = false
@@ -82,13 +82,14 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                 ZStack() {
                     item.makeBlobView(isBlurred: !isActive(index))
+                    if isActive(index) {
+                        makeBlobCaption(item: item)
+                            .opacity(captionOpacity)
+                    }
                 }
                 .frame(
                     width: calculateBlobWidth(for: index),
                     height: calculateBlobHeight(for: index)
-                )
-                .overlay(
-                    isActive(index) ? makeBlobCaption(item: item) : nil
                 )
                 .mask(
                     RoundedRectangle(cornerRadius: self.blobCornerRadius)
@@ -123,18 +124,14 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     }
     
     // Creates the caption to be overlayed over each blob
+    @ViewBuilder
     private func makeBlobCaption(item: Item) -> some View {
-        VStack {
-            Spacer()
-            Text(item.getCaption())
-                .font(.manrope(20, .extraBold))
-                .frame(width: adjustedBlobWidth)
-                .lineLimit(2)
-                .foregroundStyle(.white)
-                .multilineTextAlignment(.center)
-                .opacity(textOpacity)
-                .padding()
-        }
+        Text(item.getCaption())
+            .font(.manrope(20, .extraBold))
+            .lineLimit(2)
+            .foregroundStyle(.white)
+            .multilineTextAlignment(.center)
+            .frame(width: adjustedBlobWidth * captionWidthRatio, height: smallBlobHeight, alignment: .bottom)
     }
     
     // MARK: - Helper Properties and Methods
@@ -168,16 +165,14 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
                 currentDragOffset = value.translation.width
                 if !isDragging {
                     isDragging = true
-                    withAnimation(.easeOut(duration: 0.1)) {
-                        textOpacity = 0.0
-                    }
                 }
+                updateCaptionOpacity(dragProgress: dragProgress)
             }
             .onEnded { value in
                 handleDragEnd(translation: value.translation.width)
                 isDragging = false
-                withAnimation(.easeIn(duration: 0.25)) {
-                    textOpacity = 1.0
+                withAnimation(.smooth()) {
+                    captionOpacity = 1.0
                 }
             }
     }
@@ -192,6 +187,10 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
             }
         }
         currentDragOffset = 0
+    }
+    
+    private func updateCaptionOpacity(dragProgress: CGFloat) {
+        captionOpacity = 1.0 - min(abs(dragProgress), 1.0)
     }
     
     // MARK: - Calculation Methods
