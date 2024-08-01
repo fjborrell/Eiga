@@ -6,32 +6,19 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct BrosweBarView: View {
     @Environment(AppState.self) private var appState: AppState
     @Binding var searchBarViewModel: SearchBarViewModel
     @Binding var isCollapsed: Bool
     
-    private var makeBackground: some View {
-        CustomBlurView(style: .systemUltraThinMaterialDark)
-            .opacity(isCollapsed ? 1.0 : 0.5)
-    }
-    
     var body: some View {
-        HStack {
-            if isCollapsed {
-                Spacer()
-            }
-            HStack(spacing: 10) {
-                MediaModeSwitchView()
-                    .padding([.vertical, .leading], 10)
-                SearchBarView(viewModel: searchBarViewModel, isCollapsed: $isCollapsed)
-                    .padding([.vertical, .trailing], 10)
-            }
-            .animation(.bouncy(extraBounce: -0.2), value: isCollapsed)
-            .background(makeBackground)
-            .cornerRadius(16)
+        HStack(spacing: 10) {
+            MediaModeSwitchView()
+            SearchBarView(viewModel: searchBarViewModel, isCollapsed: $isCollapsed)
         }
+        .animation(.bouncy(extraBounce: -0.2), value: isCollapsed)
     }
 }
 

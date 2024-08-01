@@ -27,7 +27,7 @@ struct SearchBarView: View {
                     .transition(.scale(scale: 0.0).combined(with: .opacity))
             }
         }
-        .animation(.interactiveSpring(duration: 0.3), value: isCollapsed)
+        .animation(.smooth(duration: 0.15, extraBounce: -0.2), value: isCollapsed)
     }
     
     private var expandedView: some View {
@@ -66,7 +66,7 @@ struct SearchBarView: View {
     private var searchPrompt: Text {
         Text("Search")
             .font(.manrope(15))
-            .foregroundStyle(overlayColor.opacity(0.6))
+            .foregroundStyle(overlayColor.opacity(0.7))
     }
     
     private var searchOverlay: some View {
