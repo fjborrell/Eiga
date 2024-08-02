@@ -23,7 +23,7 @@ struct MediaModeSwitchView: View {
             } label: {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 36, height: 36)
-                    .opacity(0.24)
+                    .opacity(0.4)
                     .overlay(
                         Image(systemName: self.appState.selectedMediaMode.iconName)
                             .resizable()

@@ -8,24 +8,26 @@
 import SwiftUI
 
 struct SearchTriggerView: View {
-    @Binding var isExpanded: Bool
+    @Binding var isCollapsed: Bool
     
-    private let backgroundColor: Color = .black.opacity(0.6)
-    private let overlayColor: Color = .white.opacity(0.75)
+    private let backgroundColor: Color = .black.opacity(0.8)
+    private let overlayColor: Color = .white.opacity(0.8)
     
     var tapHandler: () -> Void = {}
     
     var body: some View {
-        Group {
-            if isExpanded {
-                expandedView
-            } else {
-                collapsedView
+        Button(action: tapHandler, label: {
+            Group {
+                if isCollapsed {
+                    collapsedView
+                } else {
+                    expandedView
+                }
             }
-        }
-        .contentShape(Rectangle())
-        .onTapGesture(perform: tapHandler)
-        .transition(.blurReplace)
+            .transition(.blurReplace().animation(.easeInOut(duration: 0.15)))
+        })
+        .buttonStyle(.plain)
+        
     }
     
     private var expandedView: some View {
@@ -46,7 +48,6 @@ struct SearchTriggerView: View {
                 .padding(.leading, 10)
             }
         }
-        .padding(.horizontal)
     }
     
     private var collapsedView: some View {
@@ -61,14 +62,16 @@ struct SearchTriggerView: View {
 }
 
 struct SearchTriggerPreview: View {
-    @State private var isExpanded = false
+    @State private var isCollapsed = false
     
     var body: some View {
         VStack {
-            SearchTriggerView(isExpanded: $isExpanded)
+            SearchTriggerView(isCollapsed: $isCollapsed) {
+                print("Action")
+            }
                 .padding()
             
-            Toggle("Expanded", isOn: $isExpanded)
+            Toggle("Expanded", isOn: $isCollapsed)
                 .padding()
         }
         .background(Color.gray)

@@ -21,7 +21,9 @@ struct ExploreView: View {
             scrollContent
                 .overlay(alignment: .bottomTrailing) {
                     if viewModel.isShowingScrollToTop {
-                        makeScrollToTopButton()
+                        scrollToTopButton
+                            .padding(.bottom, 120)
+                            .transition(.move(edge: .bottom))
                     }
                 }
             
@@ -42,7 +44,7 @@ struct ExploreView: View {
                 VStack {
                     // Spacer to push content below the safe area
                     Color.clear
-                        .frame(height: geo.safeAreaInsets.top * 3)
+                        .frame(height: geo.safeAreaInsets.top * 2.85)
                 }
                 .ignoresSafeArea()
                 
@@ -98,16 +100,12 @@ struct ExploreView: View {
             LogoView()
                 .opacity(viewModel.logoOpacity)
             HStack {
-                if viewModel.searchIsCollapsed {
+                if viewModel.isToolbarCollapsed {
                     Spacer()
                 }
-                BrosweBarView(
-                    searchBarViewModel: $viewModel.searchBarViewModel,
-                    isCollapsed: $viewModel.searchIsCollapsed
-                )
+                ToolBarView(isCollapsed: $viewModel.isToolbarCollapsed)
                 .roundedBlurBackground(
-                    style: .systemUltraThinMaterialDark,
-                    opacity: viewModel.searchIsCollapsed ? 1.0 : viewModel.searchBarBlurOpacity
+                    style: .systemUltraThinMaterialDark
                 )
             }
             Spacer()
@@ -115,11 +113,9 @@ struct ExploreView: View {
         .offset(y: viewModel.calculateBarOffset())
     }
     
-    // MARK: - Helper Methods
-    
     /// Creates a button that scrolls the view to the top when tapped.
     @ViewBuilder
-    private func makeScrollToTopButton() -> some View {
+    private var scrollToTopButton: some View {
         Button(action: {
             withAnimation(.smooth) {
                 viewModel.scrollPosition.scrollTo(edge: .top)
@@ -130,19 +126,8 @@ struct ExploreView: View {
                 .aspectRatio(contentMode: .fit)
                 .symbolRenderingMode(.palette)
                 .foregroundStyle(.white, .pink)
-                .frame(width: 40, height: 40)
-                .opacity(0.9)
+                .frame(width: 36, height: 36)
         })
-        .roundedBlurBackground(
-            style: .systemUltraThinMaterialDark,
-            padding: 7,
-            radius: 25
-        )
-        .padding(.bottom, 120)
-        .transition(
-            .move(edge: .bottom)
-            .combined(with: .blurReplace)
-        )
     }
 }
 
@@ -170,7 +155,7 @@ class ExploreViewModel {
     var scrollOffset: CGFloat = 0.0
     var logoOpacity: CGFloat = 1.0
     var searchBarBlurOpacity: CGFloat = 1.0
-    var searchIsCollapsed: Bool = false
+    var isToolbarCollapsed: Bool = false
     
     private let stickyThreshold: CGFloat = 40
     
@@ -189,9 +174,9 @@ class ExploreViewModel {
         logoOpacity = 1 - scrollOffset.normalize(min: 0, max: 30)
         searchBarBlurOpacity = scrollOffset.normalize(min: 0, max: 70)
         
-        withAnimation(.smooth) {
+        withAnimation(.smooth(duration: 0.1)) {
             isShowingScrollToTop = scrollOffset > 300
-            searchIsCollapsed = scrollOffset > stickyThreshold * 2.5
+            isToolbarCollapsed = scrollOffset > stickyThreshold * 2.5
         }
     }
     

@@ -8,17 +8,16 @@
 import SwiftUI
 import UIKit
 
-struct BrosweBarView: View {
+struct ToolBarView: View {
     @Environment(AppState.self) private var appState: AppState
-    @Binding var searchBarViewModel: SearchBarViewModel
     @Binding var isCollapsed: Bool
     
     var body: some View {
         HStack(spacing: 10) {
             MediaModeSwitchView()
-            SearchBarView(viewModel: searchBarViewModel)
+            SearchTriggerView(isCollapsed: $isCollapsed)
         }
-        .animation(.bouncy(extraBounce: -0.2), value: isCollapsed)
+        .animation(.smooth(duration: 0.15), value: isCollapsed)
     }
 }
 
@@ -28,7 +27,7 @@ struct BrosweBarView: View {
         
         var body: some View {
             VStack {
-                BrosweBarView(searchBarViewModel: $searchBarViewModel, isCollapsed: .constant(true))
+                ToolBarView(isCollapsed: .constant(false))
                     .environment(AppState())
                 Spacer()
             }

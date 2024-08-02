@@ -10,8 +10,8 @@ import SwiftUI
 import SwiftUI
 
 struct SearchBarView: View {
-    private let overlayColor: Color = .white.opacity(0.75)
-    private let backgroundColor: Color = .black.opacity(0.45)
+    private let overlayColor: Color = .white.opacity(0.8)
+    private let backgroundColor: Color = .black.opacity(0.8)
     @Bindable var viewModel: SearchBarViewModel
     @FocusState private var isFocused: Bool
     
