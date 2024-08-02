@@ -1,5 +1,5 @@
 //
-//  MediaModeSwitcherView.swift
+//  MediaModeSwitchView.swift
 //  Eiga
 //
 //  Created by Fernando Borrell on 7/16/24.
@@ -8,8 +8,13 @@
 import Foundation
 import SwiftUI
 
+/// A view that allows switching between different media modes.
 struct MediaModeSwitchView: View {
+    // MARK: - Environment
+    
     @Environment(AppState.self) private var appState: AppState
+    
+    // MARK: - Body
     
     var body: some View {
         @Bindable var appState = appState
@@ -33,17 +38,12 @@ struct MediaModeSwitchView: View {
                     .foregroundStyle(self.appState.selectedMediaMode.color)
                 
             }
-            .contentTransition(.symbolEffect(.replace))
+            .contentTransition(.symbolEffect(.replace)) // Applies a replace effect when the content changes
         }
     }
 }
 
-extension MediaModeSwitchView {
-    @Observable
-    class MediaModeSwitchViewModel {
-        
-    }
-}
+// MARK: - Preview
 
 #Preview {
     MediaModeSwitchView()

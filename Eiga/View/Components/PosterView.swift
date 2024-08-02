@@ -10,30 +10,58 @@ import SwiftUI
 
 // MARK: - View Model
 
+/// A view model for managing poster data and scaling.
 @Observable
 class PosterViewModel {
-    let media: any Media
+    // MARK: - Constants
+    
+    /// The base height of the poster.
     let baseHeight: CGFloat = 165
+    
+    /// The aspect ratio of the poster (width to height).
     let aspectRatio: CGFloat = 2/3
     
+    // MARK: - State
+    
+    /// The media item represented by this poster.
+    let media: any Media
+    
+    /// The current scale factor of the poster.
     var scale: CGFloat = 1.0
+    
+    /// The URL of the poster image.
     var posterURL: URL?
+    
+    /// The quality of the poster image to fetch.
     var imageQuality: TMBDImageConfig.PosterSize = .w500
+    
+    /// Any error encountered while loading the poster.
     var posterError: Error?
     
+    // MARK: - Computed Properties
+    
+    /// The scaled height of the poster.
     var scaledHeight: CGFloat {
         baseHeight * scale
     }
     
+    /// The scaled width of the poster.
     var scaledWidth: CGFloat {
         scaledHeight * aspectRatio
     }
     
+    // MARK: - Initialization
+    
+    /// Initializes a new poster view model.
+    /// - Parameter media: The media item to represent.
     init(media: any Media) {
         self.media = media
         loadPosterURL()
     }
     
+    // MARK: - Methods
+    
+    /// Attempts to load the poster URL for the media item.
     func loadPosterURL() {
         do {
             posterURL = try media.getPosterURL(size: imageQuality)
@@ -44,6 +72,8 @@ class PosterViewModel {
         }
     }
     
+    /// Updates the scale factor of the poster.
+    /// - Parameter newScale: The new scale factor to apply.
     func updateScale(_ newScale: CGFloat) {
         scale = newScale
     }
@@ -51,6 +81,7 @@ class PosterViewModel {
 
 // MARK: - View
 
+/// A view that displays a poster for a media item.
 struct PosterView: View {
     @State var viewModel: PosterViewModel
     
@@ -62,6 +93,7 @@ struct PosterView: View {
         .frame(width: viewModel.scaledWidth)
     }
     
+    /// The poster image view, which asynchronously loads the image.
     var posterImage: some View {
         AsyncImage(url: viewModel.posterURL) { phase in
             switch phase {
@@ -82,6 +114,7 @@ struct PosterView: View {
         .frame(height: viewModel.scaledHeight)
     }
     
+    /// The label view displaying the media type icon and title.
     var posterLabel: some View {
         HStack(alignment: .top, spacing: 4 * viewModel.scale) {
             Circle()
@@ -96,7 +129,7 @@ struct PosterView: View {
                 .foregroundStyle(MediaMode.movie.color)
             
             Text(viewModel.media.title)
-                .font(.manrope(12 * viewModel.scale))
+                .font(.manrope(12 * viewModel.scale)) // Custom font, ensure it's defined elsewhere
                 .foregroundStyle(.white)
                 .lineLimit(2, reservesSpace: true)
         }
@@ -105,15 +138,18 @@ struct PosterView: View {
 }
 
 // MARK: - Helper Views
+
+/// A view displayed when the poster image is missing or failed to load.
 struct MissingImageView: View {
     var error: Error?
+    
     var body: some View {
         VStack(spacing: 5) {
             Image(systemName: "photo.badge.exclamationmark")
                 .imageScale(.large)
                 .symbolRenderingMode(.multicolor)
                 .foregroundStyle(.white, .red)
-            Text(error?.localizedDescription ?? "Error")
+            Text(errorMessage)
                 .font(.caption)
                 .foregroundColor(.red)
                 .lineLimit(5)
@@ -121,6 +157,7 @@ struct MissingImageView: View {
         }
     }
     
+    /// Generates an appropriate error message based on the error type.
     private var errorMessage: String {
         if let errorMessage = error as? ImageError {
             switch errorMessage {
@@ -161,5 +198,5 @@ private struct PreviewWrapper: View {
 
 #Preview {
     PreviewWrapper()
-        .hueBackground(hueColor: .pink)
+        .hueBackground(hueColor: .pink) // Custom modifier, ensure it's defined elsewhere
 }

@@ -6,8 +6,8 @@
 //
 
 import Foundation
-
 import SwiftUI
+
 extension CGFloat {
     /// Returns normalized value for the range between `a` and `b`
     /// - Parameters:

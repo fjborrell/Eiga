@@ -7,13 +7,24 @@
 
 import SwiftUI
 
+/// A view that displays a search trigger button with collapsible and expandable states.
 struct SearchTriggerView: View {
+    // MARK: - State
+    
+    /// Determines whether the view is in a collapsed state.
     @Binding var isCollapsed: Bool
+    
+    // MARK: - Constants
     
     private let backgroundColor: Color = .black.opacity(0.8)
     private let overlayColor: Color = .white.opacity(0.8)
     
+    // MARK: - Properties
+    
+    /// A closure to be executed when the button is tapped.
     var tapHandler: () -> Void = {}
+    
+    // MARK: - Body
     
     var body: some View {
         Button(action: tapHandler, label: {
@@ -27,9 +38,11 @@ struct SearchTriggerView: View {
             .transition(.blurReplace().animation(.easeInOut(duration: 0.15)))
         })
         .buttonStyle(.plain)
-        
     }
     
+    // MARK: - Private Views
+    
+    /// The expanded view of the search trigger.
     private var expandedView: some View {
         HStack {
             ZStack(alignment: .leading) {
@@ -50,26 +63,31 @@ struct SearchTriggerView: View {
         }
     }
     
+    /// The collapsed view of the search trigger.
     private var collapsedView: some View {
         Image(systemName: "magnifyingglass.circle.fill")
             .resizable()
             .aspectRatio(contentMode: .fit)
             .symbolRenderingMode(.palette)
-            .foregroundStyle(.white, .pink)
+            .foregroundStyle(.white, .pink) // Multi-color symbol rendering
             .frame(width: 36, height: 36)
-            .opacity(0.9)
     }
 }
 
+/// A preview provider for the SearchTriggerView.
 struct SearchTriggerPreview: View {
+    // MARK: - State
+    
     @State private var isCollapsed = false
+    
+    // MARK: - Body
     
     var body: some View {
         VStack {
             SearchTriggerView(isCollapsed: $isCollapsed) {
                 print("Action")
             }
-                .padding()
+            .padding()
             
             Toggle("Expanded", isOn: $isCollapsed)
                 .padding()
@@ -77,6 +95,8 @@ struct SearchTriggerPreview: View {
         .background(Color.gray)
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     SearchTriggerPreview()

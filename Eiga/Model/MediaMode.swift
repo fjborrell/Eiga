@@ -7,13 +7,21 @@
 
 import SwiftUI
 
+/// Represents different modes for filtering media content.
 enum MediaMode: String, CaseIterable, Identifiable {
+    // MARK: - Cases
+    
     case all
     case movie
     case tv
     
+    // MARK: - Protocol Conformance
+    
     var id: Self { self }
     
+    // MARK: - Computed Properties
+    
+    /// The display title for each media mode.
     var title: String {
         switch self {
         case .all:
@@ -25,6 +33,7 @@ enum MediaMode: String, CaseIterable, Identifiable {
         }
     }
     
+    /// The SF Symbol name associated with each media mode.
     var iconName: String {
         switch self {
         case .all:
@@ -36,6 +45,7 @@ enum MediaMode: String, CaseIterable, Identifiable {
         }
     }
     
+    /// The color associated with each media mode.
     var color: Color {
         switch self {
         case .all:

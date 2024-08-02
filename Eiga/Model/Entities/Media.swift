@@ -6,9 +6,11 @@
 //
 
 import Foundation
-import OSLog
 
+/// Protocol defining the common properties and methods for media types (e.g., movies, TV shows).
 protocol Media: Codable, Identifiable, Hashable, Sendable {
+    // MARK: - Common Properties
+    
     var adult: Bool { get }
     var backdropPath: String? { get }
     var genres: [Genre] { get }
@@ -27,18 +29,39 @@ protocol Media: Codable, Identifiable, Hashable, Sendable {
     var voteAverage: Double { get }
     var voteCount: Int { get }
     
+    // MARK: - Type Alias
+    
+    /// Type alias for components of media that share common protocol conformances.
     typealias MediaComponent = Codable & Identifiable & Hashable
     
+    // MARK: - Image Configuration
+    
     var imageConfigurator: TMBDImageConfig { get }
+    
+    // MARK: - URL Generation Methods
+    
+    /// Generates the URL for the media's backdrop image.
+    /// - Parameter size: The desired size of the image.
+    /// - Throws: An error if the backdrop path is missing or empty.
+    /// - Returns: A URL for the backdrop image.
     func getBackdropURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize
+    
+    /// Generates the URL for the media's poster image.
+    /// - Parameter size: The desired size of the image.
+    /// - Throws: An error if the poster path is missing or empty.
+    /// - Returns: A URL for the poster image.
     func getPosterURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize
 }
 
+// MARK: - Media Components
+
+/// Represents a genre of media.
 struct Genre: Codable, Hashable {
     let id: Int
     let name: String
 }
 
+/// Represents a production company associated with media.
 struct ProductionCompany: Codable, Hashable {
     let id: Int
     let logoPath: String?
@@ -53,6 +76,7 @@ struct ProductionCompany: Codable, Hashable {
     }
 }
 
+/// Represents a production country associated with media.
 struct ProductionCountry: Codable, Hashable {
     let iso31661: String
     let name: String
@@ -63,6 +87,7 @@ struct ProductionCountry: Codable, Hashable {
     }
 }
 
+/// Represents a spoken language in media.
 struct SpokenLanguage: Codable, Hashable {
     let englishName: String
     let iso6391: String

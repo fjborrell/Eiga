@@ -7,8 +7,10 @@
 
 import Foundation
 
+/// An observable representation of the application's state
 @Observable
 class AppState {
+    /// The currently selected media mode for content exploration
     var selectedMediaMode: MediaMode = .all
 }
 

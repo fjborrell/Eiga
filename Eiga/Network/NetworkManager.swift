@@ -7,15 +7,30 @@
 
 import Foundation
 
+/// An actor that manages network requests and responses.
 actor NetworkManager: Networkable {
-    private let session: URLSession
-    private let decoder: JSONDecoder
+    // MARK: - Properties
     
+    private let decoder: JSONDecoder
+    private let session: URLSession
+    
+    // MARK: - Initialization
+    
+    /// Initializes a new NetworkManager instance.
+    /// - Parameters:
+    ///   - session: The URLSession to use for network requests. Defaults to `.shared`.
+    ///   - decoder: The JSONDecoder to use for decoding responses. Defaults to a new instance.
     init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder()) {
         self.session = session
         self.decoder = decoder
     }
     
+    // MARK: - Public Methods
+    
+    /// Performs a network request based on the provided endpoint.
+    /// - Parameter endpoint: The endpoint to request.
+    /// - Returns: The decoded response of type `E.ResponseType`.
+    /// - Throws: A `NetworkError` if the request fails or the response cannot be decoded.
     func request<E: Endpoint>(from endpoint: E) async throws -> E.ResponseType {
         guard let request = createRequest(from: endpoint) else {
             throw NetworkError.invalidURL
@@ -41,6 +56,11 @@ actor NetworkManager: Networkable {
         }
     }
     
+    // MARK: - Private Methods
+    
+    /// Creates a URLRequest from the given endpoint.
+    /// - Parameter endpoint: The endpoint to create the request from.
+    /// - Returns: An optional URLRequest.
     private func createRequest(from endpoint: some Endpoint) -> URLRequest? {
         var components = URLComponents(string: endpoint.baseURL)
         components?.path = endpoint.path

@@ -8,7 +8,10 @@
 import Foundation
 import SwiftUI
 
+/// A view that displays the app's logo.
 struct LogoView: View {
+    // MARK: - Body
+    
     var body: some View {
         Image("logo")
             .resizable()
@@ -17,6 +20,8 @@ struct LogoView: View {
             .foregroundStyle(.white)
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     LogoView()

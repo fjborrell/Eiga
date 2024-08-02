@@ -9,17 +9,28 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+/// The main content view of the application, managing the tab-based navigation and overall layout.
 struct ContentView: View {
+    // MARK: - Environment
+    
     @Environment(AppState.self) private var appState
-    @State var selectedTab: Tab = .explore
+    
+    // MARK: - State
+    
+    @State private var selectedTab: Tab = .explore
     @State private var showTopBlur: Bool = false
+    
+    // MARK: - Constants
+    
     let sidePadding: CGFloat = 18
+    
+    // MARK: - Body
     
     var body: some View {
         ZStack {
             GeometryReader { geometry in
                 // Content layer
-                VStack() {
+                VStack {
                     selectedContent
                         .padding(.horizontal, sidePadding)
                 }
@@ -37,6 +48,9 @@ struct ContentView: View {
         .hueBackground(hueColor: appState.selectedMediaMode.color)
     }
     
+    // MARK: - View Builders
+    
+    /// Provides the appropriate view based on the selected tab.
     @ViewBuilder
     var selectedContent: some View {
         switch selectedTab {
@@ -51,6 +65,8 @@ struct ContentView: View {
         }
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     ContentView()

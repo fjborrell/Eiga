@@ -8,18 +8,22 @@
 import SwiftUI
 import Foundation
 
-/// A carousel-style view for items ("blobs"), with interactive gestures and animations
+/// A view that displays multiple "blob" items in a carousel format.
 struct MultiBlobView<Item: BlobDisplayable>: View {
-    // MARK: - Properties
+    // MARK: - State
     
     @Binding var activeIndex: Int
     @Binding var items: [Item]
-    let containerWidth: CGFloat
-    let containerHeight: CGFloat
-    let activeBlobRatio: CGFloat // 1 = Whole Carousel
+    @State private var captionOpacity: Double = 1.0
+    @State private var currentDragOffset: CGFloat = 0
+    @State private var isDragging: Bool = false
+    @GestureState private var dragOffset: CGFloat = 0
     
     // MARK: - Constants
     
+    let containerWidth: CGFloat
+    let containerHeight: CGFloat
+    let activeBlobRatio: CGFloat // 1 = Whole Carousel
     private let blobCornerRadius: CGFloat = 16
     private let blobSpacing: CGFloat = 6
     private let activeIndicatorWidth: CGFloat = 55
@@ -28,12 +32,6 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     private let indicatorCornerRadius: CGFloat = 20
     private let swipeInputRecognitionThreshhold: CGFloat = 0.20
     private let captionWidthRatio: CGFloat = 0.9
-    
-    // MARK: - State
-    @State private var captionOpacity: Double = 1.0
-    @GestureState private var dragOffset: CGFloat = 0
-    @State private var currentDragOffset: CGFloat = 0
-    @State private var isDragging: Bool = false
     
     // MARK: - Computed Properties
     
@@ -65,6 +63,15 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         (dragOffset + currentDragOffset) / containerWidth
     }
     
+    private var widthDifference: CGFloat { adjustedBlobWidth - adjustedSmallBlobWidth }
+    private var heightDifference: CGFloat { containerHeight - smallBlobHeight }
+    
+    private var isDraggingLeft: Bool { dragProgress < 0 }
+    private var isDraggingRight: Bool { dragProgress > 0 }
+    
+    private var isDecrementable: Bool { activeIndex > 0 }
+    private var isIncrementable: Bool { activeIndex < items.count - 1 }
+    
     // MARK: - Body
     
     var body: some View {
@@ -74,9 +81,8 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         }
     }
     
-    // MARK: - Subviews
-
-    // Creates the swipeable item "blob" carousel
+    // MARK: - View Components
+    
     private var blobs: some View {
         HStack(spacing: blobSpacing) {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
@@ -101,7 +107,6 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         .animation(.smooth(), value: currentDragOffset)
     }
     
-    // Creates the scroll/page indicator for the carousel
     private var scrollIndicator: some View {
         GeometryReader { geometry in
             HStack(spacing: indicatorSpacing) {
@@ -123,7 +128,11 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         .gesture(dragGesture)
     }
     
-    // Creates the caption to be overlayed over each blob
+    // MARK: - Helper Functions
+    
+    /// Creates a caption view for a blob item.
+    /// - Parameter item: The item to create a caption for.
+    /// - Returns: A view containing the item's caption.
     @ViewBuilder
     private func makeBlobCaption(item: Item) -> some View {
         Text(item.getCaption())
@@ -134,22 +143,22 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
             .frame(width: adjustedBlobWidth * captionWidthRatio, height: smallBlobHeight, alignment: .bottom)
     }
     
-    // MARK: - Helper Properties and Methods
-    
-    private var widthDifference: CGFloat { adjustedBlobWidth - adjustedSmallBlobWidth }
-    private var heightDifference: CGFloat { containerHeight - smallBlobHeight }
-    
-    private var isDraggingLeft: Bool { dragProgress < 0 }
-    private var isDraggingRight: Bool { dragProgress > 0 }
-    
-    private var isDecrementable: Bool { activeIndex > 0 }
-    private var isIncrementable: Bool { activeIndex < items.count - 1 }
-    
+    /// Checks if the given index is the active index.
     private func isActive(_ index: Int) -> Bool { index == activeIndex }
+    
+    /// Checks if the given index is the left neighbor of the active index.
     private func isLeftNeighbor(_ index: Int) -> Bool { index == activeIndex - 1 }
+    
+    /// Checks if the given index is the right neighbor of the active index.
     private func isRightNeighbor(_ index: Int) -> Bool { index == activeIndex + 1 }
+    
+    /// Checks if the given index is the leftmost blob.
     private func isLeftMostBlob(_ index: Int) -> Bool { index == 0 }
+    
+    /// Checks if the given index is the rightmost blob.
     private func isRightMostBlob(_ index: Int) -> Bool { index == (items.count - 1) }
+    
+    /// Checks if the user is dragging at the edge of the carousel.
     private func isDraggingAtEdge(_ index: Int) -> Bool {
         return isLeftMostBlob(index) && isDraggingRight || isRightMostBlob(index) && isDraggingLeft
     }
@@ -177,6 +186,8 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
             }
     }
     
+    /// Handles the end of a drag gesture.
+    /// - Parameter translation: The total translation of the drag gesture.
     private func handleDragEnd(translation: CGFloat) {
         let progress = translation / containerWidth
         if abs(progress) > swipeInputRecognitionThreshhold {
@@ -189,15 +200,17 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         currentDragOffset = 0
     }
     
+    /// Updates the opacity of the caption based on drag progress.
+    /// - Parameter dragProgress: The current drag progress.
     private func updateCaptionOpacity(dragProgress: CGFloat) {
         captionOpacity = 1.0 - min(abs(dragProgress), 1.0)
     }
     
-    // MARK: - Calculation Methods
+    // MARK: - Calculation Functions
     
-    /// Calculates the width of a blob based on its index and drag progress
-    /// - Parameter index: The index of the blob
-    /// - Returns: The calculated width of the blob
+    /// Calculates the width of a blob for a given index.
+    /// - Parameter index: The index of the blob.
+    /// - Returns: The calculated width of the blob.
     private func calculateBlobWidth(for index: Int) -> CGFloat {
         let baseWidth = isActive(index) ? adjustedBlobWidth : adjustedSmallBlobWidth
         
@@ -219,9 +232,9 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         return baseWidth
     }
     
-    /// Calculates the height of a blob based on its index and drag progress
-    /// - Parameter index: The index of the blob
-    /// - Returns: The calculated height of the blob
+    /// Calculates the height of a blob for a given index.
+    /// - Parameter index: The index of the blob.
+    /// - Returns: The calculated height of the blob.
     private func calculateBlobHeight(for index: Int) -> CGFloat {
         let baseHeight = isActive(index) ? containerHeight : smallBlobHeight
         
@@ -238,28 +251,24 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
         
         return baseHeight
     }
-    
-    /// Calculates the width of a page indicator based on its index and drag progress
+   
+    /// Calculates the width of a page indicator for a given index.
     /// - Parameters:
-    ///   - index: The index of the indicator
-    ///   - totalWidth: The total width of the indicator container
-    /// - Returns: The calculated width of the indicator
+    ///   - index: The index of the indicator.
+    ///   - totalWidth: The total width available for indicators.
+    /// - Returns: The calculated width of the indicator.
     private func calculatePageIndicatorWidth(for index: Int, totalWidth: CGFloat) -> CGFloat {
         let activeWidth = activeIndicatorWidth
         let inactiveWidth = inactiveIndicatorWidth
         let progress = CGFloat(activeIndex) - dragProgress
-        
-        // Calculate distance from the current progress
         let distance = CGFloat(index) - progress
-        // Normalize the distance to a 0-1 range
         let normalized = 1 - min(abs(distance), 1)
         
-        // Interpolate between inactive and active widths based on normalized distance
         return inactiveWidth + (activeWidth - inactiveWidth) * normalized
     }
 }
 
-//MARK: - Preview
+// MARK: - Preview
 
 private struct PreviewWrapper: View {
     @State private var activeIndex = 0
@@ -287,6 +296,7 @@ private struct PreviewWrapper: View {
         }
     }
     
+    /// Fetches media items for the preview
     func fetchMediaItems() async {
         let mediaIDs = [810693, 447365, 569094]
         for id in mediaIDs {

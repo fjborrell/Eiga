@@ -3,10 +3,14 @@
 //  Eiga
 //
 //  Created by Fernando Borrell on 6/21/24.
+//
 
 import Foundation
 
+/// Represents a movie with detailed information from TMDB API.
 struct Movie: Media {
+    // MARK: - Properties
+    
     let adult: Bool
     let backdropPath: String?
     let budget: Int
@@ -33,8 +37,16 @@ struct Movie: Media {
     let voteAverage: Double
     let voteCount: Int
     
+    // MARK: - Image Configuration
+    
     var imageConfigurator: TMBDImageConfig = TMBDImageConfig()
     
+    // MARK: - URL Generation Methods
+    
+    /// Generates the URL for the movie's backdrop image.
+    /// - Parameter size: The desired size of the image.
+    /// - Throws: `ImageError.missingImagePath` if the backdrop path is missing or empty.
+    /// - Returns: A URL for the backdrop image.
     func getBackdropURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize {
         guard let backdropPath = self.backdropPath, !backdropPath.isEmpty else {
             throw ImageError.missingImagePath
@@ -42,6 +54,10 @@ struct Movie: Media {
         return imageConfigurator.buildURL(path: backdropPath, size: size)
     }
     
+    /// Generates the URL for the movie's poster image.
+    /// - Parameter size: The desired size of the image.
+    /// - Throws: `ImageError.missingImagePath` if the poster path is missing or empty.
+    /// - Returns: A URL for the poster image.
     func getPosterURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize {
         guard let posterPath = self.posterPath, !posterPath.isEmpty else {
             throw ImageError.missingImagePath
@@ -49,6 +65,8 @@ struct Movie: Media {
         return imageConfigurator.buildURL(path: posterPath, size: size)
     }
 
+    // MARK: - Coding Keys
+    
     enum CodingKeys: String, CodingKey {
         case adult, budget, genres, homepage, id, overview, popularity, revenue, runtime, status, tagline, title, video
         case backdropPath = "backdrop_path"
@@ -65,9 +83,15 @@ struct Movie: Media {
         case voteCount = "vote_count"
     }
 
+    // MARK: - Initializer
+    
+    /// Initializes a Movie instance from a decoder.
+    /// - Parameter decoder: The decoder to read data from.
+    /// - Throws: An error if reading from the decoder fails.
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
+        // Decode properties with default values if missing
         adult = try container.decodeIfPresent(Bool.self, forKey: .adult) ?? false
         backdropPath = try container.decodeIfPresent(String.self, forKey: .backdropPath)
         budget = try container.decodeIfPresent(Int.self, forKey: .budget) ?? 0

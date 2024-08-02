@@ -7,16 +7,22 @@
 
 import Foundation
 
+/// Represents the main tabs in the app's navigation structure.
 enum Tab: Int, Equatable, Identifiable, CaseIterable {
-    var id: Self {
-        return self
-    }
+    // MARK: - Cases
     
     case explore = 0
     case library
     case crews
     case profile
     
+    // MARK: - Protoocl Conformance
+    
+    var id: Self { self }
+    
+    // MARK: - Computed Properties
+    
+    /// The display title for each tab.
     var title: String {
         switch self {
         case .explore:
@@ -30,6 +36,7 @@ enum Tab: Int, Equatable, Identifiable, CaseIterable {
         }
     }
     
+    /// The SF Symbol name associated with each tab.
     var iconName: String {
         switch self {
         case .explore:

@@ -7,7 +7,10 @@
 
 import Foundation
 
+/// Represents a TV show with detailed information from TMDB API.
 struct TVShow: Media {
+    // MARK: - Properties
+    
     let adult: Bool
     let backdropPath: String?
     let createdBy: [Creator]
@@ -41,8 +44,16 @@ struct TVShow: Media {
     let voteAverage: Double
     let voteCount: Int
     
+    // MARK: - Image Configuration
+    
     var imageConfigurator: TMBDImageConfig = TMBDImageConfig()
     
+    // MARK: - URL Generation Methods
+    
+    /// Generates the URL for the TV show's backdrop image.
+    /// - Parameter size: The desired size of the image.
+    /// - Throws: `ImageError.missingImagePath` if the backdrop path is missing or empty.
+    /// - Returns: A URL for the backdrop image.
     func getBackdropURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize {
         guard let backdropPath = self.backdropPath, !backdropPath.isEmpty else {
             throw ImageError.missingImagePath
@@ -50,6 +61,10 @@ struct TVShow: Media {
         return imageConfigurator.buildURL(path: backdropPath, size: size)
     }
     
+    /// Generates the URL for the TV show's poster image.
+    /// - Parameter size: The desired size of the image.
+    /// - Throws: `ImageError.missingImagePath` if the poster path is missing or empty.
+    /// - Returns: A URL for the poster image.
     func getPosterURL<S>(size: S) throws -> URL where S : TMBDImageConfig.ImageSize {
         guard let posterPath = self.posterPath, !posterPath.isEmpty else {
             throw ImageError.missingImagePath
@@ -57,6 +72,8 @@ struct TVShow: Media {
         return imageConfigurator.buildURL(path: posterPath, size: size)
     }
 
+    // MARK: - Coding Keys
+    
     enum CodingKeys: String, CodingKey {
         case adult, genres, homepage, id, languages, networks, overview, popularity, seasons, status, tagline, type
         case backdropPath = "backdrop_path"
@@ -81,9 +98,15 @@ struct TVShow: Media {
         case voteCount = "vote_count"
     }
 
+    // MARK: - Initializer
+    
+    /// Initializes a TVShow instance from a decoder.
+    /// - Parameter decoder: The decoder to read data from.
+    /// - Throws: An error if reading from the decoder fails.
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
+        // Decode properties with default values if missing
         adult = try container.decodeIfPresent(Bool.self, forKey: .adult) ?? false
         backdropPath = try container.decodeIfPresent(String.self, forKey: .backdropPath) ?? ""
         createdBy = try container.decodeIfPresent([Creator].self, forKey: .createdBy) ?? []
@@ -119,7 +142,10 @@ struct TVShow: Media {
     }
 }
 
+// MARK: - Nested Types
+
 extension TVShow {
+    /// Represents a creator of the TV show.
     struct Creator: MediaComponent {
         let id: Int
         let creditId: String
@@ -134,6 +160,7 @@ extension TVShow {
         }
     }
 
+    /// Represents an episode of the TV show.
     struct Episode: MediaComponent {
         let id: Int
         let name: String
@@ -163,6 +190,7 @@ extension TVShow {
         }
     }
 
+    /// Represents a network associated with the TV show.
     struct Network: MediaComponent {
         let id: Int
         let name: String
@@ -176,6 +204,7 @@ extension TVShow {
         }
     }
 
+    /// Represents a season of the TV show.
     struct Season: MediaComponent {
         let airDate: String
         let episodeCount: Int

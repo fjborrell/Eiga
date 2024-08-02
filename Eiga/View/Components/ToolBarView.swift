@@ -8,9 +8,20 @@
 import SwiftUI
 import UIKit
 
+// MARK: - ToolBarView
+
+/// A view that represents the toolbar containing media mode switch and search trigger.
 struct ToolBarView: View {
+    // MARK: Environment
+    
     @Environment(AppState.self) private var appState: AppState
+    
+    // MARK: Bindings
+    
+    /// Binding to control the collapsed state of the toolbar.
     @Binding var isCollapsed: Bool
+    
+    // MARK: Body
     
     var body: some View {
         HStack(spacing: 10) {
@@ -18,12 +29,20 @@ struct ToolBarView: View {
             SearchTriggerView(isCollapsed: $isCollapsed)
         }
         .animation(.smooth(duration: 0.15), value: isCollapsed)
+        // Animate the HStack when isCollapsed changes
     }
 }
 
+// MARK: - Preview
+
 #Preview {
+    /// A wrapper view for previewing ToolBarView
     struct PreviewWrapper: View {
+        // MARK: State
+        
         @State var searchBarViewModel: SearchBarViewModel = SearchBarViewModel()
+        
+        // MARK: Body
         
         var body: some View {
             VStack {
@@ -35,5 +54,6 @@ struct ToolBarView: View {
             .hueBackground(hueColor: .pink)
         }
     }
+    
     return PreviewWrapper()
 }

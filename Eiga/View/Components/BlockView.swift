@@ -4,23 +4,33 @@
 //
 //  Created by Fernando Borrell on 7/16/24.
 
-
 import SwiftUI
 
 // MARK: - Model
 
+/// A protocol that defines the structure for a block view in the UI.
 protocol BlockView: View {
+    /// The title of the block.
     var title: String { get }
+    
+    /// The associated type for the content of the block.
     associatedtype Content: View
+    
+    /// The content of the block.
     var content: Content { get }
 }
 
-// MARK: - StaticBlock
+// MARK: - Static Block
 
+/// A view that represents a static block with a title and content.
 struct StaticBlock<Content: View>: BlockView {
     let title: String
     let content: Content
     
+    /// Initializes a new static block.
+    /// - Parameters:
+    ///   - title: The title of the block.
+    ///   - content: A closure that returns the content of the block.
     init(title: String, @ViewBuilder content: () -> Content) {
         self.title = title
         self.content = content()
@@ -34,13 +44,19 @@ struct StaticBlock<Content: View>: BlockView {
     }
 }
 
-// MARK: - DynamicBlock
+// MARK: - Dynamic Block
 
+/// A view that represents a dynamic block with a title, filter, and content that changes based on the selected filter.
 struct DynamicBlock<Content: View, Filter: FilterOption>: BlockView {
     let title: String
     @Binding var selectedFilter: Filter?
     let content: Content
     
+    /// Initializes a new dynamic block.
+    /// - Parameters:
+    ///   - title: The title of the block.
+    ///   - selectedFilter: A binding to the currently selected filter.
+    ///   - content: A closure that returns the content of the block based on the selected filter.
     init(
         title: String,
         selectedFilter: Binding<Filter?>,
@@ -53,7 +69,7 @@ struct DynamicBlock<Content: View, Filter: FilterOption>: BlockView {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            // Title
+            // Title with filter menu
             Menu {
                 Picker("Filter", selection: $selectedFilter) {
                     ForEach(Array(Filter.allCases), id: \.self) { filter in
@@ -64,18 +80,20 @@ struct DynamicBlock<Content: View, Filter: FilterOption>: BlockView {
                 BlockLabel(title: selectedFilter?.title ?? title, isFilterable: true)
             }
             
-            // Content
+            // Content that changes based on the selected filter
             content
                 .transition(.asymmetric(
                     insertion: .move(edge: .top).combined(with: .opacity),
                     removal: .move(edge: .bottom).combined(with: .opacity)
                 ))
         }
-        .animation(.easeInOut, value: selectedFilter)
+        .animation(.easeInOut, value: selectedFilter) // Animate changes when filter is selected
     }
 }
 
-// MARK: - BlockLabel
+// MARK: - Block Label
+
+/// A view that displays the label for a block, optionally showing a filter indicator.
 struct BlockLabel: View {
     let title: String
     var isFilterable: Bool = false
@@ -99,6 +117,7 @@ struct BlockLabel: View {
 }
 
 // MARK: - Previews
+
 #Preview {
     struct PreviewWrapper: View {
         @State private var testFilter: ExploreFilter? = .popular
@@ -114,6 +133,7 @@ struct BlockLabel: View {
             }
         }
         
+        /// A preview of a static block.
         var staticBlockPreview: some View {
             StaticBlock(title: "Static Block") {
                 Text("This is a static block")
@@ -123,6 +143,7 @@ struct BlockLabel: View {
             }
         }
         
+        /// A preview of a dynamic block with a filter.
         var filterableBlockPreview: some View {
             DynamicBlock(
                 title: "Dynamic Block",

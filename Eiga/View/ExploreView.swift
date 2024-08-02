@@ -13,9 +13,13 @@ import OSLog
 /// A dynamic view that enables exploration of varied media types.
 @MainActor
 struct ExploreView: View {
+    // MARK: - Environment
     @Environment(AppState.self) private var appState: AppState
+    
+    // MARK: - State
     @State private var viewModel = ExploreViewModel()
     
+    // MARK: - Body
     var body: some View {
         ZStack(alignment: .top) {
             scrollContent
@@ -137,9 +141,11 @@ struct ExploreView: View {
 @Observable
 @MainActor
 class ExploreViewModel {
+    // MARK: - Dependencies
     private let tmbdService: TMBDService = TMBDService()
     private let mediaRepository = TMBDService()
     
+    // MARK: - State
     var searchBarViewModel: SearchBarViewModel = SearchBarViewModel()
     var isLoading = false
     var errorMessage: String?
@@ -157,7 +163,10 @@ class ExploreViewModel {
     var searchBarBlurOpacity: CGFloat = 1.0
     var isToolbarCollapsed: Bool = false
     
+    // MARK: - Constants
     private let stickyThreshold: CGFloat = 40
+    
+    // MARK: - Public Methods
     
     /// Fetches initial data for the explore view, including movies and featured content.
     func fetchInitialData() async {
@@ -190,6 +199,8 @@ class ExploreViewModel {
         }
     }
     
+    // MARK: - Private Methods
+    
     /// Fetches movies for the explore section.
     private func fetchMovies() async {
         isLoading = true
@@ -206,7 +217,7 @@ class ExploreViewModel {
     private func fetchFeatured() async {
         do {
             let movies = try await tmbdService.fetchPopularMovies()
-            featuredMedia = movies.prefix(upTo: 3).map { BlobMedia(media: $0) }
+            featuredMedia = movies.prefix(upTo: 3).map { BlobMedia(media: $0) } // Convert first 3 movies to BlobMedia
         } catch {
             errorMessage = "Failed to fetch movies: \(error)"
         }

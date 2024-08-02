@@ -10,7 +10,12 @@ import SwiftData
 
 @main
 struct EigaApp: App {
+    // MARK: - State
+    
+    /// The global state of the application.
     @State private var appState: AppState = AppState()
+    
+    // MARK: - Body
     
     var body: some Scene {
         WindowGroup {

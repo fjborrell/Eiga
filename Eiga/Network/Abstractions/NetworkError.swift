@@ -7,14 +7,31 @@
 
 import Foundation
 
+/// Represents various network-related errors that can occur during API operations.
 enum NetworkError: Error {
+    // MARK: Error Cases
+    
+    /// The URL provided for the network request is invalid.
     case invalidURL
+    
+    /// No data was received from the network request.
     case noData
+    
+    /// An error occurred while decoding the received data.
     case decodingError
+    
+    /// An error occurred while encoding data for the request.
     case encodingError
+    
+    /// The server responded with an error status code.
     case serverError(statusCode: Int)
+    
+    /// An unknown error occurred during the network operation.
     case unknownError(Error)
     
+    // MARK: Computed Properties
+    
+    /// A human-readable description of the error.
     var localizedDescription: String {
         switch self {
         case .invalidURL:
