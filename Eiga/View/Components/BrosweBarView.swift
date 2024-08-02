@@ -16,7 +16,7 @@ struct BrosweBarView: View {
     var body: some View {
         HStack(spacing: 10) {
             MediaModeSwitchView()
-            SearchBarView(viewModel: searchBarViewModel, isCollapsed: $isCollapsed)
+            SearchBarView(viewModel: searchBarViewModel)
         }
         .animation(.bouncy(extraBounce: -0.2), value: isCollapsed)
     }

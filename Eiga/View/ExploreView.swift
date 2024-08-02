@@ -107,7 +107,7 @@ struct ExploreView: View {
                 )
                 .roundedBlurBackground(
                     style: .systemUltraThinMaterialDark,
-                    opacity: viewModel.searchIsCollapsed ? 1.0 : 0.5
+                    opacity: viewModel.searchIsCollapsed ? 1.0 : viewModel.searchBarBlurOpacity
                 )
             }
             Spacer()
@@ -169,6 +169,7 @@ class ExploreViewModel {
     var isShowingScrollToTop: Bool = false
     var scrollOffset: CGFloat = 0.0
     var logoOpacity: CGFloat = 1.0
+    var searchBarBlurOpacity: CGFloat = 1.0
     var searchIsCollapsed: Bool = false
     
     private let stickyThreshold: CGFloat = 40
@@ -184,14 +185,13 @@ class ExploreViewModel {
     func updateScrollState(_ newValue: CGFloat) {
         scrollOffset = newValue
         
-        // Calculate logo opacity based on scroll position
-        let clampedValue = max(0, scrollOffset)
-        let normalizedOpacity = clampedValue.normalize(min: 0, max: 30)
-        logoOpacity = 1 - normalizedOpacity
+        // Calculate toolbar opacities based on scroll position
+        logoOpacity = 1 - scrollOffset.normalize(min: 0, max: 30)
+        searchBarBlurOpacity = scrollOffset.normalize(min: 0, max: 70)
         
         withAnimation(.smooth) {
             isShowingScrollToTop = scrollOffset > 300
-            searchIsCollapsed = scrollOffset > stickyThreshold * 2.0
+            searchIsCollapsed = scrollOffset > stickyThreshold * 2.5
         }
     }
     
