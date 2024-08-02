@@ -8,8 +8,6 @@
 import UIKit
 import SwiftUI
 
-// MARK: - UIViewRepresentable
-
 /// A custom view that applies a blur effect to its background.
 struct CustomBlurView: UIViewRepresentable {
     // MARK: - Properties
