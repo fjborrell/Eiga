@@ -19,6 +19,13 @@ struct ExploreView: View {
     // MARK: - State
     @State private var viewModel = ExploreViewModel()
     
+    // MARK: - Computed Properties
+    var foregroundColor: Color {
+        get {
+            appState.selectedMediaMode.color
+        }
+    }
+    
     // MARK: - Body
     var body: some View {
         ZStack(alignment: .top) {
@@ -129,7 +136,7 @@ struct ExploreView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .symbolRenderingMode(.palette)
-                .foregroundStyle(.white, .pink)
+                .foregroundStyle(.white, self.foregroundColor)
                 .frame(width: 36, height: 36)
         })
     }

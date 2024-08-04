@@ -10,6 +10,9 @@ import Foundation
 
 /// A view that displays multiple "blob" items in a carousel format.
 struct MultiBlobView<Item: BlobDisplayable>: View {
+    // MARK: - Environment
+    @Environment(AppState.self) var appState: AppState
+    
     // MARK: - State
     
     @Binding var activeIndex: Int
@@ -112,7 +115,7 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
             HStack(spacing: indicatorSpacing) {
                 ForEach(Array(0..<items.count), id: \.self) { index in
                     RoundedRectangle(cornerRadius: indicatorCornerRadius)
-                        .fill(index == activeIndex ? .pink : .white)
+                        .fill(index == activeIndex ? appState.selectedMediaMode.color : .white)
                         .frame(
                             width: calculatePageIndicatorWidth(
                                 for: index,

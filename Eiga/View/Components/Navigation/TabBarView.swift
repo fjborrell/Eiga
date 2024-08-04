@@ -10,6 +10,7 @@ import SwiftUI
 
 /// A custom tab bar view for the main navigation of the app.
 struct TabBarView: View {
+    // MARK: - State
     @Binding var selectedTab: Tab
     
     // MARK: - Body
@@ -34,13 +35,13 @@ struct TabBarView: View {
     private var tabBarContent: some View {
         HStack {
             ForEach(Tab.allCases.prefix(2), id: \.self) { tab in
-                TabView(tab: tab, selectedTab: $selectedTab)
+                TabView(selectedTab: $selectedTab, tab: tab)
             }
             
             AddButton()
             
             ForEach(Tab.allCases.suffix(2), id: \.self) { tab in
-                TabView(tab: tab, selectedTab: $selectedTab)
+                TabView(selectedTab: $selectedTab, tab: tab)
             }
         }
         .padding(.horizontal, 30)
@@ -75,13 +76,27 @@ struct TabBarView: View {
             .buttonStyle(.plain)
         }
     }
-    
+        
     /// A view representing a single tab item.
     struct TabView: View {
-        let tab: Tab
-        @Binding var selectedTab: Tab
-        @State private var animationTrigger: Bool = false
+        // MARK: - Environment
+        @Environment(AppState.self) var appState: AppState
         
+        // MARK: - State
+        @State private var animationTrigger: Bool = false
+        @Binding var selectedTab: Tab
+        
+        // MARK: - Constants
+        let tab: Tab
+        
+        // MARK: - Computed Properties
+        var tabColor: Color {
+            get {
+                appState.selectedMediaMode.color
+            }
+        }
+        
+        // MARK: - Body
         var body: some View {
             Button(action: {
                 selectedTab = tab
@@ -93,16 +108,16 @@ struct TabBarView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 28, height: 28)
                         .symbolEffect(.bounce, value: animationTrigger)
-                        .foregroundStyle(isSelected() ? .pink : .white)
+                        .foregroundStyle(isSelected() ? self.tabColor : .white)
                     Text(tab.title)
                         .font(.manrope(12))
-                        .foregroundStyle(isSelected() ? .pink : .white)
+                        .foregroundStyle(isSelected() ? self.tabColor : .white)
                 }
             })
             .frame(maxWidth: .infinity)
             .buttonStyle(.plain)
         }
-        
+                
         /// Checks if the current tab is selected.
         private func isSelected() -> Bool {
             return selectedTab == tab
@@ -119,4 +134,5 @@ struct TabBarView: View {
     }
     .ignoresSafeArea()
     .hueBackground(hueColor: .pink)
+    .environment(AppState())
 }

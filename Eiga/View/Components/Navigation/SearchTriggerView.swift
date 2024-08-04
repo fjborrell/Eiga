@@ -9,6 +9,9 @@ import SwiftUI
 
 /// A view that displays a search trigger button with collapsible and expandable states.
 struct SearchTriggerView: View {
+    // MARK: - Environment
+    @Environment(AppState.self) var appState: AppState
+    
     // MARK: - State
     
     /// Determines whether the view is in a collapsed state.
@@ -69,7 +72,7 @@ struct SearchTriggerView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .symbolRenderingMode(.palette)
-            .foregroundStyle(.white, .pink) // Multi-color symbol rendering
+            .foregroundStyle(.white, appState.selectedMediaMode.color) // Multi-color symbol rendering
             .frame(width: 36, height: 36)
     }
 }
@@ -100,4 +103,5 @@ struct SearchTriggerPreview: View {
 
 #Preview {
     SearchTriggerPreview()
+        .environment(AppState())
 }

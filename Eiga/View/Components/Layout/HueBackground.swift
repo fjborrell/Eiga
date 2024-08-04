@@ -29,6 +29,7 @@ struct HueBackground: ViewModifier {
             content
             blurredTopArea
         }
+        .animation(.smooth, value: hueColor)
     }
     
     // MARK: - Private Views
@@ -68,7 +69,6 @@ struct HueBackground: ViewModifier {
                 height: geometry.size.height * 0.4 // 40% of screen height
             )
             .blur(radius: 40)
-            .animation(.smooth, value: hueColor)
     }
     
     /// A blurred area at the top of the screen for blending with the status bar.

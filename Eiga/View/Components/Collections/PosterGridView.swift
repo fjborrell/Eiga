@@ -46,9 +46,8 @@ struct PosterGridView: View {
                     .id(item.id)
                     .scrollTransition(.animated.threshold(.visible(0.3))) { content, phase in
                         content
-                            .opacity(phase.isIdentity ? 1 : 0.4)
+                            .opacity(phase.isIdentity ? 1 : 0.5)
                             .scaleEffect(phase.isIdentity ? 1 : 0.85)
-                            .blur(radius: phase.isIdentity ? 0 : 8)
                     }
             }
         }

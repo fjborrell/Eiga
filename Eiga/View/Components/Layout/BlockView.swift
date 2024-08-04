@@ -80,14 +80,9 @@ struct DynamicBlock<Content: View, Filter: FilterOption>: BlockView {
                 BlockLabel(title: selectedFilter?.title ?? title, isFilterable: true)
             }
             
-            // Content that changes based on the selected filter
             content
-                .transition(.asymmetric(
-                    insertion: .move(edge: .top).combined(with: .opacity),
-                    removal: .move(edge: .bottom).combined(with: .opacity)
-                ))
         }
-        .animation(.easeInOut, value: selectedFilter) // Animate changes when filter is selected
+        .animation(.smooth(duration: 0.2), value: selectedFilter)
     }
 }
 
@@ -99,20 +94,24 @@ struct BlockLabel: View {
     var isFilterable: Bool = false
     
     var body: some View {
-        Label {
-            Text(title)
-                .font(.manrope(20, .semiBold))
-                .transition(.asymmetric(
-                    insertion: .move(edge: .trailing).combined(with: .opacity),
-                    removal: .move(edge: .leading).combined(with: .opacity)
-                ))
-        } icon: {
-            if isFilterable {
-                Image(systemName: "chevron.up.chevron.down")
-                    .imageScale(.small)
+        HStack {
+            Label {
+                Text(title)
+                    .font(.manrope(20, .semiBold))
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
+            } icon: {
+                if isFilterable {
+                    Image(systemName: "chevron.up.chevron.down")
+                        .imageScale(.small)
+                }
             }
+            .foregroundColor(.white)
+            
+            Spacer()
         }
-        .foregroundColor(.white)
     }
 }
 
