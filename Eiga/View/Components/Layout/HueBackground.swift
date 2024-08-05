@@ -39,7 +39,7 @@ struct HueBackground: ViewModifier {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
                 Rectangle()
-                    .fill(.black)
+                    .fill(LinearGradient(colors: [.black, .onyx], startPoint: .top, endPoint: .bottom))
                 
                 coloredHueLayer(in: geometry)
             }
@@ -55,20 +55,20 @@ struct HueBackground: ViewModifier {
             .fill(
                 LinearGradient(
                     colors: [
-                        hueColor.opacity(0.85),
-                        .clear
+                        hueColor,
+                        hueColor.opacity(0.4)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
                 )
             )
             .position(x: geometry.size.width / 2, y: 0) // Center the hue horizontally
-            .offset(y: -geometry.size.height * 0.25) // Raise to top quarter of screen
+            .offset(y: -geometry.size.height * 0.38) // Raise to top + 35% of screen
             .frame(
-                width: geometry.size.width * 1.5, // Widen by 50%
+                width: geometry.size.width * 3, // Widen by 3x
                 height: geometry.size.height * 0.4 // 40% of screen height
             )
-            .blur(radius: 40)
+            .blur(radius: 45)
     }
     
     /// A blurred area at the top of the screen for blending with the status bar.
@@ -79,10 +79,9 @@ struct HueBackground: ViewModifier {
                     CustomBlurView(style: .systemUltraThinMaterialDark)
                     Rectangle()
                         .fill(hueColor)
-                        .opacity(0.6)
                     Rectangle()
                         .fill(Color.black)
-                        .opacity(0.37)  // Adjusts the darkness of the blur
+                        .opacity(0.46)  // Adjusts the darkness of the blur
                 }
                 .frame(height: geometry.safeAreaInsets.top)
                 

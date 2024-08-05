@@ -19,6 +19,8 @@
 		7546BB542C51D1FA00267C11 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB532C51D1F700267C11 /* HTTPMethod.swift */; };
 		7546BB582C51E7AC00267C11 /* TMBDConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB572C51E7A600267C11 /* TMBDConfig.swift */; };
 		7546BB5A2C51FE2900267C11 /* PosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7546BB592C51FE2800267C11 /* PosterView.swift */; };
+		754ED0242C60341F00F40D92 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754ED0232C60341F00F40D92 /* SearchView.swift */; };
+		754ED0282C604D7200F40D92 /* MediaRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754ED0272C604D6E00F40D92 /* MediaRowView.swift */; };
 		7550F05A2C26138E00F67158 /* EigaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7550F0592C26138E00F67158 /* EigaApp.swift */; };
 		7550F0602C26138F00F67158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F05F2C26138F00F67158 /* Assets.xcassets */; };
 		7550F0632C26138F00F67158 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7550F0622C26138F00F67158 /* Preview Assets.xcassets */; };
@@ -89,6 +91,8 @@
 		7546BB532C51D1F700267C11 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		7546BB572C51E7A600267C11 /* TMBDConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMBDConfig.swift; sourceTree = "<group>"; };
 		7546BB592C51FE2800267C11 /* PosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterView.swift; sourceTree = "<group>"; };
+		754ED0232C60341F00F40D92 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		754ED0272C604D6E00F40D92 /* MediaRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaRowView.swift; sourceTree = "<group>"; };
 		7550F0562C26138E00F67158 /* Eiga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eiga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7550F0592C26138E00F67158 /* EigaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EigaApp.swift; sourceTree = "<group>"; };
 		7550F05F2C26138F00F67158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -245,6 +249,7 @@
 		751EA82F2C5D7783001227A7 /* Imagery */ = {
 			isa = PBXGroup;
 			children = (
+				754ED0272C604D6E00F40D92 /* MediaRowView.swift */,
 				7564BEA52C54AA860096B67C /* LogoView.swift */,
 				7546BB592C51FE2800267C11 /* PosterView.swift */,
 			);
@@ -343,6 +348,7 @@
 			children = (
 				7550F08E2C2616A000F67158 /* ContentView.swift */,
 				755B14F72C4CB66700126416 /* ExploreView.swift */,
+				754ED0232C60341F00F40D92 /* SearchView.swift */,
 				755B14F92C4CB66E00126416 /* LibraryView.swift */,
 				755B14FB2C4CB67800126416 /* CrewsView.swift */,
 				755B14FD2C4CB68C00126416 /* ProfileView.swift */,
@@ -542,6 +548,7 @@
 				75A6D8902C5C83A60003E92A /* SearchTriggerView.swift in Sources */,
 				7550F08F2C2616A500F67158 /* ContentView.swift in Sources */,
 				7546BB522C51D1D500267C11 /* Endpoint.swift in Sources */,
+				754ED0242C60341F00F40D92 /* SearchView.swift in Sources */,
 				7546BB582C51E7AC00267C11 /* TMBDConfig.swift in Sources */,
 				75A7DF952C2CDF5F002FA4DC /* Media.swift in Sources */,
 				75BBD67A2C5A16DB00C72923 /* UIKitWrappers.swift in Sources */,
@@ -565,6 +572,7 @@
 				7564BEA62C54AA890096B67C /* LogoView.swift in Sources */,
 				755B14F82C4CB66700126416 /* ExploreView.swift in Sources */,
 				75E9E4622C475802005A3EE5 /* BlockView.swift in Sources */,
+				754ED0282C604D7200F40D92 /* MediaRowView.swift in Sources */,
 				75A7DF972C2CDFA7002FA4DC /* MediaList.swift in Sources */,
 				7533EC242C4CE0BF00BFCE00 /* AppState.swift in Sources */,
 				7595D94A2C2F69C000D9B2C3 /* NetworkError.swift in Sources */,

@@ -18,7 +18,6 @@ struct ContentView: View {
     // MARK: - State
     
     @State private var selectedTab: Tab = .explore
-    @State private var showTopBlur: Bool = false
     
     // MARK: - Constants
     

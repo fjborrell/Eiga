@@ -8,8 +8,6 @@
 import SwiftUI
 import OSLog
 
-// MARK: - ExploreView
-
 /// A dynamic view that enables exploration of varied media types.
 @MainActor
 struct ExploreView: View {
@@ -116,7 +114,8 @@ struct ExploreView: View {
                 }
                 ToolBarView(isCollapsed: $viewModel.isToolbarCollapsed)
                 .roundedBlurBackground(
-                    style: .systemUltraThinMaterialDark
+                    style: .systemUltraThinMaterialDark,
+                    opacity: viewModel.scrollOffset.normalize(min: 0, max: 200)
                 )
             }
             Spacer()
@@ -153,7 +152,6 @@ class ExploreViewModel {
     private let mediaRepository = TMBDService()
     
     // MARK: - State
-    var searchBarViewModel: SearchBarViewModel = SearchBarViewModel()
     var isLoading = false
     var errorMessage: String?
     

@@ -129,7 +129,7 @@ struct PosterView: View {
                 .foregroundStyle(MediaMode.movie.color)
             
             Text(viewModel.media.title)
-                .font(.manrope(12 * viewModel.scale)) // Custom font, ensure it's defined elsewhere
+                .font(.manrope(12 * viewModel.scale))
                 .foregroundStyle(.white)
                 .lineLimit(2, reservesSpace: true)
         }
@@ -198,5 +198,5 @@ private struct PreviewWrapper: View {
 
 #Preview {
     PreviewWrapper()
-        .hueBackground(hueColor: .pink) // Custom modifier, ensure it's defined elsewhere
+        .hueBackground(hueColor: .pink)
 }

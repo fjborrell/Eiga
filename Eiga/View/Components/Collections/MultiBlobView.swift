@@ -139,7 +139,7 @@ struct MultiBlobView<Item: BlobDisplayable>: View {
     @ViewBuilder
     private func makeBlobCaption(item: Item) -> some View {
         Text(item.getCaption())
-            .font(.manrope(20, .extraBold))
+            .font(.manrope(18, .medium))
             .lineLimit(2)
             .foregroundStyle(.white)
             .multilineTextAlignment(.center)
@@ -312,5 +312,6 @@ private struct PreviewWrapper: View {
 
 #Preview {
     PreviewWrapper(tmbd: TMBDService())
+        .environment(AppState())
         .hueBackground(hueColor: .pink)
 }
