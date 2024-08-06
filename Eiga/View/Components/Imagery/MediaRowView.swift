@@ -11,7 +11,8 @@ import SwiftUI
 
 /// A view model for managing a media item as a single row
 @Observable
-class MediaRowViewModel {
+class MediaRowViewModel: Identifiable {
+    
     // MARK: - State
     
     /// The media item represented by this poster.
@@ -72,18 +73,15 @@ struct MediaRowView: View {
             case .success(let image):
                 image
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fill)
             case .failure:
                 MissingImageView(error: viewModel.posterError)
             @unknown default:
                 EmptyView()
             }
         }
-        .frame(width: 50)
-        .mask {
-            RoundedRectangle(cornerRadius: 10)
-                .frame(width: 50, height: 50)
-        }
+        .frame(width: 50, height: 50)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
     
     /// A label of the associated media, stating release year and producer.
